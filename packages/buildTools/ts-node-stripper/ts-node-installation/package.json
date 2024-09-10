@@ -1,0 +1,9 @@
+{
+	"name": "ts-node-installation",
+	"description": "ts-node version 10.9.1 to be used in Testent after being stripped down",
+	"version": "1.0.0",
+	"dependencies": {
+		"ts-node": "10.9.2"
+	}
+}
+

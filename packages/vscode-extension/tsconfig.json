@@ -1,0 +1,14 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+    "outDir": "dist"
+  },
+	"include": [
+		"src/**/*",
+		"../shared-code-processing/src/**/*",
+		"../shared/src/**/*",
+		"../javascriptTypescriptHandler/invoking-code-creator/src/**/*",
+		"../javascriptTypescriptHandler/code-preprocessor/src/**/*"
+	],
+	// "exclude": ["src/test/**/*"]
+}

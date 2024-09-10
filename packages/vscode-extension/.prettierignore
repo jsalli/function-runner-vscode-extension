@@ -1,0 +1,5 @@
+dist
+out
+publish
+src/test/testProjectFixtures/**/projectFiles
+src/test/testProjectFixtures/**testExpectsAndFixtures

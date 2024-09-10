@@ -1,0 +1,11 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+			"outDir": "out",
+			"target": "ES2018",
+			"lib": ["ES2018"],
+			"typeRoots": ["node_modules/@types", "types"]
+	},
+	"include": ["src", "types", "test"],
+	"exclude": ["node_modules", "src/languageHandlers/javascriptTypescript/codeRunning/*"]
+}

@@ -1,0 +1,9 @@
+out
+dist
+build
+publish
+node_modules
+.vscode-test/
+*.vsix
+tsconfig.tsbuildinfo
+.env

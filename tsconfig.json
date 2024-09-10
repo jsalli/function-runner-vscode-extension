@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.build.json",
+  // "compilerOptions": {
+  //   "baseUrl": "./packages",
+  //   "paths": {
+  //     // "@speeder/babel-plugin-wrap-function-with-timer/*": ["babel-plugin-wrap-function-with-timer/src"],
+  //     // "@speeder/core/*": ["core/src"],
+  //     // "@speeder/shared/*": ["shared/src"],
+  //     // "speeder-test-project/*": ["test-project/src"],
+  //     // "@speeder/webpack-plugin/*": ["webpack-plugin/src"],
+  //   }
+  // },
+  "include": [
+    "**/src/**/*",
+    "**/webpack.config.ts"
+  ],
+  "exclude": [
+    "**/dist",
+    "**/build",
+    "**/node_modules"
+  ]
+}

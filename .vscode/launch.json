@@ -1,0 +1,253 @@
+// A launch configuration that compiles the extension and then opens it inside a new window
+// Use IntelliSense to learn about possible attributes.
+// Hover to view descriptions of existing attributes.
+// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Run Extension without build",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension"],
+			"cwd": "${workspaceFolder}/packages/vscode-extension",
+			"debugWebviews": true,
+			"autoAttachChildProcesses": true,
+			"rendererDebugOptions": {
+				"sourceMaps": true,
+				"urlFilter": "*tfunctionrunner.function-runner-vscode-extension*",
+				"webRoot": "${workspaceFolder}/packages/vscode-extension/src/webviews/apps"
+			},
+			"outFiles": ["${workspaceFolder}/packages/vscode-extension/dist/**/*.js"],
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/resources/app/out/vs/**"],
+			"smartStep": true,
+			"sourceMaps": true,
+			"trace": true,
+			"windows": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",
+				}
+			},
+			"linux": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			},
+			"osx": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			}
+		},
+		{
+			"name": "Watch & Launch Testent",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension"],
+			"cwd": "${workspaceFolder}/packages/vscode-extension/",
+			"debugWebviews": true,
+			"autoAttachChildProcesses": true,
+			"rendererDebugOptions": {
+				"sourceMaps": true,
+				"urlFilter": "*functionrunner.function-runner-vscode-extension*",
+				"webRoot": "${workspaceFolder}/packages/vscode-extension/src/webviews/apps"
+			},
+			"outFiles": [
+				"${workspaceFolder}/packages/vscode-extension/dist/**/*.js",
+			],
+			"preLaunchTask": "watchBuildVscodeExtension",
+			"presentation": {
+				"group": "1_watch",
+				"order": 1
+			},
+			"skipFiles": ["<node_internals>/**", "**/resources/app/out/vs/**"],
+			"smartStep": true,
+			"sourceMaps": true,
+			"trace": true,
+			"windows": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",
+				}
+			},
+			"linux": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			},
+			"osx": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			}
+		},
+		{
+			"name": "Watch & Launch Testent with child process breakpoints",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension"],
+			"cwd": "${workspaceFolder}/packages/vscode-extension/",
+			"debugWebviews": true,
+			"autoAttachChildProcesses": true,
+			"rendererDebugOptions": {
+				"sourceMaps": true,
+				"urlFilter": "*testent.testent-vscode-extension*",
+				"webRoot": "${workspaceFolder}/packages/vscode-extension/src/webviews/apps"
+			},
+			"outFiles": [
+				"${workspaceFolder}/packages/vscode-extension/dist/**/*.js",
+			],
+			"preLaunchTask": "watchBuildVscodeExtensionWithChildProcessBreakpoints",
+			"presentation": {
+				"group": "1_watch",
+				"order": 2
+			},
+			"skipFiles": ["<node_internals>/**", "**/resources/app/out/vs/**"],
+			"smartStep": true,
+			"sourceMaps": true,
+			"trace": true,
+			"windows": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",
+				}
+			},
+			"linux": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			},
+			"osx": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			}
+		},
+		{
+			"name": "Attach to Node Child",
+			"request": "attach",
+			"type": "node",
+			"address": "127.0.0.1",
+			"port": 9235,
+			"skipFiles": ["<node_internals>/**", "**/resources/app/out/vs/**"],
+			"smartStep": true,
+			"sourceMaps": true,
+			"trace": true,
+			"restart": {"maxAttempts": 100, "delay": 4000},
+			"presentation": {
+				"group": "1_watch",
+				"order": 3
+			},
+		},
+		{
+			"name": "Run Extension",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension"
+			],
+			"cwd": "${workspaceFolder}/packages/vscode-extension",
+			"outFiles": [
+				"${workspaceFolder}/packages/vscode-extension/out/**/*.js"
+			],
+			"preLaunchTask": "buildVscodeExtension",
+			"sourceMaps": true,
+			"autoAttachChildProcesses": true,
+			"windows": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",
+				}
+			},
+			"linux": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			},
+			"osx": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			}
+		},
+		{
+			"name": "Run VSCode Extension's Tests",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"cwd": "${workspaceFolder}/packages/vscode-extension/",
+			"args": [
+				"--disable-extensions",
+				"--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension",
+				"--extensionTestsPath=${workspaceFolder}/packages/vscode-extension/out/test/mochaRun",
+				"${workspaceFolder}/packages/vscode-extension/src/test/testProjectFixtures/commonjsBasicTypescriptProjectNpm/projectFiles"
+			],
+			"outFiles": [
+				"${workspaceFolder}/packages/vscode-extension/out/test/**/*.js",
+				"${workspaceFolder}/packages/vscode-extension/dist/**/*.js"
+			],
+			"presentation": {
+				"group": "2_run_tests",
+				"order": 2
+			},
+			"env": {"TESTWORKSPACEFIXTURENAME":"commonjsBasicTypescriptProjectNpm"},
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/resources/app/out/vs/**"],
+			"smartStep": true,
+			"sourceMaps": true,
+			"trace": true,
+			"preLaunchTask": "buildTests",
+			"windows": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",
+				}
+			},
+			"linux": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			},
+			"osx": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			}
+		},
+		{
+			"name": "Launch test runner",
+			"type": "node",
+			"request": "launch",
+			"args": ["${workspaceFolder}/packages/vscode-extension/out/test/runTest.js"],
+			"runtimeArgs": ["--no-warnings", "--experimental-specifier-resolution=node", "--loader", "ts-node/esm"],
+			"cwd": "${workspaceFolder}/packages/vscode-extension/",
+			"internalConsoleOptions": "openOnSessionStart",
+			"outFiles": [
+				"${workspaceFolder}/packages/vscode-extension/out/test/**/*.js",
+				"${workspaceFolder}/packages/vscode-extension/dist/**/*.js"
+			],
+			"presentation": {
+				"group": "2_run_tests",
+				"order": 2
+			},
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/resources/app/out/vs/**"],
+			"smartStep": true,
+			"sourceMaps": true,
+			"preLaunchTask": "buildTests",
+			"windows": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",
+				}
+			},
+			"linux": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			},
+			"osx": {
+				"sourceMapPathOverrides": {
+					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
+				}
+			}
+		}
+	]
+}

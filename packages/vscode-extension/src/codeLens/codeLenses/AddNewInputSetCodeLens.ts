@@ -1,12 +1,12 @@
-import { CancellationToken, CodeLens, Command as VSCommand, Range } from 'vscode';
+import { CodeLens, Command as VSCommand, Range } from 'vscode';
 import { Commands, Command } from '../../commands/Command';
-import { AddNewInputArgs } from '../../commands/addNewInputCase'
-import { FileAndFunctionData } from '../../@types/FileAndFunctionData';
+import { AddNewInputArgs } from '../../commands/addNewInputCase';
+import { FileAndFunctionIdentifier } from '@functionrunner/shared';
 
 export class AddNewInputSetCodeLens extends CodeLens {
 	constructor(
 		range: Range,
-		public fileAndFunctionData: FileAndFunctionData,
+		public fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 		command?: VSCommand | undefined,
 	) {
 		super(range, command);
@@ -15,15 +15,14 @@ export class AddNewInputSetCodeLens extends CodeLens {
 
 export function resolveAddNewInputSetCodeLens(
 	lens: AddNewInputSetCodeLens,
-	_token: CancellationToken,
 ): CodeLens {
 	lens.command = Command.customCommand<[AddNewInputArgs]>({
 		title: `+ Add new input set`,
-		tooltip: `Add new input set for "${lens.fileAndFunctionData.functionName}"-function`,
+		tooltip: `Add new input set for "${lens.fileAndFunctionIdentifier.functionName}"-function`,
 		command: Commands.AddNewInputCase,
 		arguments: [
 			{
-				fileAndFunctionData: lens.fileAndFunctionData,
+				fileAndFunctionIdentifier: lens.fileAndFunctionIdentifier,
 			},
 		],
 	});

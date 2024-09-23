@@ -1,13 +1,13 @@
-import { CancellationToken, CodeLens, Command as VSCommand, Range } from 'vscode';
+import { CodeLens, Command as VSCommand, Range } from 'vscode';
 import { Commands, Command } from '../../commands/Command';
 import { RunOrDebugInputSetsArgs } from '../../commands/runOrDebugInputSets';
-import { FileAndFunctionData } from '../../@types/FileAndFunctionData';
+import { FileAndFunctionIdentifier } from '@functionrunner/shared';
 
 export class RunOneInputSetCodeLens extends CodeLens {
 	constructor(
-		public inputSetIndex: number,
+		public inputSetId: string,
 		range: Range,
-		public fileAndFunctionData: FileAndFunctionData,
+		public fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 		command?: VSCommand | undefined,
 	) {
 		super(range, command);
@@ -16,17 +16,16 @@ export class RunOneInputSetCodeLens extends CodeLens {
 
 export function resolveRunOneInputSetCodeLens(
 	lens: RunOneInputSetCodeLens,
-	_token: CancellationToken,
 ): CodeLens {
 	lens.command = Command.customCommand<[RunOrDebugInputSetsArgs]>({
 		// title: '▶️ Run this',
 		title: 'Run this',
-		tooltip: `Run the "${lens.fileAndFunctionData.functionName}"-function with below input case`,
+		tooltip: `Run the "${lens.fileAndFunctionIdentifier.functionName}"-function with below input case`,
 		command: Commands.RunOrDebugOneInputSets,
 		arguments: [
 			{
-				fileAndFunctionData: lens.fileAndFunctionData,
-				inputSetIndex: lens.inputSetIndex,
+				fileAndFunctionIdentifier: lens.fileAndFunctionIdentifier,
+				inputSetId: lens.inputSetId,
 				mode: 'run',
 			},
 		],

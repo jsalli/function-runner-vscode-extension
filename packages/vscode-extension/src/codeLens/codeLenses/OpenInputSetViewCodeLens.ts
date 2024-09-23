@@ -1,5 +1,5 @@
 import { RunnableFunction } from '@functionrunner/shared';
-import { CancellationToken, CodeLens, ViewColumn } from 'vscode';
+import { CodeLens, ViewColumn } from 'vscode';
 import { Commands, Command } from '../../commands/Command';
 import { OpenInputSetViewArgs } from '../../commands/openInputSetView';
 
@@ -11,7 +11,6 @@ export class OpenInputSetViewCodeLens extends CodeLens {
 
 export function resolveOpenInputSetViewCodeLens(
 	lens: OpenInputSetViewCodeLens,
-	_token: CancellationToken,
 ): CodeLens {
 	lens.command = Command.customCommand<[OpenInputSetViewArgs]>({
 		// title: '▶️ Run or 🐛 Debug Function',

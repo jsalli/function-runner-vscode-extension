@@ -1,36 +1,61 @@
-import { CancellationToken, CodeLens, CodeLensProvider, DocumentSelector, EventEmitter, TextDocument, Event, DocumentFilter } from "vscode";
-import { LoggerService } from "../services/LoggerService";
-import { LanguageHandler } from "@functionrunner/shared";
-import { container } from "tsyringe";
-
+import {
+	CancellationToken,
+	CodeLens,
+	CodeLensProvider,
+	DocumentSelector,
+	EventEmitter,
+	TextDocument,
+	Event,
+	DocumentFilter,
+} from 'vscode';
+import { LoggerService, LanguageHandler } from '@functionrunner/shared';
+import { container } from 'tsyringe';
 
 export class FunctionRunnerCodeLensProvider implements CodeLensProvider {
-  public selector: DocumentSelector
-  protected languageHandlers: LanguageHandler[]
+	public selector: DocumentSelector;
+	protected languageHandlers: LanguageHandler[];
 
-  constructor(protected logger: LoggerService) {
-    this.languageHandlers = container.resolveAll<LanguageHandler>('LanguageHandler')
-    const availableLanguageIds = this.languageHandlers.flatMap(languageHandler => languageHandler.languageIds)
-    this.selector = availableLanguageIds.map((languageId): DocumentFilter => ({ language: languageId, scheme: 'file'}))
-  }
+	constructor(
+		protected logger: LoggerService,
+		selectorDocumentFilterScheme: ('file' | 'untitled')[],
+	) {
+		this.languageHandlers =
+			container.resolveAll<LanguageHandler>('LanguageHandler');
+		const availableLanguageIds = this.languageHandlers.flatMap(
+			(languageHandler) => languageHandler.languageIds,
+		);
 
-  public provideCodeLenses(
-    document: TextDocument,
-		token: CancellationToken
-  ): CodeLens[] {
-    throw new Error('Base class implementation called')
-  }
-
-  public resolveCodeLens(lens: CodeLens, token: CancellationToken): CodeLens | null {
-    throw new Error('Base class implementation called')
-  }
-
-  public reset() {
-		this._onDidChangeCodeLenses.fire();
+		this.selector = availableLanguageIds.flatMap((languageId) => {
+			return selectorDocumentFilterScheme.map((fileSheme) => {
+				const documentFilter: DocumentFilter = {
+					language: languageId,
+					scheme: fileSheme,
+				};
+				return documentFilter;
+			});
+		});
 	}
 
-	private _onDidChangeCodeLenses = new EventEmitter<void>();
+	public async provideCodeLenses(
+		document: TextDocument, // eslint-disable-line @typescript-eslint/no-unused-vars
+		token: CancellationToken, // eslint-disable-line @typescript-eslint/no-unused-vars
+	): Promise<CodeLens[]> {
+		throw new Error('Base class implementation called');
+	}
+
+	public async resolveCodeLens(
+		lens: CodeLens, // eslint-disable-line @typescript-eslint/no-unused-vars
+		token: CancellationToken, // eslint-disable-line @typescript-eslint/no-unused-vars
+	): Promise<CodeLens | null> {
+		throw new Error('Base class implementation called');
+	}
+
+	public reset() {
+		this.onDidChangeCodeLensesEventEmitter.fire();
+	}
+
+	private onDidChangeCodeLensesEventEmitter = new EventEmitter<void>();
 	get onDidChangeCodeLenses(): Event<void> {
-		return this._onDidChangeCodeLenses.event;
+		return this.onDidChangeCodeLensesEventEmitter.event;
 	}
 }

@@ -1,29 +1,29 @@
 import { ConfigurationChangeEvent, Disposable, languages } from 'vscode';
-import { ConfigurationService } from '../services/ConfigurationService';
-import { LoggerService } from '../services/LoggerService';
+import { ConfigurationService } from '@functionrunner/shared';
+import { LoggerService } from '@functionrunner/shared';
 import { container, injectable, singleton } from 'tsyringe';
 import { FunctionRunnerCodeLensProvider } from './FunctionRunnerCodeLensProvider';
 
 @injectable()
 @singleton()
 export class CodeLensController implements Disposable {
-	private _disposable: Disposable | undefined;
-	private _providerDisposable: Disposable | undefined;
-	private codeLensProviders: FunctionRunnerCodeLensProvider[] = []
+	private disposable: Disposable | undefined;
+	private providerDisposable: Disposable | undefined;
+	private codeLensProviders: FunctionRunnerCodeLensProvider[] = [];
 
 	constructor(
 		private logger: LoggerService,
-		private configurationService: ConfigurationService
+		private configurationService: ConfigurationService,
 	) {
-		this._disposable = Disposable.from(
+		this.disposable = Disposable.from(
 			this.configurationService.onDidChange(this.onConfigurationChanged, this),
 		);
-		this.onConfigurationChanged()
+		this.onConfigurationChanged();
 	}
 
 	dispose() {
-		this._providerDisposable?.dispose();
-		this._disposable?.dispose();
+		this.providerDisposable?.dispose();
+		this.disposable?.dispose();
 	}
 
 	private onConfigurationChanged(e?: ConfigurationChangeEvent) {
@@ -38,25 +38,32 @@ export class CodeLensController implements Disposable {
 		if (cfg.enabled === true) {
 			this.ensureProviders();
 		} else {
-			this._providerDisposable?.dispose();
-			this.codeLensProviders = []
+			this.providerDisposable?.dispose();
+			this.codeLensProviders = [];
 		}
 	}
 
 	private ensureProviders() {
-		if (
-			this.codeLensProviders.length > 0
-		) {
-			this.codeLensProviders.forEach(codeLensProvider => codeLensProvider.reset())
+		if (this.codeLensProviders.length > 0) {
+			this.codeLensProviders.forEach((codeLensProvider) =>
+				codeLensProvider.reset(),
+			);
 			return;
 		}
 
-		this._providerDisposable?.dispose();
+		this.providerDisposable?.dispose();
 
-		const codeLensProviders = container.resolveAll<FunctionRunnerCodeLensProvider>('FunctionRunnerCodeLensProvider')
-		const codeLensProviderDisposables = codeLensProviders.map(codeLensProvider => 
-			languages.registerCodeLensProvider(codeLensProvider.selector, codeLensProvider)
+		const codeLensProviders =
+			container.resolveAll<FunctionRunnerCodeLensProvider>(
+				'FunctionRunnerCodeLensProvider',
+			);
+		const codeLensProviderDisposables = codeLensProviders.map(
+			(codeLensProvider) =>
+				languages.registerCodeLensProvider(
+					codeLensProvider.selector,
+					codeLensProvider,
+				),
 		);
-		this._providerDisposable = Disposable.from(...codeLensProviderDisposables);
+		this.providerDisposable = Disposable.from(...codeLensProviderDisposables);
 	}
 }

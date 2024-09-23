@@ -2,13 +2,13 @@ import { Position } from 'vscode';
 import { ensureActiveEditor, thenableToPromise } from '../utils/utils';
 import { Command, Commands } from './Command';
 import { container, injectable, registry } from 'tsyringe';
-import { LoggerService } from '../services/LoggerService';
-import { FileAndFunctionData } from '../@types/FileAndFunctionData';
+import { LoggerService } from '@functionrunner/shared';
+import { FileAndFunctionIdentifier } from '@functionrunner/shared';
 import { LanguageHandler } from '@functionrunner/shared';
 import { getRightLanguageHandler } from '../utils/getRightLanguageHandler';
 
 export interface AddNewInputArgs {
-	fileAndFunctionData: FileAndFunctionData
+	fileAndFunctionIdentifier: FileAndFunctionIdentifier;
 }
 
 export type AddNewInputReturn = void;
@@ -16,21 +16,27 @@ export type AddNewInputReturn = void;
 @injectable()
 @registry([{ token: 'Command', useClass: AddNewInputCaseCommand }])
 export class AddNewInputCaseCommand extends Command {
-	private languageHandlers: LanguageHandler[]
+	private languageHandlers: LanguageHandler[];
 
 	constructor(logger: LoggerService) {
 		super(Commands.AddNewInputCase, logger);
-		this.languageHandlers = container.resolveAll<LanguageHandler>('LanguageHandler')
+		this.languageHandlers =
+			container.resolveAll<LanguageHandler>('LanguageHandler');
 	}
 
 	async execute(args: AddNewInputArgs): Promise<AddNewInputReturn> {
 		try {
-			const activeEditor = ensureActiveEditor(args.fileAndFunctionData);
-			const document = activeEditor.document;
+			const activeEditor = ensureActiveEditor(args.fileAndFunctionIdentifier);
+			const { document } = activeEditor;
 
-			const languageHandler = getRightLanguageHandler(this.languageHandlers, args.fileAndFunctionData.languageId)
+			const languageHandler = getRightLanguageHandler(
+				this.languageHandlers,
+				args.fileAndFunctionIdentifier.languageId,
+			);
 
-			const newInput = await languageHandler.createNewInputSet(args.fileAndFunctionData);
+			const newInput = await languageHandler.createNewInputSet(
+				args.fileAndFunctionIdentifier,
+			);
 
 			if (newInput === undefined) {
 				throw new Error(

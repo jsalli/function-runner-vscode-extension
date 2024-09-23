@@ -1,0 +1,44 @@
+{
+	"name": "@functionrunner/javascript-typescript-handler",
+	"version": "1.0.0",
+	"publishConfig": {
+		"main": "dist/index.js",
+		"types": "dist/index.d.ts"
+	},
+	"main": "src/index.ts",
+	"types": "src/index.ts",
+	"scripts": {
+		"clean": "rimraf ./dist/* tsconfig.tsbuildinfo package.tgz *.log .swc/*",
+		"compile": "swc src -d dist",
+		"build": "rushx compile && rushx build-types",
+		"build-types": "tsc -p tsconfig.build.types.json",
+		"test": "echo 'no test'",
+		"up-dependencies": "pnpm up"
+	},
+	"dependencies": {
+		"tsyringe": "4.8.0",
+		"serialize-error": "8.1.0",
+		"find-up": "5.0.0",
+		"json5": "2.2.3",
+		"@functionrunner/shared": "workspace:1.0.0",
+		"@functionrunner/javascript-typescript-shared": "workspace:1.0.0",
+		"@functionrunner/javascript-typescript-invoking-code-creator": "workspace:1.0.0"
+	},
+	"devDependencies": {
+		"@swc/cli": "0.4.0",
+		"@swc/core": "1.7.23",
+		"@types/node": "22.5.2",
+		"@types/eslint__js": "8.42.3",
+    "@eslint/js": "9.10.0",
+		"eslint": "9.10.0",
+		"eslint-config-prettier": "9.1.0",
+		"eslint-import-resolver-typescript": "3.6.3",
+		"eslint-plugin-anti-trojan-source": "1.1.1",
+		"eslint-plugin-prettier": "5.2.1",
+		"typescript-eslint": "8.5.0",
+		"prettier": "3.3.3",
+		"rimraf": "6.0.1",
+		"typescript": "5.5.4",
+		"@types/ts-expose-internals": "npm:ts-expose-internals@5.5.4"
+	}
+}

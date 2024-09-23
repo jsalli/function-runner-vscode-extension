@@ -177,9 +177,10 @@ function getExtensionConfig(target, env) {
 							 * @type NormalModule
 							 */ module,
 						) {
-							if (module.resource && module.resource.match('find-up')) {
-								return true;
-							} else if (
+							// if (module.resource && module.resource.match('find-up')) {
+							// 	return true;
+							// } else
+							if (
 								module.resource &&
 								module.resource.match(/[\\/]node_modules[\\/]/)
 							) {

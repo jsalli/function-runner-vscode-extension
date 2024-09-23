@@ -15,7 +15,7 @@
 	 * path segment in the "$schema" field for all your Rush config files.  This will ensure
 	 * correct error-underlining and tab-completion for editors such as VS Code.
 	 */
-	"rushVersion": "5.133.3",
+	"rushVersion": "5.134.0",
 	/**
 	 * The next field selects which package manager should be installed and determines its version.
 	 * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +24,7 @@
 	 * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
 	 * for details about these alternatives.
 	 */
-	"pnpmVersion": "9.9.0",
+	"pnpmVersion": "9.10.0",
 	// "npmVersion": "6.14.15",
 	// "yarnVersion": "1.9.4",
 	/**
@@ -397,29 +397,24 @@
 			"projectFolder": "packages/shared",
 			"reviewCategory": "production"
 		},
-		// {
-		// 	"packageName": "@functionrunner/shared-code-processing",
-		// 	"projectFolder": "packages/javascriptTypescriptHandler/shared-code-processing",
-		// 	"reviewCategory": "production"
-		// },
-		// {
-		// 	"packageName": "@functionrunner/invoking-code-creator",
-		// 	"projectFolder": "packages/javascriptTypescriptHandler/invoking-code-creator",
-		// 	"reviewCategory": "production"
-		// },
-		// {
-		// 	"packageName": "@functionrunner/code-preprocessor",
-		// 	"projectFolder": "packages/javascriptTypescriptHandler/code-preprocessor",
-		// 	"reviewCategory": "production"
-		// },
+		{
+			"packageName": "@functionrunner/javascript-typescript-shared",
+			"projectFolder": "packages/javascriptTypescriptHandling/shared",
+			"reviewCategory": "production"
+		},
+		{
+			"packageName": "@functionrunner/javascript-typescript-invoking-code-creator",
+			"projectFolder": "packages/javascriptTypescriptHandling/invoking-code-creator",
+			"reviewCategory": "production"
+		},
 		{
 			"packageName": "@functionrunner/javascript-typescript-handler",
-			"projectFolder": "packages/javascriptTypescriptHandler/javascript-typescript-handler",
+			"projectFolder": "packages/javascriptTypescriptHandling/handler",
 			"reviewCategory": "production"
 		},
 		{
 			"packageName": "@functionrunner/python-handler",
-			"projectFolder": "packages/pythonHandler/python-handler",
+			"projectFolder": "packages/pythonHandling/python-handler",
 			"reviewCategory": "production"
 		},
 		{

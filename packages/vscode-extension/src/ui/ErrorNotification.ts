@@ -3,11 +3,18 @@ import { KnownErrorNotification } from './KnownErrorNotification';
 import { UnknownErrorNotification } from './UnknownErrorNotification';
 
 export class ErrorNotification {
-	constructor(error: any) {
+	constructor(error: unknown) {
 		if (error instanceof KnownError) {
 			new KnownErrorNotification(error.longFailReason, error.githubIssueUrl);
 		} else {
-			new UnknownErrorNotification(error.message ?? error);
+			const message =
+				typeof error === 'object' &&
+				error !== null &&
+				'message' in error &&
+				typeof error.message === 'string'
+					? error.message
+					: JSON.stringify(error);
+			new UnknownErrorNotification(message);
 		}
 	}
 }

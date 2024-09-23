@@ -1,10 +1,8 @@
+import { CancellationToken, CodeLens, Range, TextDocument } from 'vscode';
 import {
-	CancellationToken,
-	CodeLens,
-	Range,
-	TextDocument,
-} from 'vscode';
-import { LoggerService } from '../services/LoggerService';
+	LoggerService,
+	FileAndFunctionIdentifier,
+} from '@functionrunner/shared';
 import {
 	AddNewInputSetCodeLens,
 	resolveAddNewInputSetCodeLens,
@@ -23,56 +21,64 @@ import {
 } from './codeLenses/RunOneInputSetCodeLens';
 import { injectable, registry } from 'tsyringe';
 import { FunctionRunnerCodeLensProvider } from './FunctionRunnerCodeLensProvider';
-import { isInputSetView } from '../utils/isInputSetView';
-import { createFileAndFunctionData } from '../utils/createFileAndFunctionData';
-import { FileAndFunctionData } from '../@types/FileAndFunctionData';
+import { isInputSetView } from '@functionrunner/shared';
+import { createFileAndFunctionIdentifier } from '../utils/createFileAndFunctionIdentifier';
 
 @injectable()
-@registry([{ token: 'FunctionRunnerCodeLensProvider', useClass: InputSetViewCodeLensProvider }])
+@registry([
+	{
+		token: 'FunctionRunnerCodeLensProvider',
+		useClass: InputSetViewCodeLensProvider,
+	},
+])
 export class InputSetViewCodeLensProvider extends FunctionRunnerCodeLensProvider {
 	constructor(logger: LoggerService) {
-		super(logger)
+		super(logger, ['file', 'untitled']);
 	}
 
-	provideCodeLenses(
+	async provideCodeLenses(
 		document: TextDocument,
 		token: CancellationToken,
-	): CodeLens[] {
+	): Promise<CodeLens[]> {
 		try {
 			if (!isInputSetView(document)) {
 				return [];
 			}
 
-			const fileAndFunctionData = createFileAndFunctionData(document);
-			if (fileAndFunctionData == null) {
+			const fileAndFunctionIdentifier =
+				createFileAndFunctionIdentifier(document);
+			if (fileAndFunctionIdentifier == null) {
 				return [];
 			}
 
-			const languageHandler = this.languageHandlers.find(langHandler => langHandler.isInterestedInThisLanguage(document.languageId))
+			const languageHandler = this.languageHandlers.find((langHandler) =>
+				langHandler.isInterestedInThisLanguage(document.languageId),
+			);
 			if (!languageHandler) {
-				return []
+				return [];
 			}
 
-			const inputSetViewCodeLensPositions = languageHandler.findCodeLensPositionsFromInputSetView(document);
-			if (inputSetViewCodeLensPositions === undefined) {
+			const inputSetViewCodeLensPositionsAndId =
+				await languageHandler.findCodeLensPositionsFromInputSetView(document);
+			if (inputSetViewCodeLensPositionsAndId === undefined) {
 				return [];
 			}
 
 			const lenses: CodeLens[] = [];
 			lenses.push(
 				...this.createHeaderCodelenses(
-					inputSetViewCodeLensPositions.header,
-					fileAndFunctionData
+					inputSetViewCodeLensPositionsAndId.header,
+					fileAndFunctionIdentifier,
 				),
 			);
 
 			// Add test case codelenses
-			for (const [inputSetIndex, inputSetRange] of inputSetViewCodeLensPositions.inputSets.entries()) {
+			for (const inputSetRangeAndId of inputSetViewCodeLensPositionsAndId.inputSets) {
 				lenses.push(
 					...this.createInputSetCodelenses(
-						inputSetIndex,
-						inputSetRange,
-						fileAndFunctionData
+						inputSetRangeAndId.inputSetId,
+						inputSetRangeAndId.range,
+						fileAndFunctionIdentifier,
 					),
 				);
 			}
@@ -84,8 +90,8 @@ export class InputSetViewCodeLensProvider extends FunctionRunnerCodeLensProvider
 			// Add footer codelenses
 			lenses.push(
 				...this.createFooterCodelenses(
-					inputSetViewCodeLensPositions.footer,
-					fileAndFunctionData,
+					inputSetViewCodeLensPositionsAndId.footer,
+					fileAndFunctionIdentifier,
 				),
 			);
 
@@ -97,16 +103,16 @@ export class InputSetViewCodeLensProvider extends FunctionRunnerCodeLensProvider
 		}
 	}
 
-	resolveCodeLens(lens: CodeLens, token: CancellationToken): CodeLens | null {
+	async resolveCodeLens(lens: CodeLens): Promise<CodeLens | null> {
 		try {
 			if (lens instanceof AddNewInputSetCodeLens) {
-				return resolveAddNewInputSetCodeLens(lens, token);
+				return resolveAddNewInputSetCodeLens(lens);
 			} else if (lens instanceof RunOneInputSetCodeLens) {
-				return resolveRunOneInputSetCodeLens(lens, token);
+				return resolveRunOneInputSetCodeLens(lens);
 			} else if (lens instanceof CloseTextEditorCodeLens) {
-				return resolveCloseTextEditorCodeLens(lens, token);
+				return resolveCloseTextEditorCodeLens(lens);
 			} else if (lens instanceof DebugOneInputSetCodeLens) {
-				return resolveDebugOneInputSetCodeLens(lens, token);
+				return resolveDebugOneInputSetCodeLens(lens);
 			}
 			return null;
 		} catch (error) {
@@ -114,52 +120,49 @@ export class InputSetViewCodeLensProvider extends FunctionRunnerCodeLensProvider
 			return null;
 		}
 	}
-	
+
 	private createHeaderCodelenses(
 		headerRange: Range,
-		fileAndFunctionData: FileAndFunctionData,
+		fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 	): CodeLens[] {
 		const closeCodeLensHeader = new CloseTextEditorCodeLens(
 			headerRange,
-			fileAndFunctionData,
+			fileAndFunctionIdentifier,
 		);
 		return [closeCodeLensHeader];
 	}
 
 	private createInputSetCodelenses(
-		inputSetIndex: number,
+		inputSetId: string,
 		inputSetRange: Range,
-		fileAndFunctionData: FileAndFunctionData,
+		fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 	): CodeLens[] {
 		const runOneTestCodeLens = new RunOneInputSetCodeLens(
-			inputSetIndex,
+			inputSetId,
 			inputSetRange,
-			fileAndFunctionData
+			fileAndFunctionIdentifier,
 		);
 		const debugOneTestCodeLens = new DebugOneInputSetCodeLens(
-			inputSetIndex,
+			inputSetId,
 			inputSetRange,
-			fileAndFunctionData
+			fileAndFunctionIdentifier,
 		);
 		return [runOneTestCodeLens, debugOneTestCodeLens];
 	}
 
 	private createFooterCodelenses(
 		footerRange: Range,
-		fileAndFunctionData: FileAndFunctionData,
+		fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 	): CodeLens[] {
 		const addNewInputSetCodeLens = new AddNewInputSetCodeLens(
 			footerRange,
-			fileAndFunctionData
+			fileAndFunctionIdentifier,
 		);
 
 		const closeCodeLensFooter = new CloseTextEditorCodeLens(
 			footerRange,
-			fileAndFunctionData
+			fileAndFunctionIdentifier,
 		);
-		return [
-			addNewInputSetCodeLens,
-			closeCodeLensFooter,
-		];
+		return [addNewInputSetCodeLens, closeCodeLensFooter];
 	}
 }

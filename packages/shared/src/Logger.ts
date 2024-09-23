@@ -1,5 +1,5 @@
 // import { ExtensionContext } from "vscode";
-import type {TelemetryEventProperties} from '@vscode/extension-telemetry'
+import type { TelemetryEventProperties } from '@vscode/extension-telemetry';
 
 export const enum OutputLevel {
 	Silent = 'silent',
@@ -31,20 +31,22 @@ export abstract class Logger {
 	// 	telemetryService: TelemetryService,
 	// )
 
-	public abstract debug(message: string, ...params: any[]): void
+	public abstract debug(message: string, ...params: unknown[]): void;
 	public abstract error(
 		errorOrMessage: unknown,
 		message?: string,
 		telemetricsProperties?: TelemetryEventProperties,
-		...params: any[]
-	): void
-	public abstract log(message: string, ...params: any[]): void
-	public abstract logWithDebugParams(message: string, ...params: any[]): void
-	public abstract warn(message: string, ...params: any[]): void
+		...params: unknown[]
+	): void;
+	public abstract log(message: string, ...params: unknown[]): void;
+	public abstract logWithDebugParams(
+		message: string,
+		...params: unknown[]
+	): void;
+	public abstract warn(message: string, ...params: unknown[]): void;
 
-	public abstract enabled(level: LogLevel): boolean
-	public abstract get isDevelopment(): boolean
-	public abstract get logLevel(): LogLevel
-	public abstract set logLevel(value: LogLevel | OutputLevel)
-
+	public abstract enabled(level: LogLevel): boolean;
+	public abstract get isDevelopment(): boolean;
+	public abstract get logLevel(): LogLevel;
+	public abstract set logLevel(value: LogLevel | OutputLevel);
 }

@@ -6,14 +6,14 @@ import {
 	workspace,
 	WorkspaceEdit,
 } from 'vscode';
-import { LoggerService } from '../services/LoggerService';
+import { LoggerService } from '@functionrunner/shared';
 import { ensureActiveEditor } from '../utils/utils';
 import { Command, Commands } from './Command';
 import { injectable, registry } from 'tsyringe';
-import { FileAndFunctionData } from '../@types/FileAndFunctionData';
+import { FileAndFunctionIdentifier } from '@functionrunner/shared';
 
 export interface CloseTextEditorArgs {
-	fileAndFunctionData: FileAndFunctionData
+	fileAndFunctionIdentifier: FileAndFunctionIdentifier;
 }
 
 export type CloseTextEditorReturn = void;
@@ -27,8 +27,8 @@ export class CloseTextEditorCommand extends Command {
 
 	async execute(args: CloseTextEditorArgs): Promise<CloseTextEditorReturn> {
 		try {
-			const activeEditor = ensureActiveEditor(args.fileAndFunctionData);
-			const document = activeEditor.document;
+			const activeEditor = ensureActiveEditor(args.fileAndFunctionIdentifier);
+			const { document } = activeEditor;
 			if (document.isUntitled) {
 				const textEdits: TextEdit[] = [];
 				textEdits.push(

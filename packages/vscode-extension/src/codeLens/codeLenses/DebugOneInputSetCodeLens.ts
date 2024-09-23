@@ -1,13 +1,13 @@
-import { CancellationToken, CodeLens, Command as VSCommand, Range } from 'vscode';
+import { CodeLens, Command as VSCommand, Range } from 'vscode';
 import { Commands, Command } from '../../commands/Command';
 import { RunOrDebugInputSetsArgs } from '../../commands/runOrDebugInputSets';
-import { FileAndFunctionData } from '../../@types/FileAndFunctionData';
+import { FileAndFunctionIdentifier } from '@functionrunner/shared';
 
 export class DebugOneInputSetCodeLens extends CodeLens {
 	constructor(
-		public inputSetIndex: number,
+		public inputSetId: string,
 		range: Range,
-		public fileAndFunctionData: FileAndFunctionData,
+		public fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 		command?: VSCommand | undefined,
 	) {
 		super(range, command);
@@ -16,22 +16,23 @@ export class DebugOneInputSetCodeLens extends CodeLens {
 
 export function resolveDebugOneInputSetCodeLens(
 	lens: DebugOneInputSetCodeLens,
-	_token: CancellationToken,
 ): CodeLens {
 	lens.command = Command.customCommand<[RunOrDebugInputSetsArgs]>({
 		// title: '🐛 Debug this',
 		title: 'Debug this',
 		tooltip: `Debug the "${
-			lens.fileAndFunctionData.functionName
+			lens.fileAndFunctionIdentifier.functionName
 		}"-function with below input case. ${
-			lens.fileAndFunctionData.documentIsUntitled === true ? 'Document must be saved first' : ''
+			lens.fileAndFunctionIdentifier.documentIsUntitled === true
+				? 'Document must be saved first'
+				: ''
 		}`,
 		command: Commands.RunOrDebugOneInputSets,
 		arguments: [
 			{
-				fileAndFunctionData: lens.fileAndFunctionData,
-				inputSetIndex: lens.inputSetIndex,
-				mode: 'debug'
+				fileAndFunctionIdentifier: lens.fileAndFunctionIdentifier,
+				inputSetId: lens.inputSetId,
+				mode: 'debug',
 			},
 		],
 	});

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "lib": ["ES2020"],
+    "target": "ES2022",
+    "module": "node16",
+    "lib": ["ES2023"],
     "esModuleInterop": true,
     // equivalent of package.json sideEffects: false
     "isolatedModules": true,
@@ -17,7 +17,6 @@
     "skipDefaultLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "moduleResolution": "node",
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "useDefineForClassFields": true,

@@ -1,4 +1,4 @@
-import { LoggerService } from '../services/LoggerService';
+import { LoggerService } from '@functionrunner/shared';
 import { KnownErrorNotification } from '../ui/KnownErrorNotification';
 import { Command, Commands } from './Command';
 import { injectable, registry } from 'tsyringe';

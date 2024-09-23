@@ -1,8 +1,8 @@
 import { Range, TextDocument, TextEditor, window } from 'vscode';
-import { LoggerService } from '../services/LoggerService';
+import { LoggerService } from '@functionrunner/shared';
 import { container } from 'tsyringe';
-import { FileAndFunctionData } from '../@types/FileAndFunctionData';
-import { createFileAndFunctionData } from './createFileAndFunctionData';
+import { FileAndFunctionIdentifier } from '@functionrunner/shared';
+import { createFileAndFunctionIdentifier } from './createFileAndFunctionIdentifier';
 
 export function isActiveDocument(document: TextDocument): boolean {
 	const editor = window.activeTextEditor;
@@ -38,7 +38,9 @@ export function getRangesFromDocument(
 // 	// return `${filePathName.replace(/[/\\\\]/gm, '_')}|${functionName}`;
 // }
 
-export function ensureActiveEditor(fileAndFunctionData: FileAndFunctionData): TextEditor {
+export function ensureActiveEditor(
+	fileAndFunctionIdentifier: FileAndFunctionIdentifier,
+): TextEditor {
 	const activeEditor = window.activeTextEditor;
 	if (activeEditor === undefined) {
 		const message = 'Could not get active text editor';
@@ -48,17 +50,21 @@ export function ensureActiveEditor(fileAndFunctionData: FileAndFunctionData): Te
 		throw error;
 	}
 
-	const fileIdActive = createFileAndFunctionData(activeEditor.document);
+	const fileAndFunctionIdentifierActive = createFileAndFunctionIdentifier(
+		activeEditor.document,
+	);
 	if (
-		fileAndFunctionData.sourceFilePath !== fileIdActive?.sourceFilePath ||
-		fileAndFunctionData.functionName !== fileIdActive?.functionName
+		fileAndFunctionIdentifier.sourceFilePath !==
+			fileAndFunctionIdentifierActive?.sourceFilePath ||
+		fileAndFunctionIdentifier.functionName !==
+			fileAndFunctionIdentifierActive?.functionName
 	) {
 		const message = `Active document did not have fileID fields which were requested.
-		Expected filePath: "${fileAndFunctionData.sourceFilePath}" and functionName: "${
-			fileAndFunctionData.functionName
+		Expected filePath: "${fileAndFunctionIdentifier.sourceFilePath}" and functionName: "${
+			fileAndFunctionIdentifier.functionName
 		}"
-		Received filePath: "${fileIdActive?.sourceFilePath}" and functionName: "${
-			fileIdActive?.functionName
+		Received filePath: "${fileAndFunctionIdentifierActive?.sourceFilePath}" and functionName: "${
+			fileAndFunctionIdentifierActive?.functionName
 		}"
 		Content: ${activeEditor.document.getText()}`;
 		const error = new Error(message);
@@ -80,7 +86,7 @@ export function thenableToPromise<T>(thenable: Thenable<T>): Promise<T> {
 			(value: T) => {
 				res(value);
 			},
-			(reason: any) => {
+			(reason: unknown) => {
 				rej(reason);
 			},
 		);
@@ -105,10 +111,10 @@ export function stringArraysMatch(arr1: string[], arr2: string[]): boolean {
 interface Thenable<T> {
 	then<TResult>(
 		onfulfilled?: (value: T) => TResult | Thenable<TResult>,
-		onrejected?: (reason: any) => TResult | Thenable<TResult>,
+		onrejected?: (reason: unknown) => TResult | Thenable<TResult>,
 	): Thenable<TResult>;
 	then<TResult>(
 		onfulfilled?: (value: T) => TResult | Thenable<TResult>,
-		onrejected?: (reason: any) => void,
+		onrejected?: (reason: unknown) => void,
 	): Thenable<TResult>;
 }

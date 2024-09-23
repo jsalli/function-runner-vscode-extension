@@ -1,14 +1,24 @@
 import 'reflect-metadata';
 import { container, Lifecycle } from 'tsyringe';
-import { ExtensionContext} from 'vscode';
-import { LoggerService } from './services/LoggerService';
-import { StorageService } from './services/StorageService';
+import { ExtensionContext } from 'vscode';
+import {
+	LoggerService,
+	StorageService,
+	ConfigurationService,
+	vscodeExtensionModeInjectionToken,
+	vscodeExtensionTempFolderInjectionToken,
+} from '@functionrunner/shared';
 import { CodeLensController } from './codeLens/index';
 import type { Command } from './commands/index';
 import './commands/index';
 import { serializeError } from 'serialize-error';
 import { Handler as JsTsHandler } from '@functionrunner/javascript-typescript-handler';
 import { Handler as PythonHandler } from '@functionrunner/python-handler';
+import {
+	RunnableFunctionCache,
+	vscodeUniqueExtensionIDInjectionToken,
+} from '@functionrunner/shared';
+import { extensionTempFolder, vscodeUniqueExtensionID } from './constants';
 
 function registerVSCodeSubscriptions(context: ExtensionContext) {
 	const storageService = container.resolve(StorageService);
@@ -22,32 +32,50 @@ function registerVSCodeSubscriptions(context: ExtensionContext) {
 }
 
 function registerDependenciesToDIContainer(context: ExtensionContext) {
-	container.registerInstance<ExtensionContext>('ExtensionContext', context);
+	container.registerInstance('ExtensionContext', context);
+	container.register(ConfigurationService, { useClass: ConfigurationService });
+	container.register(LoggerService, { useClass: LoggerService });
+	container.register(RunnableFunctionCache, {
+		useClass: RunnableFunctionCache,
+	});
 	container.register<JsTsHandler>(
 		'LanguageHandler',
 		{ useClass: JsTsHandler },
-		{ lifecycle: Lifecycle.Singleton }
+		{ lifecycle: Lifecycle.Singleton },
 	);
 	container.register<PythonHandler>(
 		'LanguageHandler',
 		{ useClass: PythonHandler },
-		{ lifecycle: Lifecycle.Singleton }
+		{ lifecycle: Lifecycle.Singleton },
+	);
+
+	container.registerInstance(
+		vscodeUniqueExtensionIDInjectionToken,
+		vscodeUniqueExtensionID,
+	);
+	container.registerInstance(
+		vscodeExtensionModeInjectionToken,
+		context.extensionMode,
+	);
+	container.registerInstance(
+		vscodeExtensionTempFolderInjectionToken,
+		extensionTempFolder,
 	);
 }
 
 export function activate(context: ExtensionContext) {
 	try {
-		registerDependenciesToDIContainer(context)
-	
+		registerDependenciesToDIContainer(context);
+
 		registerVSCodeSubscriptions(context);
-	
+
 		const logger = container.resolve(LoggerService);
-	
+
 		logger.log('Extension Started');
-	} catch(error) {
-		console.log(serializeError(error))
+	} catch (error) {
+		const logger = container.resolve(LoggerService);
+		logger.log(JSON.stringify(serializeError(error)));
 	}
-	
 }
 
 export function deactivate(): void {}

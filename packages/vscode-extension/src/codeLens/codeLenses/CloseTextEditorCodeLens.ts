@@ -1,12 +1,12 @@
-import { CancellationToken, CodeLens, Command as VSCommand, Range } from 'vscode';
+import { CodeLens, Command as VSCommand, Range } from 'vscode';
 import { Commands, Command } from '../../commands/Command';
 import { CloseTextEditorArgs } from '../../commands/closeTextEditor';
-import { FileAndFunctionData } from '../../@types/FileAndFunctionData';
+import { FileAndFunctionIdentifier } from '@functionrunner/shared';
 
 export class CloseTextEditorCodeLens extends CodeLens {
 	constructor(
 		range: Range,
-		public fileAndFunctionData: FileAndFunctionData,
+		public fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 		command?: VSCommand | undefined,
 	) {
 		super(range, command);
@@ -15,18 +15,17 @@ export class CloseTextEditorCodeLens extends CodeLens {
 
 export function resolveCloseTextEditorCodeLens(
 	lens: CloseTextEditorCodeLens,
-	_token: CancellationToken,
 ): CodeLens {
 	lens.command = Command.customCommand<[CloseTextEditorArgs]>({
 		// title: '✖ Close',
 		title: 'Close',
 		tooltip: `Close${
-			lens.fileAndFunctionData.documentIsUntitled
+			lens.fileAndFunctionIdentifier.documentIsUntitled
 				? ' and discard content of this untitled document'
 				: ''
 		}`,
 		command: Commands.CloseTextEditor,
-		arguments: [{ fileAndFunctionData: lens.fileAndFunctionData }],
+		arguments: [{ fileAndFunctionIdentifier: lens.fileAndFunctionIdentifier }],
 	});
 	return lens;
 }

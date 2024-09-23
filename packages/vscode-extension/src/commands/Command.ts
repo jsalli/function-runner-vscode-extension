@@ -1,7 +1,6 @@
-import { Logger } from '@functionrunner/shared';
+import { LoggerService } from '@functionrunner/shared';
 import { commands, Disposable, Command as VSCommand } from 'vscode';
 import { container } from 'tsyringe';
-import { LoggerService } from '../services/LoggerService';
 
 export const enum Commands {
 	OpenInputSetView = 'functionrunner.openInputSetView',
@@ -17,7 +16,7 @@ export abstract class Command implements Disposable {
 
 	constructor(
 		private command: string | string[],
-		protected logger: Logger,
+		protected logger: LoggerService,
 	) {
 		if (typeof this.command === 'string') {
 			// Webpack's Define plugin removes this code in production mode.
@@ -26,7 +25,7 @@ export abstract class Command implements Disposable {
 			}
 			this.disposable = commands.registerCommand(
 				this.command,
-				(...args: any[]) => this.execute(...args),
+				(...args: unknown[]) => this.execute(...args),
 				this,
 			);
 
@@ -36,7 +35,7 @@ export abstract class Command implements Disposable {
 		const subscriptions = this.command.map((cmd) =>
 			commands.registerCommand(
 				cmd,
-				(...args: any[]) => this.execute(...args),
+				(...args: unknown[]) => this.execute(...args),
 				this,
 			),
 		);
@@ -47,7 +46,7 @@ export abstract class Command implements Disposable {
 		this.disposable.dispose();
 	}
 
-	abstract execute(...args: any[]): Promise<any> | any;
+	abstract execute(...args: unknown[]): Promise<unknown> | unknown;
 
 	public static customCommand<T extends unknown[]>(
 		command: Omit<VSCommand, 'arguments'> & { arguments: [...T] },

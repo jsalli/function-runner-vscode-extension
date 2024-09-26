@@ -16,6 +16,7 @@ import { ProcessRunOptions } from './createProcess';
 import { getTsNodeInstallationRelPath } from './getTsNodeInstallationRelPath';
 import { commonJSModule, esModule } from './constants';
 import { container } from 'tsyringe';
+import { DebuggerSettings } from '../getDebugConfigurationProvider/DebuggerSettings';
 
 export function jsTsProcessRunOptionsCreator({
 	languageId,
@@ -23,14 +24,14 @@ export function jsTsProcessRunOptionsCreator({
 	code,
 	moduleType,
 	tsConfigJsonFileAbsPath,
-	debugProcess,
+	debuggerSettings,
 }: {
 	languageId: 'javascript' | 'typescript';
 	sourceFileFolderPath: string;
 	code?: string;
 	moduleType: typeof commonJSModule | typeof esModule;
 	tsConfigJsonFileAbsPath?: string;
-	debugProcess?: boolean;
+	debuggerSettings?: DebuggerSettings;
 }): ProcessRunOptions {
 	const configurationService = container.resolve(ConfigurationService);
 	const commonPreExecutable = configurationService.get(
@@ -58,10 +59,10 @@ export function jsTsProcessRunOptionsCreator({
 		commandLineVariables,
 	});
 
-	if (debugProcess) {
+	if (debuggerSettings) {
 		// TODO: Get the port and address from configurationService and user's settings.json
 		envVars['NODE_OPTIONS'] =
-			`--inspect-brk=127.0.0.1:9234 ${envVars['NODE_OPTIONS']}`;
+			`--inspect-brk=${debuggerSettings.address}:${debuggerSettings.port} ${envVars['NODE_OPTIONS']}`;
 	}
 
 	const cmdLineEnvVarGetter = getCommandLineEnvVarGetter();

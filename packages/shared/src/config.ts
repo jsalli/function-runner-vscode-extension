@@ -20,11 +20,17 @@ export interface TypescriptVSCodeSettingsConfig
 	tsconfigRelPath: string;
 }
 
+export interface DebugggerSettingsConfig {
+	address: string;
+	port: number;
+}
+
 export interface Config {
 	general: General;
 	logging: Logging;
 	codeLens: CodeLensConfig;
 	terminalOptions: TerminalOptions;
+	debugger: DebugggerSettingsConfig;
 	javascriptRunOptions: JavascriptVSCodeSettingsConfig;
 	typescriptRunOptions: TypescriptVSCodeSettingsConfig;
 	// pythonRunOptions: PythonVSCodeSettingsConfig;

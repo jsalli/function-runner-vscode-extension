@@ -1,11 +1,74 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { RunnableJsTsFunction } from '@functionrunner/javascript-typescript-shared';
+import { createJsTsFuncExecutionInExtProcess } from '../runFunctionWithInputSets/createJsTsFuncExecutionInExtProcess';
+import { getDebugConfig } from './getDebugConfig';
+import { debug, DebugSessionOptions, Uri, workspace } from 'vscode';
+import { container } from 'tsyringe';
+import { JsTsDebugConfigurationProvider } from '../getDebugConfigurationProvider/JsTsDebugConfigurationProvider';
+import { parse } from 'path';
+import { DebuggerSettings } from '../getDebugConfigurationProvider/DebuggerSettings';
 
-export const debugJsTsFunctionWithInputSets = (
+export const debugJsTsFunctionWithInputSets = async (
 	runnableFunction: RunnableJsTsFunction,
 	inputViewContent: string,
 	inputSetIdentifier: string,
 	returnSuccessForTest: boolean | undefined,
 ): Promise<string> => {
-	return Promise.resolve('moikka');
+	const workspaceFolder = workspace.getWorkspaceFolder(
+		Uri.file(runnableFunction.sourceFilePath),
+	);
+	if (workspaceFolder == null) {
+		throw new Error(
+			`Could not find wordspace base folder for path ${runnableFunction.sourceFilePath}`,
+		);
+	}
+
+	const debuggerSettings = container.resolve(DebuggerSettings);
+
+	await createJsTsFuncExecutionInExtProcess({
+		runnableFunction,
+		inputViewContent,
+		inputSetIdentifier,
+		debuggerSettings,
+	});
+
+	await new Promise<void>((res, rej): void => {
+		function debuggerSuccessCallBack(debugFinishedSuccessful: boolean): void {
+			const jsTsDebugConfProvider = container.resolve(
+				JsTsDebugConfigurationProvider,
+			);
+			jsTsDebugConfProvider.disposeDebugAdapterTracker();
+			if (!returnSuccessForTest) {
+				return;
+			}
+
+			if (debugFinishedSuccessful === true) {
+				res();
+				return;
+			}
+			rej();
+		}
+		const sourceFileDirAbsPath = parse(runnableFunction.sourceFilePath).dir;
+
+		const debugConfiguration = getDebugConfig(
+			workspaceFolder,
+			sourceFileDirAbsPath,
+			debuggerSuccessCallBack,
+		);
+
+		const debugSessionOptions: DebugSessionOptions = {
+			suppressSaveBeforeStart: true,
+		};
+
+		void debug.startDebugging(
+			workspaceFolder,
+			debugConfiguration,
+			debugSessionOptions,
+		);
+		if (returnSuccessForTest) {
+			return;
+		}
+		res();
+	});
+
+	return 'moikka';
 };

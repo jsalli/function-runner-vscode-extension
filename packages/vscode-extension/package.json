@@ -45,11 +45,7 @@
 				"command": "functionrunner.clearFunctionRunnerExtensionPreferences",
 				"title": "Clear saved Function Runner extension preferences",
 				"category": "FunctionRunner"
-			},
-			{
-        "command": "helloworld.helloWorld",
-        "title": "Hello World"
-      }
+			}
 		],
 		"configuration": [
 			{
@@ -273,16 +269,23 @@
 				}
 			},
 			{
-				"id": "telemetry",
-				"title": "Telemetry",
+				"id": "debugger-options",
+				"title": "Debugger Options",
 				"order": 10,
 				"properties": {
-					"functionrunner.telemetry.enabled": {
-						"type": "boolean",
-						"default": true,
-						"markdownDescription": "Specifies whether to send telemetry data or not",
+					"functionrunner.debugger.address": {
+						"type": "string",
+						"default": "127.0.0.1",
+						"markdownDescription": "Specifies the address of the debugger",
 						"scope": "window",
 						"order": 1
+					},
+					"functionrunner.debugger.port": {
+						"type": "number",
+						"default": 9234,
+						"markdownDescription": "Specifies the port of the debugger",
+						"scope": "window",
+						"order": 2
 					}
 				}
 			}

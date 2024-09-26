@@ -49,7 +49,7 @@ interface ImportSpecifierData {
 function isImportSpecifierData(
 	maybeImportSpecifierData: unknown,
 ): maybeImportSpecifierData is ImportSpecifierData {
-	if (isNode(maybeImportSpecifierData) === true) {
+	if (isToken(maybeImportSpecifierData) === true) {
 		return false;
 	}
 	return (

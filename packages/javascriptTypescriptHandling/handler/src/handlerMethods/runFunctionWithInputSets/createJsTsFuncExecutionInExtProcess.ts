@@ -5,17 +5,18 @@ import { detectJsTsModuleOptions } from './moduleTypeDetection/detectJsTsModuleO
 import { jsTsProcessRunOptionsCreator } from './jsTsProcessRunOptionsCreator';
 import { RunnableJsTsFunction } from '@functionrunner/javascript-typescript-shared';
 import { createJsCodeToInvokeFunc } from './createJsCodeToInvokeFunc';
+import { DebuggerSettings } from '../getDebugConfigurationProvider/DebuggerSettings';
 
 export async function createJsTsFuncExecutionInExtProcess({
 	runnableFunction,
 	inputViewContent,
 	inputSetIdentifier,
-	debugProcess,
+	debuggerSettings,
 }: {
 	runnableFunction: RunnableJsTsFunction;
 	inputViewContent: string;
 	inputSetIdentifier: string;
-	debugProcess?: true | undefined;
+	debuggerSettings?: DebuggerSettings | undefined;
 }): Promise<ChildProcess> {
 	const { languageId, moduleType, compilerOptions, tsConfigJsonFileAbsPath } =
 		await detectJsTsModuleOptions(runnableFunction);
@@ -34,7 +35,7 @@ export async function createJsTsFuncExecutionInExtProcess({
 		code: jsCodeToInvokeFunc,
 		moduleType,
 		tsConfigJsonFileAbsPath,
-		debugProcess,
+		debuggerSettings,
 	});
 
 	const process = createProcess(processRunOptions);

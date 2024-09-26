@@ -6,15 +6,20 @@ import {
 	WorkspaceFolder,
 } from 'vscode';
 import { LoggerService } from '@functionrunner/shared';
-import { injectable } from 'tsyringe';
+import { injectable, singleton } from 'tsyringe';
+import { DebuggerSettings } from './DebuggerSettings';
 
 let readyToListenForDAMessages = false;
 
 @injectable()
+@singleton()
 export class JsTsDebugConfigurationProvider
 	implements DebugConfigurationProvider
 {
-	constructor(private logger: LoggerService) {}
+	constructor(
+		private logger: LoggerService,
+		private debuggerSettings: DebuggerSettings,
+	) {}
 
 	private debugAdapterTracker: Disposable | undefined;
 
@@ -102,8 +107,8 @@ export class JsTsDebugConfigurationProvider
 			internalConsoleOptions: 'openOnSessionStart',
 			continueOnAttach: true,
 			request: 'attach',
-			address: '127.0.0.1',
-			port: 9234,
+			address: this.debuggerSettings.address,
+			port: this.debuggerSettings.port,
 			skipFiles: ['<node_internals>/**', '**/resources/app/out/vs/**'],
 			smartStep: true,
 			sourceMaps: true,

@@ -18,7 +18,6 @@ import {
 	isToken as isJsTsToken,
 	TypeNode,
 	VariableStatement,
-	isToken,
 } from 'typescript';
 import { RunnableJsTsFunction } from './RunnableJsTsFunction';
 import { TextDocument } from 'vscode';

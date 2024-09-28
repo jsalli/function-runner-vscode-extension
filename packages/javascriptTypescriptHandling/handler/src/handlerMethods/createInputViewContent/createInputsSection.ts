@@ -1,14 +1,10 @@
 import {
 	createVariableStatement,
-	ioViewIdentifierPostFix,
 	RunnableJsTsFunctionArg,
 } from '@functionrunner/javascript-typescript-shared';
 import { factory, Node, SyntaxKind, TypeNode } from 'typescript';
 
-export function createInputsSection(
-	args: RunnableJsTsFunctionArg[],
-	inputSetId: string,
-): Node[] {
+export function createInputsSection(args: RunnableJsTsFunctionArg[]): Node[] {
 	const inputNodes: Node[] = [];
 	for (const arg of args) {
 		let inputType: TypeNode | undefined;
@@ -29,11 +25,7 @@ export function createInputsSection(
 
 		const defaultValue = factory.createIdentifier('undefined');
 
-		const argNode = createVariableStatement(
-			`${arg.name}${ioViewIdentifierPostFix}${inputSetId}`,
-			defaultValue,
-			inputType,
-		);
+		const argNode = createVariableStatement(arg.name, defaultValue, inputType);
 
 		inputNodes.push(argNode);
 	}

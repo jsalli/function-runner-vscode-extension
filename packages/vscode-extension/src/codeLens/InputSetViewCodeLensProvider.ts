@@ -4,10 +4,6 @@ import {
 	FileAndFunctionIdentifier,
 } from '@functionrunner/shared';
 import {
-	AddNewInputSetCodeLens,
-	resolveAddNewInputSetCodeLens,
-} from './codeLenses/AddNewInputSetCodeLens';
-import {
 	CloseTextEditorCodeLens,
 	resolveCloseTextEditorCodeLens,
 } from './codeLenses/CloseTextEditorCodeLens';
@@ -76,7 +72,6 @@ export class InputSetViewCodeLensProvider extends FunctionRunnerCodeLensProvider
 			for (const inputSetRangeAndId of inputSetViewCodeLensPositionsAndId.inputSets) {
 				lenses.push(
 					...this.createInputSetCodelenses(
-						inputSetRangeAndId.inputSetId,
 						inputSetRangeAndId.range,
 						fileAndFunctionIdentifier,
 					),
@@ -105,9 +100,7 @@ export class InputSetViewCodeLensProvider extends FunctionRunnerCodeLensProvider
 
 	async resolveCodeLens(lens: CodeLens): Promise<CodeLens | null> {
 		try {
-			if (lens instanceof AddNewInputSetCodeLens) {
-				return resolveAddNewInputSetCodeLens(lens);
-			} else if (lens instanceof RunOneInputSetCodeLens) {
+			if (lens instanceof RunOneInputSetCodeLens) {
 				return resolveRunOneInputSetCodeLens(lens);
 			} else if (lens instanceof CloseTextEditorCodeLens) {
 				return resolveCloseTextEditorCodeLens(lens);
@@ -133,17 +126,14 @@ export class InputSetViewCodeLensProvider extends FunctionRunnerCodeLensProvider
 	}
 
 	private createInputSetCodelenses(
-		inputSetId: string,
 		inputSetRange: Range,
 		fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 	): CodeLens[] {
 		const runOneTestCodeLens = new RunOneInputSetCodeLens(
-			inputSetId,
 			inputSetRange,
 			fileAndFunctionIdentifier,
 		);
 		const debugOneTestCodeLens = new DebugOneInputSetCodeLens(
-			inputSetId,
 			inputSetRange,
 			fileAndFunctionIdentifier,
 		);
@@ -154,15 +144,10 @@ export class InputSetViewCodeLensProvider extends FunctionRunnerCodeLensProvider
 		footerRange: Range,
 		fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 	): CodeLens[] {
-		const addNewInputSetCodeLens = new AddNewInputSetCodeLens(
-			footerRange,
-			fileAndFunctionIdentifier,
-		);
-
 		const closeCodeLensFooter = new CloseTextEditorCodeLens(
 			footerRange,
 			fileAndFunctionIdentifier,
 		);
-		return [addNewInputSetCodeLens, closeCodeLensFooter];
+		return [closeCodeLensFooter];
 	}
 }

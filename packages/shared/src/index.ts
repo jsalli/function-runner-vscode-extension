@@ -2,7 +2,6 @@ export * from './baseClasses/RunnableFunction';
 export * from './inputViewFunctions/inputSetViewComments';
 export * from './inputViewFunctions/isInputSetView';
 export * from './CodePosition';
-export * from './createRandomString';
 export * from './utils/colors';
 export * from './types/FileAndFunctionIdentifier';
 export * from './utils/fsUtils';

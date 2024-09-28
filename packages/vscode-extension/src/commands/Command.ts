@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 export const enum Commands {
 	OpenInputSetView = 'functionrunner.openInputSetView',
 	CloseTextEditor = 'functionrunner.closeTextEditor',
-	AddNewInputCase = 'functionrunner.addNewInputCase',
 	RunOrDebugOneInputSets = 'functionrunner.runOrDebugOneInputSets',
 	ClearFunctionRunnerExtensionPreferences = 'functionrunner.clearFunctionRunnerExtensionPreferences',
 	NotSupportedFunction = 'functionrunner.notSupportedFunction',

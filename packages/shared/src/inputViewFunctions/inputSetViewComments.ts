@@ -3,17 +3,28 @@ export function inputViewHeaderSectionComment(
 	filePath: string,
 ): string {
 	const fileAndFunctionId = JSON.stringify({ functionName, filePath });
-	return `Give inputs for "${functionName}"-function's
+	return `Give inputs for "${functionName}"-function.
+You might need to save this 
 @functionrunner input-set-view ${functionName}
 @functionrunner file-id ${fileAndFunctionId}
 `;
 }
 
-export function inputSetHeaderSectionComment(useCaseId: string) {
+export function inputSetHeaderSectionComment() {
 	return `
-@functionrunner input set ${useCaseId}
+@functionrunner input set
 =======================
-Input set ID ${useCaseId}
+`;
+}
+
+export function inputViewUserSetupSectionComment(): string {
+	return `You can setup here what ever you need for the function to run
+=======================
+`;
+}
+
+export function inputViewFunctionExecutionSectionComment(): string {
+	return `This code executes the function
 =======================
 `;
 }

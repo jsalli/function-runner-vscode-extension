@@ -6,11 +6,12 @@ import { container } from 'tsyringe';
 import { JsTsDebugConfigurationProvider } from '../getDebugConfigurationProvider/JsTsDebugConfigurationProvider';
 import { parse } from 'path';
 import { DebuggerSettings } from '../getDebugConfigurationProvider/DebuggerSettings';
+import { ConfigurationService } from '@functionrunner/shared';
 
 export const debugJsTsFunctionWithInputSets = async (
 	runnableFunction: RunnableJsTsFunction,
 	inputViewContent: string,
-	inputSetIdentifier: string,
+	configurationService: ConfigurationService,
 	returnSuccessForTest: boolean | undefined,
 ): Promise<string> => {
 	const workspaceFolder = workspace.getWorkspaceFolder(
@@ -27,7 +28,7 @@ export const debugJsTsFunctionWithInputSets = async (
 	await createJsTsFuncExecutionInExtProcess({
 		runnableFunction,
 		inputViewContent,
-		inputSetIdentifier,
+		configurationService,
 		debuggerSettings,
 	});
 

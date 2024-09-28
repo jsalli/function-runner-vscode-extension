@@ -12,7 +12,6 @@ export interface JavascriptVSCodeSettingsConfig {
 	// executableArgsWhenESModule: string[];
 	envVarsWhenCommonJS: { [key: string]: string };
 	// executableArgsWhenCommonJS: string[];
-	socketPort: number;
 }
 
 export interface TypescriptVSCodeSettingsConfig
@@ -38,6 +37,7 @@ export interface Config {
 
 export interface General {
 	sourceFolder: string;
+	printFunctionExecutionCodeToInputView: boolean;
 }
 
 export interface Logging {

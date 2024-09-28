@@ -9,7 +9,6 @@ import { FileAndFunctionIdentifier } from '@functionrunner/shared';
 export interface RunOrDebugInputSetsArgs {
 	fileAndFunctionIdentifier: FileAndFunctionIdentifier;
 	mode: 'run' | 'debug';
-	inputSetId: string;
 	// The returnSuccessForTest bit is set in testing to assert the output of the function run.
 	returnSuccessForTest?: boolean | undefined;
 }
@@ -49,14 +48,12 @@ export class RunOrDebugInputSetsCommand extends Command {
 					return await languageHandler.runFunctionWithInputSets(
 						runnableFunction,
 						inputViewContent,
-						args.inputSetId,
 						args.returnSuccessForTest,
 					);
 				case 'debug':
 					return await languageHandler.debugFunctionWithInputSets(
 						runnableFunction,
 						inputViewContent,
-						args.inputSetId,
 						args.returnSuccessForTest,
 					);
 			}

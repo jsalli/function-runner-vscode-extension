@@ -5,7 +5,6 @@ import { FileAndFunctionIdentifier } from '@functionrunner/shared';
 
 export class DebugOneInputSetCodeLens extends CodeLens {
 	constructor(
-		public inputSetId: string,
 		range: Range,
 		public fileAndFunctionIdentifier: FileAndFunctionIdentifier,
 		command?: VSCommand | undefined,
@@ -31,7 +30,6 @@ export function resolveDebugOneInputSetCodeLens(
 		arguments: [
 			{
 				fileAndFunctionIdentifier: lens.fileAndFunctionIdentifier,
-				inputSetId: lens.inputSetId,
 				mode: 'debug',
 			},
 		],

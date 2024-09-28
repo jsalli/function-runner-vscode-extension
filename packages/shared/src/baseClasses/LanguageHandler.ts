@@ -19,10 +19,6 @@ export abstract class LanguageHandler<T = string> {
 		runnableFunction: RunnableFunction<T>,
 	): Promise<string>;
 
-	public abstract createNewInputSet(
-		fileAndFunctionIdentifier: FileAndFunctionIdentifier,
-	): Promise<string>;
-
 	public abstract findCodeLensPositionsFromInputSetView(
 		document: TextDocument,
 	): Promise<InputSetViewCodeLensPositions | undefined>;
@@ -34,14 +30,12 @@ export abstract class LanguageHandler<T = string> {
 	public abstract runFunctionWithInputSets(
 		runnableFunction: RunnableFunction<T>,
 		inputViewContent: string,
-		inputSetIdentifier: string,
 		returnSuccessForTest: boolean | undefined,
 	): Promise<string>;
 
 	public abstract debugFunctionWithInputSets(
 		runnableFunction: RunnableFunction<T>,
 		inputViewContent: string,
-		inputSetIdentifier: string,
 		returnSuccessForTest: boolean | undefined,
 	): Promise<string>;
 }

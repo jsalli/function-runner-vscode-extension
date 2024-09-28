@@ -1,7 +1,7 @@
 export const defaultExportFunctionName = 'defaultExportFunction';
-export const ioViewIdentifierPostFix = '__';
 export const outputIdentifierName = 'output';
 export const codeToRunEnvVarName = 'CODE_TO_RUN';
+export const envVarObjectVarName = 'envVarObject';
 
 export const javascriptLanguageId = 'javascript';
 export type JavascriptLanguageId = typeof javascriptLanguageId;

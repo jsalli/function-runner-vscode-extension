@@ -1,8 +1,4 @@
-import { createCodeToInvokeFuncAndConsoleLogIO } from '@functionrunner/javascript-typescript-invoking-code-creator';
-import {
-	RunnableJsTsFunction,
-	transpileToJs,
-} from '@functionrunner/javascript-typescript-shared';
+import { transpileToJs } from '@functionrunner/javascript-typescript-shared';
 import { CompilerOptions } from 'typescript';
 import { ExtensionMode } from 'vscode';
 import {
@@ -15,22 +11,16 @@ import { escapeInCodeNewlines } from './escapeInCodeNewlines';
 import { container } from 'tsyringe';
 import { vscodeExtensionModeInjectionToken } from '@functionrunner/shared';
 
-export function createJsCodeToInvokeFunc(
-	runnableFunction: RunnableJsTsFunction,
+export function transpileInputViewToJsCode(
 	inputViewContent: string,
 	compilerOptions: CompilerOptions,
 ): string {
-	const tsCodeToInvokeFunction =
-		createCodeToInvokeFuncAndConsoleLogIO(runnableFunction);
-
-	const wholeTsCode = `${inputViewContent}\n\n${tsCodeToInvokeFunction}`;
-	// compilerOptions.module = ModuleKind.CommonJS;
-	let jsCode = transpileToJs(wholeTsCode, compilerOptions);
+	let jsCode = transpileToJs(inputViewContent, compilerOptions);
 	// Webpack's Define plugin removes this code in production mode.
 	if (PRODUCTION === false) {
 		const extensionMode = container.resolve(vscodeExtensionModeInjectionToken);
 		if (extensionMode !== ExtensionMode.Test) {
-			makeFileToTempFolder('tsCodeToRunWithoutRecorder.ts', wholeTsCode);
+			makeFileToTempFolder('tsCodeToRunWithoutRecorder.ts', inputViewContent);
 			makeFileToTempFolder('jsCodeToRunWithoutRecorder.js', jsCode);
 		}
 	}

@@ -58,7 +58,14 @@
 						"default": "./src",
 						"markdownDescription": "Specifies folder where source files are with relation to project root folder. If source is at root folder set empty string as value like \"\"",
 						"scope": "window",
-						"order": 10
+						"order": 1
+					},
+					"functionrunner.general.printFunctionExecutionCodeToInputView": {
+						"type": "boolean",
+						"default": false,
+						"markdownDescription": "Specify if code executing user's function is printed to the input view",
+						"scope": "window",
+						"order": 2
 					}
 				}
 			},
@@ -206,13 +213,6 @@
 						"markdownDescription": "Specifies environmental variables for when running CommonJS module. Available variables are 'sourceFileDirAbsPath' and 'tsConfigJsonFileAbsPath'. Surround vars with '{{' and '}}'",
 						"scope": "window",
 						"order": 8
-					},
-					"functionrunner.javascriptRunOptions.socketPort": {
-						"type": "number",
-						"default": 7123,
-						"markdownDescription": "Specifies port for socket communication between extension and user's instrumented code running in an child process.",
-						"scope": "window",
-						"order": 15
 					}
 				}
 			},
@@ -258,13 +258,6 @@
 						"markdownDescription": "Specify relative path to tsconfig-file in relation to project's root path and the name of the file",
 						"scope": "window",
 						"order": 10
-					},
-					"functionrunner.typescriptRunOptions.socketPort": {
-						"type": "number",
-						"default": 7123,
-						"markdownDescription": "Specifies port for socket communication between extension and user's instrumented code running in an child process.",
-						"scope": "window",
-						"order": 15
 					}
 				}
 			},

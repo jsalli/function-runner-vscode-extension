@@ -1,6 +1,6 @@
 import { RunnableJsTsFunction } from '@functionrunner/javascript-typescript-shared';
 import {
-	createRandomIdentifier,
+	ConfigurationService,
 	inputSetHeaderSectionComment,
 	inputViewHeaderSectionComment,
 } from '@functionrunner/shared';
@@ -14,9 +14,12 @@ import {
 import { tsNodesToString } from './tsNodesToString';
 import { createInputsSection } from './createInputsSection';
 import { getTypeImportsSection } from './getTypeImportsSection';
+import { createUserSetupSection } from './createUserSetupSection';
+import { createFunctionExecutionSection } from './createFunctionExecutionSection';
 
 export function createJsTsInputViewContent(
 	runnableFunction: RunnableJsTsFunction,
+	configurationService: ConfigurationService,
 ): string {
 	const allNodes: Node[] = [];
 	const typeImportsSectionNodes = getTypeImportsSection(runnableFunction);
@@ -35,9 +38,20 @@ export function createJsTsInputViewContent(
 		),
 	);
 
-	const nodes = inputSetSection(runnableFunction);
+	const userSetupSection = createUserSetupSection();
+	allNodes.push(...userSetupSection);
 
+	const nodes = inputSetSection(runnableFunction);
 	allNodes.push(...nodes);
+
+	const printFunctionExecutionCode = configurationService.get(
+		'general.printFunctionExecutionCodeToInputView',
+	);
+	if (printFunctionExecutionCode) {
+		const functionExectionSection =
+			createFunctionExecutionSection(runnableFunction);
+		allNodes.push(...functionExectionSection);
+	}
 
 	return tsNodesToString(allNodes);
 }
@@ -46,18 +60,11 @@ function inputSetSection(runnableFunction: RunnableJsTsFunction): Node[] {
 	const nodes: Node[] = [];
 	const emptyNode = createEmptyNode();
 
-	const inputSetRandomIdStr = createRandomIdentifier();
-	addMultiLineComment(
-		emptyNode,
-		inputSetHeaderSectionComment(inputSetRandomIdStr),
-	);
+	addMultiLineComment(emptyNode, inputSetHeaderSectionComment());
 	nodes.push(emptyNode);
 
 	if (runnableFunction.args.length > 0) {
-		const inputNodes = createInputsSection(
-			runnableFunction.args,
-			inputSetRandomIdStr,
-		);
+		const inputNodes = createInputsSection(runnableFunction.args);
 		nodes.push(...inputNodes);
 	} else {
 		const emptyNode = createEmptyNode();
@@ -66,12 +73,4 @@ function inputSetSection(runnableFunction: RunnableJsTsFunction): Node[] {
 	}
 
 	return nodes;
-}
-
-export function createNewRunCaseInputString(
-	runnableFunction: RunnableJsTsFunction,
-): string {
-	const nodes = inputSetSection(runnableFunction);
-	const content = tsNodesToString(nodes);
-	return content;
 }

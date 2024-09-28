@@ -11,7 +11,6 @@ import {
 	RunnableJsTsFunction,
 	createVariableStatement,
 	defaultExportFunctionName,
-	ioViewIdentifierPostFix,
 	isPromiseReturned,
 	outputIdentifierName,
 } from '@functionrunner/javascript-typescript-shared';
@@ -19,7 +18,7 @@ import {
 /**
  * @example
  * // Create the following line
- * const output_3ck4943 = myFunc(myArg__1, myArg__2);
+ * const output = myFunc(myArg, myArg);
  *
  * @param runnableFunction
  * @param id
@@ -27,7 +26,6 @@ import {
  */
 export function createFuncCallAndOutputAssignment(
 	runnableFunction: RunnableJsTsFunction,
-	id: string,
 	outputAssignment: 'toNewVar' | 'toExistingVar',
 ): {
 	functionCallNode: VariableStatement | ExpressionStatement;
@@ -41,9 +39,7 @@ export function createFuncCallAndOutputAssignment(
 				: defaultExportFunctionName,
 		),
 		undefined,
-		runnableFunction.args.map((arg) =>
-			factory.createIdentifier(`${arg.name}${ioViewIdentifierPostFix}${id}`),
-		),
+		runnableFunction.args.map((arg) => factory.createIdentifier(arg.name)),
 	);
 
 	const returnsProm = isPromiseReturned(runnableFunction);
@@ -52,9 +48,7 @@ export function createFuncCallAndOutputAssignment(
 	}
 
 	let varStatement: VariableStatement | ExpressionStatement;
-	const outputId = factory.createIdentifier(
-		`${outputIdentifierName}${ioViewIdentifierPostFix}${id}`,
-	);
+	const outputId = factory.createIdentifier(outputIdentifierName);
 	if (outputAssignment === 'toNewVar') {
 		varStatement = createVariableStatement(outputId, callExp);
 	} else {

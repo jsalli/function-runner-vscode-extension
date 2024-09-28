@@ -14,10 +14,10 @@ export function tsNodesToString(nodeArray: Node[]): string {
 		newLine: NewLineKind.LineFeed,
 		neverAsciiEscape: true, // Keep Scandinavian characters as is, don't turn them into utf-8 codes
 	});
-	const result = printer.printList(
+	const tsCode = printer.printList(
 		ListFormat.MultiLine,
 		factory.createNodeArray(nodeArray),
 		emptyTsSourceFile,
 	);
-	return result;
+	return tsCode;
 }

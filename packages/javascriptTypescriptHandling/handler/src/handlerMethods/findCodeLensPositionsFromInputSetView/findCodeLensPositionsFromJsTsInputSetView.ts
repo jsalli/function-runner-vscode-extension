@@ -11,7 +11,7 @@ import { JsTsTextDocument } from '@functionrunner/javascript-typescript-shared';
 const ioViewHeaderRegex =
 	/^(\/\*)([\s\S]*?)(@functionrunner input-set-view \S*?[\r\n|\r|\n]([\s\S]*?)\*\/)$/gm;
 const ioViewInputSetRegex =
-	/^(\/\*[\r\n|\r|\n]@functionrunner input set )(.*$)([\s\S]*?)(\*\/)$/gm;
+	/^(\/\*[\r\n|\r|\n]@functionrunner input set)([\s\S]*?\*\/)$/gm;
 
 export function findHeaderSection(
 	document: JsTsTextDocument,
@@ -49,10 +49,8 @@ export function findInputSetsForCodeLens(
 			document,
 			inputSetCommentMatch,
 		);
-		const [, , inputSetId] = inputSetCommentMatch;
 		inputSets.push({
 			range: inputSetCommentRange,
-			inputSetId,
 		});
 	}
 	return inputSets;

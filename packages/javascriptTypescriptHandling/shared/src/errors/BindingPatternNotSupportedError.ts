@@ -20,7 +20,7 @@ export class BindingPatternNotSupportedError extends KnownError {
 		}
 
 		const githubIssueUrl =
-			'https://github.com/testent-io/vscode-extension/issues/3';
+			'https://github.com/functionrunner-io/vscode-extension/issues/3';
 
 		super(shortFailReason, longFailReason, githubIssueUrl);
 	}

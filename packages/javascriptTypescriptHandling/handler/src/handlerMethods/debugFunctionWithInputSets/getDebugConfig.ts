@@ -19,7 +19,7 @@ export function getDebugConfig(
 
 	if (debugConfig == null) {
 		// void window.showWarningMessage(
-		// 	'Could not find debug config named "testent-debug-functions" in launch.json Using a default config.\nCreate a custom launch-config named "testent-debug-functions" if you run into problems',
+		// 	'Could not find debug config named "functionrunner-debug-functions" in launch.json Using a default config.\nCreate a custom launch-config named "functionrunner-debug-functions" if you run into problems',
 		// );
 		[debugConfig] = jsTsDebugConfProvider.provideDebugConfigurations();
 	}

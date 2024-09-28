@@ -13,26 +13,26 @@
 		"build": "rushx compile && rushx build-types",
 		"build-types": "tsc -p tsconfig.build.types.json",
 		"test": "echo 'no test'",
-		"up-dependencies": "pnpm up"
+		"up-dependencies": "pnpm up --latest"
 	},
 	"dependencies": {
-		"@functionrunner/shared": "workspace:1.0.0"
+		"@functionrunner/shared": "workspace:*"
 	},
 	"devDependencies": {
-		"@swc/cli": "0.4.0",
-		"@swc/core": "1.7.23",
-		"@types/node": "22.5.2",
+		"@eslint/js": "9.11.1",
+		"@swc/cli": "0.4.1-nightly.20240914",
+		"@swc/core": "1.7.26",
 		"@types/eslint__js": "8.42.3",
-    "@eslint/js": "9.10.0",
-		"eslint": "9.10.0",
+		"@types/node": "22.7.4",
+		"@types/ts-expose-internals": "npm:ts-expose-internals@5.6.2",
+		"eslint": "9.11.1",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-import-resolver-typescript": "3.6.3",
 		"eslint-plugin-anti-trojan-source": "1.1.1",
 		"eslint-plugin-prettier": "5.2.1",
-		"typescript-eslint": "8.5.0",
 		"prettier": "3.3.3",
 		"rimraf": "6.0.1",
-		"typescript": "5.5.4",
-		"@types/ts-expose-internals": "npm:ts-expose-internals@5.5.4"
+		"typescript": "5.6.2",
+		"typescript-eslint": "8.7.0"
 	}
 }

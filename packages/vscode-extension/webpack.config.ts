@@ -4,11 +4,6 @@ import CopyPlugin from 'copy-webpack-plugin';
 import { DefinePlugin, Configuration, WebpackPluginInstance } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
-const appinsightsKeyDevelopment =
-	'InstrumentationKey=a26d01a0-3b0c-4ed2-94a5-80c4548eb39d;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/';
-const appinsightsKeyProduction =
-	'InstrumentationKey=f957512e-0cd6-49c8-9e26-797dabb2cdb1;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/';
-
 type DevMode = 'production' | 'development' | 'none';
 type BuildTarget = 'node' | 'webworker';
 type BuildOptions = {
@@ -62,11 +57,6 @@ function getExtensionConfig(
 		new DefinePlugin({
 			PRODUCTION: JSON.stringify(mode === 'production'),
 			CHILDPROCESSBREAKPOINTS: buildOptions.childProcessBreakpoints === true,
-			APPINSIGHTSKEY: JSON.stringify(
-				mode === 'production'
-					? appinsightsKeyProduction
-					: appinsightsKeyDevelopment,
-			),
 		}),
 		new CopyPlugin({
 			patterns: [
@@ -130,11 +120,6 @@ function getExtensionConfig(
 		},
 		externals: {
 			vscode: 'commonjs vscode',
-			// applicationinsights-native-metrics is not present for @vscode/extension-telemetry.
-			// Without this line a warning is given when bundling the VSCode extension
-			// https://github.com/microsoft/vscode-extension-telemetry/issues/41
-			'applicationinsights-native-metrics':
-				'commonjs applicationinsights-native-metrics',
 		},
 		module: {
 			rules: [
@@ -156,7 +141,6 @@ function getExtensionConfig(
 											legacyDecorator: true,
 											decoratorMetadata: true,
 										},
-										// target: 'ES2020',
 									},
 								},
 							}

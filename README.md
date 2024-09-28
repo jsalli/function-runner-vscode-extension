@@ -77,28 +77,6 @@ pnpm vsce package --no-dependencies
   return myVar;
   ```
 
-- Record props accessed in an object.
-  ```typescript
-  // TODO
-  const version = axios.VERSION; //<--- Record this also
-  const data = await axios.get(
-  	'http://api.openweathermap.org/data/2.5/weather',
-  	{
-  		params: {
-  			q: cityName,
-  			appid: 'c82be39ccd883a28543eeec96efec4bf',
-  		},
-  	},
-  );
-  ```
-- Testing a callback function which is used in array map function
-  https://medium.com/codex/using-jest-unit-tests-to-successfully-test-map-functions-95f2abc544d
-  Test should be now as "expect(mockedReplacer).toHaveBeenNthCalledWith(1, 'Juha', expect.anything(), expect.anything());
-
-- Array functions of an array variable get recorded as properties of that object to records. For example 'map'-function of an array gets recorded
-
-- When running user's code which throws an error the output is messy and user has no idea what is happening
-
 # Integrations todo
 
 - [Gitpod.io](https://www.gitpod.io/)

@@ -61,20 +61,6 @@
                     </dict>
                 </dict>
                 <key>match</key>
-                <string>(^Function inputs:)</string>
-                <key>name</key>
-                <string>code-runner.inputsheader</string>
-            </dict>
-            <dict>
-                <key>captures</key>
-                <dict>
-                    <key>1</key>
-                    <dict>
-                        <key>name</key>
-                        <string>token.info-token</string>
-                    </dict>
-                </dict>
-                <key>match</key>
                 <string>(^Function output:)</string>
                 <key>name</key>
                 <string>code-runner.outputheader</string>
@@ -103,20 +89,6 @@
                     </dict>
                 </dict>
                 <key>match</key>
-                <string>(^Class:)</string>
-                <key>name</key>
-                <string>code-runner.expectionclass</string>
-            </dict>
-            <dict>
-                <key>captures</key>
-                <dict>
-                    <key>1</key>
-                    <dict>
-                        <key>name</key>
-                        <string>string</string>
-                    </dict>
-                </dict>
-                <key>match</key>
                 <string>(^Message:)</string>
                 <key>name</key>
                 <string>code-runner.expectionmessage</string>
@@ -134,20 +106,6 @@
                 <string>(^\S+:  )</string>
                 <key>name</key>
                 <string>code-runner.input</string>
-            </dict>
-            <dict>
-                <key>captures</key>
-                <dict>
-                    <key>1</key>
-                    <dict>
-                        <key>name</key>
-                        <string>keyword.control</string>
-                    </dict>
-                </dict>
-                <key>match</key>
-                <string>(^===== Input set number \d =====)</string>
-                <key>name</key>
-                <string>code-runner.inputsetheader</string>
             </dict>
         </array>
     </dict>

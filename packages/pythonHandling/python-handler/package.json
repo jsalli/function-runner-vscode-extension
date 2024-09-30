@@ -1,6 +1,7 @@
 {
 	"name": "@functionrunner/python-handler",
 	"version": "1.0.0",
+	"type": "commonjs",
 	"publishConfig": {
 		"main": "dist/index.js",
 		"types": "dist/index.d.ts"

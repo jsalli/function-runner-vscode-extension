@@ -1,6 +1,7 @@
 {
 	"name": "@functionrunner/javascript-typescript-invoking-code-creator",
 	"version": "1.0.0",
+	"type": "commonjs",
 	"publishConfig": {
 		"main": "dist/index.js",
 		"types": "dist/index.d.ts"

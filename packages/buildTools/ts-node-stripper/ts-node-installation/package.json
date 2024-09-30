@@ -2,6 +2,7 @@
 	"name": "ts-node-installation",
 	"description": "ts-node version 10.9.1 to be used in Function Runner after being stripped down",
 	"version": "1.0.0",
+	"type": "commonjs",
 	"dependencies": {
 		"ts-node": "10.9.2"
 	}

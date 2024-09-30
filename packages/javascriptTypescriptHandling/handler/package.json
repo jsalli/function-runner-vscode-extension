@@ -1,6 +1,7 @@
 {
 	"name": "@functionrunner/javascript-typescript-handler",
 	"version": "1.0.0",
+	"type": "commonjs",
 	"publishConfig": {
 		"main": "dist/index.js",
 		"types": "dist/index.d.ts"
@@ -19,7 +20,7 @@
 		"@functionrunner/javascript-typescript-invoking-code-creator": "workspace:*",
 		"@functionrunner/javascript-typescript-shared": "workspace:*",
 		"@functionrunner/shared": "workspace:*",
-		"find-up": "7.0.0",
+		"find-up": "5.0.0",
 		"json5": "2.2.3",
 		"serialize-error": "11.0.3",
 		"tsyringe": "4.8.0"

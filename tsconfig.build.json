@@ -21,7 +21,8 @@
     "skipLibCheck": true,
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
   },
   "exclude": ["**/dist", "**/node_modules", "**/src/__tests__"]
 }

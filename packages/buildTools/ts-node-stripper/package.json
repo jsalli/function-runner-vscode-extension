@@ -1,6 +1,7 @@
 {
 	"name": "ts-node-stripper",
 	"version": "1.0.0",
+	"type": "commonjs",
 	"main": "dist/ts-node-stripper.js",
 	"types": "dist/ts-node-stripper.d.ts",
 	"scripts": {

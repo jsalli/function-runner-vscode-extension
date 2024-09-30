@@ -3,6 +3,7 @@
 out/**
 node_modules/**
 src/**
+tests/**
 publish/**
 .gitignore
 .yarnrc
@@ -30,3 +31,6 @@ scripts/**
 babel.config.json
 images/docs/**
 .env
+azure-pipelines.yml
+eslint.config.mjs
+rush-logs

@@ -3,6 +3,11 @@
 	"compilerOptions": {
     "outDir": "dist"
   },
+	"ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
 	"include": [
 		"src/**/*",
 		// "../shared-code-processing/src/**/*",

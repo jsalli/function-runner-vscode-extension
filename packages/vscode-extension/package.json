@@ -2,12 +2,14 @@
 	"name": "function-runner-vscode-extension",
 	"displayName": "Function Runner",
 	"description": "Function Runner let's you run individual functions from your IDE",
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"type": "commonjs",
 	"engines": {
 		"vscode": "^1.82.0"
 	},
 	"icon": "images/functionrunner-icon.png",
 	"publisher": "FunctionRunner",
+	"pricing": "Free",
 	"author": {
 		"name": "Juha Sälli",
 		"email": "juha@xxx.io"
@@ -302,11 +304,11 @@
 		"clean": "rimraf ./dist/* tsconfig.tsbuildinfo package.tgz *.log .swc/* .eslintcache* tsconfig*.tsbuildinfo",
 		"compile": "rushx clean && tsc -p tsconfig.json",
 		"build": "rushx compile",
+		"build-tests": "rimraf ./out/* && webpack -c webpack.config.test.ts --env useSwcBuild",
 		"build-types": "tsc -p tsconfig.build.types.json",
-		"pretest-webpack": "rimraf ./out/* && webpack -c webpack.config.test.js --env useSwcBuild",
-		"test-dev": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm pretest-webpack && node ./out/test/runTest.js",
-		"test-e2e": "pnpm pretest-webpack && node ./out/test/runTest.js",
-		"test-e2e-multiple-setups": "pnpm pretest-webpack && node ./out/test/runTestForMultipleSetups.js",
+		"test-dev": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/test/runTest.js",
+		"test-e2e": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/test/runTest.js",
+		"test-e2e-multiple-setups": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/test/runTestForMultipleSetups.js",
 		"test-unit": "jest",
 		"bundle-extension-dev": "webpack --mode development --env useSwcBuild",
 		"bundle-extension-prod": "webpack --mode production --env useSwcBuild",

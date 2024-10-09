@@ -9,7 +9,8 @@
     }
   },
 	"include": [
-		"src/**/*",
+		"src/**/*.ts",
+		"tests/**/*.ts",
 		// "../shared-code-processing/src/**/*",
 		// "../shared/src/**/*",
 		// "../javascriptTypescriptHandler/invoking-code-creator/src/**/*",

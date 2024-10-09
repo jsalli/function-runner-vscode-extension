@@ -4,8 +4,7 @@ export function inputViewHeaderSectionComment(
 ): string {
 	const fileAndFunctionId = JSON.stringify({ functionName, filePath });
 	return `Give inputs for "${functionName}"-function.
-You might need to save this 
-@functionrunner input-set-view ${functionName}
+You might need to save this unsaved tab to a file.
 @functionrunner file-id ${fileAndFunctionId}
 `;
 }

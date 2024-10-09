@@ -41,7 +41,7 @@
 			}
 		},
 		{
-			"name": "Watch & Launch Testent",
+			"name": "Watch & Launch Function Runner",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
@@ -83,64 +83,6 @@
 			}
 		},
 		{
-			"name": "Watch & Launch Testent with child process breakpoints",
-			"type": "extensionHost",
-			"request": "launch",
-			"runtimeExecutable": "${execPath}",
-			"args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension"],
-			"cwd": "${workspaceFolder}/packages/vscode-extension/",
-			"debugWebviews": true,
-			"autoAttachChildProcesses": true,
-			"rendererDebugOptions": {
-				"sourceMaps": true,
-				"urlFilter": "*testent.testent-vscode-extension*",
-				"webRoot": "${workspaceFolder}/packages/vscode-extension/src/webviews/apps"
-			},
-			"outFiles": [
-				"${workspaceFolder}/packages/vscode-extension/dist/**/*.js",
-			],
-			"preLaunchTask": "watchBuildVscodeExtensionWithChildProcessBreakpoints",
-			"presentation": {
-				"group": "1_watch",
-				"order": 2
-			},
-			"skipFiles": ["<node_internals>/**", "**/resources/app/out/vs/**"],
-			"smartStep": true,
-			"sourceMaps": true,
-			"trace": true,
-			"windows": {
-				"sourceMapPathOverrides": {
-					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",
-				}
-			},
-			"linux": {
-				"sourceMapPathOverrides": {
-					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
-				}
-			},
-			"osx": {
-				"sourceMapPathOverrides": {
-					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
-				}
-			}
-		},
-		{
-			"name": "Attach to Node Child",
-			"request": "attach",
-			"type": "node",
-			"address": "127.0.0.1",
-			"port": 9235,
-			"skipFiles": ["<node_internals>/**", "**/resources/app/out/vs/**"],
-			"smartStep": true,
-			"sourceMaps": true,
-			"trace": true,
-			"restart": {"maxAttempts": 100, "delay": 4000},
-			"presentation": {
-				"group": "1_watch",
-				"order": 3
-			},
-		},
-		{
 			"name": "Run Extension",
 			"type": "extensionHost",
 			"request": "launch",
@@ -180,8 +122,8 @@
 			"args": [
 				"--disable-extensions",
 				"--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension",
-				"--extensionTestsPath=${workspaceFolder}/packages/vscode-extension/out/test/mochaRun",
-				"${workspaceFolder}/packages/vscode-extension/src/test/testProjectFixtures/commonjsBasicTypescriptProjectNpm/projectFiles"
+				"--extensionTestsPath=${workspaceFolder}/packages/vscode-extension/out/test/mochaRunOneWorkspaceTestFixture",
+				"${workspaceFolder}/packages/vscode-extension/tests/testProjectFixtures/commonjsBasicTypescriptProjectNpm/projectFiles"
 			],
 			"outFiles": [
 				"${workspaceFolder}/packages/vscode-extension/out/test/**/*.js",
@@ -191,6 +133,7 @@
 				"group": "2_run_tests",
 				"order": 2
 			},
+			"internalConsoleOptions": "openOnSessionStart",
 			"env": {"TESTWORKSPACEFIXTURENAME":"commonjsBasicTypescriptProjectNpm"},
 			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/resources/app/out/vs/**"],
 			"smartStep": true,

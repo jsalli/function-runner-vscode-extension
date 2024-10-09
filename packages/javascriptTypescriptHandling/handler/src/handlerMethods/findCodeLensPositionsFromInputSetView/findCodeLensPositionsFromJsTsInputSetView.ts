@@ -9,7 +9,7 @@ import { regexMatchToRange } from '../common/regexMatchToRange';
 import { JsTsTextDocument } from '@functionrunner/javascript-typescript-shared';
 
 const ioViewHeaderRegex =
-	/^(\/\*)([\s\S]*?)(@functionrunner input-set-view \S*?[\r\n|\r|\n]([\s\S]*?)\*\/)$/gm;
+	/^(\/\*)([\s\S]*?)(@functionrunner file-id \S*?[\r\n|\r|\n]([\s\S]*?)\*\/)$/gm;
 const ioViewInputSetRegex =
 	/^(\/\*[\r\n|\r|\n]@functionrunner input set)([\s\S]*?\*\/)$/gm;
 

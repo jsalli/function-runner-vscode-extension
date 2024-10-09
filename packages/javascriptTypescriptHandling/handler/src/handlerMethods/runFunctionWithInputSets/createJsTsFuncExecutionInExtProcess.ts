@@ -41,7 +41,7 @@ export async function createJsTsFuncExecutionInExtProcess({
 	}
 
 	const sourceFileDirAbsPath = parse(runnableFunction.sourceFilePath).dir;
-	const processRunOptions = jsTsProcessRunOptionsCreator({
+	const processRunOptions = await jsTsProcessRunOptionsCreator({
 		languageId,
 		sourceFileFolderPath: sourceFileDirAbsPath,
 		code: codeToExecute,

@@ -40,27 +40,10 @@
 			}
 		},
 		{
-			"label": "watchBuildVscodeExtensionWithChildProcessBreakpoints",
-			"type": "npm",
-			"script": "watch-child-process-breakpoints",
-			"group": "build",
-			"path": "packages/vscode-extension",
-			"isBackground": true,
-			"problemMatcher": ["$ts-checker-webpack-watch", "$ts-checker-eslint-webpack-watch"],
-			"options": {
-				"cwd": "packages/vscode-extension"
-			}
-		},
-		{
 			"label": "buildTests",
-			"type": "npm",
-			"script": "pretest-webpack",
+			"type": "shell",
+			"command": "pnpm build-tests",
 			"group": "build",
-			"isBackground": true,
-			"presentation": {
-				"group": "watchers"
-			},
-			"problemMatcher": ["$ts-checker-webpack-watch", "$ts-checker-eslint-webpack-watch"],
 			"options": {
 				"cwd": "packages/vscode-extension"
 			}

@@ -1,6 +1,8 @@
 import { join } from 'path';
-import { copySync, existsSync, promises } from 'fs-extra';
+// import { copySync, existsSync, promises } from 'fs-extra';
 import { rimraf } from 'rimraf';
+import pkg from 'fs-extra';
+const { copySync, existsSync, promises } = pkg;
 
 const tsNodeInstallationFolder = 'ts-node-installation';
 

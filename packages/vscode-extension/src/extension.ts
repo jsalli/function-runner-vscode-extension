@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { container, Lifecycle } from 'tsyringe';
+import { container } from 'tsyringe';
 import { ExtensionContext } from 'vscode';
 import {
 	LoggerService,
@@ -12,8 +12,8 @@ import { CodeLensController } from './codeLens/index';
 import type { Command } from './commands/index';
 import './commands/index';
 import { serializeError } from 'serialize-error';
-import { Handler as JsTsHandler } from '@functionrunner/javascript-typescript-handler';
-import { Handler as PythonHandler } from '@functionrunner/python-handler';
+import '@functionrunner/javascript-typescript-handler';
+import '@functionrunner/python-handler';
 import {
 	RunnableFunctionCache,
 	vscodeUniqueExtensionIDInjectionToken,
@@ -38,16 +38,16 @@ function registerDependenciesToDIContainer(context: ExtensionContext) {
 	container.register(RunnableFunctionCache, {
 		useClass: RunnableFunctionCache,
 	});
-	container.register<JsTsHandler>(
-		'LanguageHandler',
-		{ useClass: JsTsHandler },
-		{ lifecycle: Lifecycle.Singleton },
-	);
-	container.register<PythonHandler>(
-		'LanguageHandler',
-		{ useClass: PythonHandler },
-		{ lifecycle: Lifecycle.Singleton },
-	);
+	// container.register<JsTsHandler>(
+	// 	'LanguageHandler',
+	// 	{ useClass: JsTsHandler },
+	// 	{ lifecycle: Lifecycle.Singleton },
+	// );
+	// container.register<PythonHandler>(
+	// 	'LanguageHandler',
+	// 	{ useClass: PythonHandler },
+	// 	{ lifecycle: Lifecycle.Singleton },
+	// );
 
 	container.registerInstance(
 		vscodeUniqueExtensionIDInjectionToken,
@@ -70,6 +70,10 @@ export function activate(context: ExtensionContext) {
 		registerVSCodeSubscriptions(context);
 
 		const logger = container.resolve(LoggerService);
+
+		// Set context as a global as some tests depend on it
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(global as any).testExtensionContext = context;
 
 		logger.log('Extension Started');
 	} catch (error) {

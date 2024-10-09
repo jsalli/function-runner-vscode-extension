@@ -43,6 +43,10 @@
 				"group": "1_watch",
 				"order": 1
 			},
+			"resolveSourceMapLocations": [
+				"${workspaceFolder}/packages/**",
+				"!**/node_modules/**"
+			],
 			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/resources/app/out/vs/**"],
 			"smartStep": true,
 			"sourceMaps": true,

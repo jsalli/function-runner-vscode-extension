@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "lib": ["ESNext"],
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "noUncheckedIndexedAccess": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "useUnknownInCatchVariables": false,
+    "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    "experimentalDecorators": true,
+  },
+  "include": ["src/"],
+  "exclude": ["**/dist", "**/node_modules", "**/src/__tests__"]
+}

@@ -43,8 +43,8 @@ export function parseFunctionArguments(
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	sourceFile: SourceFile,
 ): RunnableJsTsFunctionArg[] {
-	return params.map((param) => {
-		const argName = getBindingName(param.name);
+	return params.map((param, paramIndex) => {
+		const argName = getBindingName(param.name, paramIndex);
 		// const argOptional = param.questionToken?.kind === SyntaxKind.QuestionToken;
 		// const argType: TypeNodeSpecifier = {
 		// 	importSpecifiers: findTypeImports(param.type, sourceFile),
@@ -107,9 +107,11 @@ function findTypeImports(
 	return importSpecifiers;
 }
 
-export function getBindingName(node: BindingName): string {
-	if (isArrayBindingPattern(node) || isObjectBindingPattern(node)) {
-		throw new BindingPatternNotSupportedError(node, '[1]');
+export function getBindingName(node: BindingName, paramIndex: number): string {
+	if (isArrayBindingPattern(node)) {
+		return `arrayArg${paramIndex}`;
+	} else if (isObjectBindingPattern(node)) {
+		return `objectArg${paramIndex}`;
 	}
 
 	return node.text;

@@ -32,17 +32,6 @@ export function createProcess(
 		detached: process.platform !== 'win32',
 	};
 
-	if (PRODUCTION === false && CHILDPROCESSBREAKPOINTS === true) {
-		if (options.env === undefined) {
-			// TODO: take ip-address and port from configurationService
-			// eslint-disable-next-line @typescript-eslint/naming-convention
-			options.env = { NODE_OPTIONS: '--inspect-brk=127.0.0.1:9235' };
-		} else {
-			options.env['NODE_OPTIONS'] =
-				`--inspect-brk=127.0.0.1:9235 ${options.env['NODE_OPTIONS']}`;
-		}
-	}
-
 	// if (PRODUCTION === false) {
 	// 	Logger.debug('Starting child process with envs', options.env);
 	// 	Logger.debug('Starting child process with args', args);

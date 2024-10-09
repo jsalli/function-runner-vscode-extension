@@ -19,16 +19,16 @@ export function processOutputToOutputChannel(
 			outputForTestExpect += `[Running] Function ${functionName}\n`;
 		}
 
-		process.stdout?.on('data', (data) => {
-			const stdOutput = data.toString() as string;
+		process.stdout?.on('data', (data: Buffer) => {
+			const stdOutput = data.toString();
 			outputChannel.append(stdOutput);
 			if (returnOutputForTest) {
 				outputForTestExpect += `${stdOutput}`;
 			}
 		});
 
-		process.stderr?.on('data', (data) => {
-			const stdOutput = data.toString() as string;
+		process.stderr?.on('data', (data: Buffer) => {
+			const stdOutput = data.toString();
 			outputChannel.append(stdOutput);
 			if (returnOutputForTest) {
 				outputForTestExpect += `${stdOutput}`;

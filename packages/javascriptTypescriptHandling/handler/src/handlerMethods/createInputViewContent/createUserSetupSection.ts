@@ -37,5 +37,6 @@ export function createUserSetupSection(): Node[] {
 		userSetupSectionHeaderCommentNode,
 		userSetupExample1CommentedOutNode,
 		userSetupExample2CommentedOutNode,
+		emptyLine,
 	];
 }

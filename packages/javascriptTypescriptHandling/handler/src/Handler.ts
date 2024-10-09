@@ -21,7 +21,7 @@ import { findCodeLensPositionsFromJsTsInputSetView } from './handlerMethods/find
 import { getRunnableJsTsFunctionByFileId } from './handlerMethods/getRunnableFunctionByFileId/getRunnableJsTsFunctionByFileId';
 import { runJsTsFunctionWithInputSets } from './handlerMethods/runFunctionWithInputSets/runJsTsFunctionWithInputSets';
 import { debugJsTsFunctionWithInputSets } from './handlerMethods/debugFunctionWithInputSets/debugJsTsFunctionWithInputSets';
-import { injectable } from 'tsyringe';
+import { container, injectable, Lifecycle } from 'tsyringe';
 
 @injectable()
 export class Handler
@@ -93,3 +93,9 @@ export class Handler
 		);
 	}
 }
+
+container.register<Handler>(
+	'LanguageHandler',
+	{ useClass: Handler },
+	{ lifecycle: Lifecycle.Singleton },
+);

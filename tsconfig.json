@@ -4,14 +4,16 @@
     "baseUrl": "./packages",
     "paths": {
       "@functionrunner/shared/*": ["shared/src"],
-      "@functionrunner/javascript-typescript-handler/*": ["javascriptTypescriptHandling/javascript-typescript-handler/src"],
+      "@functionrunner/javascript-typescript-handler/*": ["javascriptTypescriptHandling/handler/src"],
       "@functionrunner/javascript-typescript-invoking-code-creator/*": ["javascriptTypescriptHandling/invoking-code-creator/src"],
       "@functionrunner/javascript-typescript-shared/*": ["javascriptTypescriptHandling/shared/src"]
     }
   },
   "include": [
-    "**/src/**/*",
-    "**/webpack.config.ts"
+    "**/src/**/*.ts",
+    "**/tests/**/*.ts",
+    "**/webpack.config.ts",
+    "**/webpack.config.test.ts"
   ],
   "exclude": [
     "**/dist",

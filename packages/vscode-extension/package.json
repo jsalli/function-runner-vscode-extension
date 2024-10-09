@@ -2,13 +2,13 @@
 	"name": "function-runner-vscode-extension",
 	"displayName": "Function Runner",
 	"description": "Function Runner let's you run individual functions from your IDE",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"type": "commonjs",
 	"engines": {
 		"vscode": "^1.82.0"
 	},
 	"icon": "images/functionrunner-icon.png",
-	"publisher": "FunctionRunner",
+	"publisher": "functionrunner",
 	"pricing": "Free",
 	"author": {
 		"name": "Juha Sälli",
@@ -232,7 +232,7 @@
 					"functionrunner.typescriptRunOptions.envVarsWhenESModule": {
 						"type": "object",
 						"default": {
-							"NODE_OPTIONS": "--no-warnings --experimental-specifier-resolution=node --loader {{tsNodeInstallationPath}}ts-node/esm/transpile-only.mjs --input-type module",
+							"NODE_OPTIONS": "--no-warnings --experimental-specifier-resolution=node --loader {{tsNodeInstallationPath}}/esm --input-type module",
 							"TS_NODE_TRANSPILE_ONLY": "true",
 							"TS_NODE_PROJECT": "{{tsConfigJsonFileAbsPath}}",
 							"TS_NODE_CWD": "{{sourceFileDirAbsPath}}"
@@ -244,7 +244,7 @@
 					"functionrunner.typescriptRunOptions.envVarsWhenCommonJS": {
 						"type": "object",
 						"default": {
-							"NODE_OPTIONS": "--no-warnings --experimental-specifier-resolution=node -r {{tsNodeInstallationPath}}ts-node/register/index.js",
+							"NODE_OPTIONS": "--no-warnings --experimental-specifier-resolution=node -r {{tsNodeInstallationPath}}/register",
 							"TS_NODE_TRANSPILE_ONLY": "true",
 							"TS_NODE_PROJECT": "{{tsConfigJsonFileAbsPath}}",
 							"TS_NODE_CWD": "{{sourceFileDirAbsPath}}"
@@ -306,9 +306,9 @@
 		"build": "rushx compile",
 		"build-tests": "rimraf ./out/* && webpack -c webpack.config.test.ts --env useSwcBuild",
 		"build-types": "tsc -p tsconfig.build.types.json",
-		"test-dev": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/test/runTest.js",
-		"test-e2e": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/test/runTest.js",
-		"test-e2e-multiple-setups": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/test/runTestForMultipleSetups.js",
+		"test-dev": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/tests/runTest.js",
+		"test-e2e": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/tests/runTest.js",
+		"test-e2e-multiple-setups": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/tests/runTestForMultipleSetups.js",
 		"test-unit": "jest",
 		"bundle-extension-dev": "webpack --mode development --env useSwcBuild",
 		"bundle-extension-prod": "webpack --mode production --env useSwcBuild",
@@ -328,10 +328,11 @@
 		"fs-extra": "11.2.0",
 		"p-locate": "6.0.0",
 		"reflect-metadata": "0.2.2",
-		"serialize-error": "11.0.3",
+		"serialize-error": "8.1.0",
 		"tsyringe": "4.8.0"
 	},
 	"devDependencies": {
+		"@functionrunner/javascript-typescript-shared": "workspace:*",
 		"@babel/core": "7.25.2",
 		"@babel/preset-env": "7.25.4",
 		"@babel/preset-typescript": "7.24.7",

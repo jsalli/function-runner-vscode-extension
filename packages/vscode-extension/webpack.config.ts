@@ -1,3 +1,4 @@
+//@ts-check
 import path from 'path';
 import { readFileSync } from 'fs';
 import CopyPlugin from 'copy-webpack-plugin';
@@ -5,11 +6,10 @@ import { DefinePlugin, Configuration, WebpackPluginInstance } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 type DevMode = 'production' | 'development' | 'none';
-type BuildTarget = 'node' | 'webworker';
+type BuildTarget = 'node';
 type BuildOptions = {
 	analyzeBundle?: boolean;
 	useSwcBuild?: boolean;
-	childProcessBreakpoints?: boolean;
 };
 type EnvObject = { [key: string]: boolean };
 
@@ -36,13 +36,10 @@ const getWebpackConfig = (
 	const buildOptions: BuildOptions = {
 		analyzeBundle: false,
 		useSwcBuild: env.useSwcBuild ? env.useSwcBuild === true : false,
-		childProcessBreakpoints: env.useSwcBuild ? env.useSwcBuild === true : false,
 	};
 
 	return [
 		getExtensionConfig('node', mode, buildOptions),
-		// getExtensionConfig('webworker', mode, env),
-		// getWebviewsConfig(mode, env),
 	];
 };
 
@@ -56,7 +53,6 @@ function getExtensionConfig(
 	const plugins: WebpackPluginInstance[] = [
 		new DefinePlugin({
 			PRODUCTION: JSON.stringify(mode === 'production'),
-			CHILDPROCESSBREAKPOINTS: buildOptions.childProcessBreakpoints === true,
 		}),
 		new CopyPlugin({
 			patterns: [
@@ -110,12 +106,10 @@ function getExtensionConfig(
 		target: target,
 		devtool: mode === 'production' ? false : 'source-map',
 		output: {
-			path:
-				target === 'webworker'
-					? path.join(__dirname, 'dist', 'browser')
-					: path.join(__dirname, 'dist'),
+			path: path.join(__dirname, 'dist'),
 			libraryTarget: 'commonjs2',
 			filename: '[name].js',
+			devtoolModuleFilenameTemplate: 'file:///[absolute-resource-path]'
 			// chunkFilename: '[id].[chunkhash].js',
 		},
 		externals: {
@@ -149,9 +143,7 @@ function getExtensionConfig(
 								options: {
 									configFile: path.join(
 										__dirname,
-										target === 'webworker'
-											? 'tsconfig.browser.json'
-											: 'tsconfig.json',
+										'tsconfig.json',
 									),
 									experimentalWatchApi: true,
 									transpileOnly: true,
@@ -168,26 +160,11 @@ function getExtensionConfig(
 					__dirname,
 					'src',
 					'env',
-					target === 'webworker' ? 'browser' : target,
+					target
 				),
 			},
-			fallback:
-				target === 'webworker'
-					? {
-							child_process: false,
-							crypto: require.resolve('crypto-browserify'),
-							fs: false,
-							os: false,
-							path: require.resolve('path-browserify'),
-							process: false,
-							stream: false,
-							url: false,
-						}
-					: undefined,
-			mainFields:
-				target === 'webworker'
-					? ['browser', 'module', 'main']
-					: ['module', 'main'],
+			fallback: undefined,
+			mainFields: ['module', 'main'],
 			extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
 		},
 		plugins: plugins,

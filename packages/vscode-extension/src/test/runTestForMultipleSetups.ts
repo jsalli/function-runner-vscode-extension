@@ -27,40 +27,28 @@ const testSetupList: TestSetup[] = [
 	{
 		nodeVersion: node18Version,
 		vsCodeVersion: '1.93.1',
-		testWorkspaceFixtureName: 'commonjsBasicTypescriptProjectNpm',
+		testWorkspaceFixtureName: 'TypescriptCommonjsNpm',
 	},
 	{
 		nodeVersion: node20Version,
 		vsCodeVersion: '1.93.1',
-		testWorkspaceFixtureName: 'commonjsMonoRepoTypescriptProjectRushJs',
+		testWorkspaceFixtureName: 'TypescriptCommonjsMonoRepoRushJs',
 	},
 	{
 		nodeVersion: node22Version,
 		vsCodeVersion: '1.93.1',
-		testWorkspaceFixtureName: 'esModuleBasicJavascriptProjectPnpm',
+		testWorkspaceFixtureName: 'JavascriptEsModuleNpm',
 	},
 	{
 		nodeVersion: node18Version,
 		vsCodeVersion: '1.82.0',
-		testWorkspaceFixtureName: 'esModuleBasicTypescriptProjectPnpm',
+		testWorkspaceFixtureName: 'TypescriptEsModulePnpm',
 	},
 	{
 		nodeVersion: node20Version,
 		vsCodeVersion: '1.82.0',
-		testWorkspaceFixtureName: 'esModuleBasicTypescriptProjectYarn1',
+		testWorkspaceFixtureName: 'TypescriptEsModuleYarn4',
 	},
-	{
-		nodeVersion: node22Version,
-		vsCodeVersion: '1.82.0',
-		testWorkspaceFixtureName: 'esModuleBasicTypescriptProjectYarn1',
-	},
-	// This will need support for us to use Yarn's own typescript version which
-	// reads the .zip source files of node packages
-	// {
-	// 	nodeVersion: 'v18.9.0',
-	// 	vsCodeVersion: '1.72.0',
-	// 	testWorkspaceFixtureName: 'esModuleBasicTypescriptProjectYarn3',
-	// },
 ];
 
 function ensureNVM() {
@@ -109,10 +97,10 @@ function runSetup(testSetup: TestSetup): Promise<void> {
 	switch (osType) {
 		case macOS:
 		case linuxOS:
-			command = `${nvmInitilizingCommandLinux} && nvm use ${testSetup.nodeVersion} && node`;
+			command = `${nvmInitilizingCommandLinux} && nvm install ${testSetup.nodeVersion} && nvm use ${testSetup.nodeVersion} && node`;
 			break;
 		case windowsOS:
-			command = `nvm use ${testSetup.nodeVersion}; node`;
+			command = `nvm install ${testSetup.nodeVersion}; nvm use ${testSetup.nodeVersion}; node`;
 			break;
 		default:
 			throw new Error('Unsupported operating system');

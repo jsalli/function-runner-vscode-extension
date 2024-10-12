@@ -1,4 +1,5 @@
-export const defaultExportFunctionName = 'defaultExportFunction';
+export const defaultExportFunctionName = 'default';
+export const defaultExportFunctionNameToUseInCode = 'defaultExportedFunction';
 export const outputIdentifierName = 'output';
 export const codeToRunEnvVarName = 'CODE_TO_RUN';
 export const envVarObjectVarName = 'envVarObject';

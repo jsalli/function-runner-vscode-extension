@@ -1,36 +1,42 @@
 import { extensions } from 'vscode';
 import { closeAllOpenTextDocuments } from '../../../utils/viewUtils';
-// import { functionRunningAndDebugging } from './functionRunningAndDebuggingTests/functionRunningAndDebugging';
 import {
 	inputSetViewTestSet,
-	InputSetViewCodeLensTest,
+	InputSetViewTest,
 } from './inputSetViewTests/inputSetViewTestSet';
 import {
 	sourceCodeLensTestSet,
 	SourceCodeLensTest,
 } from './sourceCodeLensTests/sourceCodeLensTestSet';
 import { container } from 'tsyringe';
+import {
+	FunctionRunningAndDebuggingTest,
+	functionRunningAndDebuggingTestSet,
+} from './functionRunningAndDebuggingTests/functionRunningAndDebuggingTestSet';
+
+const registerDependencies = async () => {
+	await extensions
+		.getExtension('functionrunner.function-runner-vscode-extension')
+		?.activate();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const extensionContext = (global as any).testExtensionContext;
+	container.registerInstance('ExtensionContext', extensionContext);
+	await import('@functionrunner/shared'); // Register ConfigurationService to tsyringe
+	await import('@functionrunner/javascript-typescript-handler'); // Register JsTsHandler to tsyringe
+};
 
 export function defaultUITestSet(
 	testWorkspaceFixtureName: string,
 	sourceCodeLensTests: SourceCodeLensTest[],
-	inputSetViewCodeLensTests: InputSetViewCodeLensTest[],
-	// functionRunningTests: TestFunctionRunning[],
-	// functionDebuggingTests: TestFunctionDebugging[],
+	inputSetViewTests: InputSetViewTest[],
+	functionRunningAndDebuggingTests: FunctionRunningAndDebuggingTest[],
 ): Promise<void> {
 	return new Promise((res) => {
 		suite(
 			`Extension Test Suite. UI test for test project ${testWorkspaceFixtureName}`,
 			() => {
 				suiteSetup(async () => {
-					await extensions
-						.getExtension('functionrunner.function-runner-vscode-extension')
-						?.activate();
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					const extensionContext = (global as any).testExtensionContext;
-					container.registerInstance('ExtensionContext', extensionContext);
-					await import('@functionrunner/shared'); // Register ConfigurationService to tsyringe
-					await import('@functionrunner/javascript-typescript-handler'); // Register JsTsHandler to tsyringe
+					await registerDependencies();
 					await closeAllOpenTextDocuments();
 				});
 
@@ -48,46 +54,40 @@ export function defaultUITestSet(
 				}
 
 				// Testing test and run input view creation
-				for (const inputSetViewCodeLensTestCase of inputSetViewCodeLensTests) {
+				for (const inputSetViewTestCase of inputSetViewTests) {
 					test(
-						inputSetViewTestSet.name(inputSetViewCodeLensTestCase),
-						inputSetViewTestSet.callback(inputSetViewCodeLensTestCase),
+						inputSetViewTestSet.name(inputSetViewTestCase),
+						inputSetViewTestSet.callback(inputSetViewTestCase),
 					);
 				}
 
-				// // Testing function running
-				// for (const testCase of testFunctionRunning) {
-				// 	test(
-				// 		functionRunningAndDebugging.name(
-				// 			testWorkspaceFixtureName,
-				// 			testCase.functionName,
-				// 			'running',
-				// 		),
-				// 		functionRunningAndDebugging.callback(
-				// 			testWorkspaceFixtureName,
-				// 			testCase.srcFileFolderPathRelToTestProjectRoot,
-				// 			testCase.srcFileName,
-				// 			testCase.functionName,
-				// 			'running',
-				// 		),
-				// 	);
-				// }
+				// Testing function running
+				for (const functionRunningTestCase of functionRunningAndDebuggingTests) {
+					test(
+						functionRunningAndDebuggingTestSet.name(
+							functionRunningTestCase,
+							'run',
+						),
+						functionRunningAndDebuggingTestSet.callback(
+							functionRunningTestCase,
+							'run',
+						),
+					);
+				}
 
-				// // Testing function debugging
-				// for (const testCase of testFunctionDebugging) {
-				// 	test(
-				// 		functionDebugging.name(
-				// 			testWorkspaceFixtureName,
-				// 			testCase.functionName,
-				// 		),
-				// 		functionDebugging.callback(
-				// 			testWorkspaceFixtureName,
-				// 			testCase.srcFileFolderPathRelToTestProjectRoot,
-				// 			testCase.srcFileName,
-				// 			testCase.functionName,
-				// 		),
-				// 	);
-				// }
+				// Testing function debugging
+				for (const functionDebuggingTestCase of functionRunningAndDebuggingTests) {
+					test(
+						functionRunningAndDebuggingTestSet.name(
+							functionDebuggingTestCase,
+							'debug',
+						),
+						functionRunningAndDebuggingTestSet.callback(
+							functionDebuggingTestCase,
+							'debug',
+						),
+					);
+				}
 			},
 		);
 	});

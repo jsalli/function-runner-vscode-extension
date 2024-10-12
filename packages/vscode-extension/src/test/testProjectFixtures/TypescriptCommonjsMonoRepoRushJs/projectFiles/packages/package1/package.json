@@ -1,0 +1,25 @@
+{
+	"name": "@testproject/package1",
+	"description": "This repo shows an example of a simple Typescript project",
+	"version": "1.0.0",
+	"type": "commonjs",
+	"main": "src/main.ts",
+	"types": "src/main.ts",
+	"publishConfig": {
+		"main": "dist/main.js",
+		"types": "dist/main.d.ts",
+		"directory": "packagePublishDir"
+	},
+	"license": "MIT",
+	"scripts": {
+		"compile": "tsc"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+		"@types/node": "22.7.5",
+		"prettier": "3.3.3",
+		"typescript": "5.6.3",
+		"ts-node": "10.9.2"
+	}
+}

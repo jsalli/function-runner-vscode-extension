@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { commands } from 'vscode';
-import { getLenses } from './shared';
+import { openDocumentAndGetCodeLenses } from './openDocumentAndGetCodeLenses';
 
 export interface SourceCodeLensTest {
 	testWorkspaceFixtureName: string;
@@ -20,7 +20,7 @@ export const sourceCodeLensTestSet = {
 		numberOfFoundFunctions,
 	}: SourceCodeLensTest): () => Promise<void> {
 		return async () => {
-			const lenses = await getLenses(
+			const lenses = await openDocumentAndGetCodeLenses(
 				testWorkspaceFixtureName,
 				srcCodeLensTestFilePath,
 			);

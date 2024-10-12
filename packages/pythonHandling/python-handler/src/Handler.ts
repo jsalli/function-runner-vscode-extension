@@ -23,7 +23,7 @@ export class Handler implements LanguageHandler<PythonLanguageId> {
 		throw new Error('Method not implemented.');
 	}
 
-	public findRunnableFunctions<T extends string>(
+	public findRunnableFunctionsFromSourceCode<T extends string>(
 		document: TextDocument,
 	): Promise<(RunnableFunction<T> | NotSupportedFunction)[]> {
 		throw new Error('Method not implemented.');

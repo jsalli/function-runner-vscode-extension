@@ -1,0 +1,20 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+	"rushVersion": "5.138.0",
+	"pnpmVersion": "9.12.1",
+	"pnpmOptions": {
+		"strictPeerDependencies": true,
+		"preventManualShrinkwrapChanges": true,
+		"useWorkspaces": true
+	},
+	"nodeSupportedVersionRange": ">=18.12.1 <23.0.0",
+	"ensureConsistentVersions": true,
+	"projectFolderMaxDepth": 3,
+	"projects": [
+		{
+			"packageName": "@testproject/package1",
+			"projectFolder": "packages/package1",
+			"reviewCategory": "production"
+		}
+	]
+}

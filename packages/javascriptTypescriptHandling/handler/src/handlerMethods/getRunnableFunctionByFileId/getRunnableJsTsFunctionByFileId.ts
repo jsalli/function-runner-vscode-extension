@@ -9,7 +9,7 @@ import {
 import { RunnableFunctionCache } from '@functionrunner/shared';
 import { container } from 'tsyringe';
 import { Uri, workspace } from 'vscode';
-import { findRunnableJsTsFunctions } from '../findRunnableFunctions/findRunnableJsTsFunctions';
+import { findRunnableJsTsFunctionsFromSourceCode } from '../findRunnableJsTsFunctionsFromSourceCode/findRunnableJsTsFunctionsFromSourceCode';
 
 export const getRunnableJsTsFunctionByFileId = async (
 	fileAndFunctionIdentifier: FileAndFunctionIdentifier,
@@ -30,7 +30,7 @@ export const getRunnableJsTsFunctionByFileId = async (
 			`Given document is not Javascript nor Typescript document. Got languageId: ${document.languageId}`,
 		);
 	}
-	const foundFunctions = findRunnableJsTsFunctions(document);
+	const foundFunctions = findRunnableJsTsFunctionsFromSourceCode(document);
 
 	runnableFunctionCache.addRunnableFunction(
 		normalizePath(document.uri.fsPath),

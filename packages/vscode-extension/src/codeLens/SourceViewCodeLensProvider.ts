@@ -40,7 +40,7 @@ export class SourceViewCodeLensProvider extends FunctionRunnerCodeLensProvider {
 				return [];
 			}
 			const foundFunctions =
-				await languageHandler.findRunnableFunctions(document);
+				await languageHandler.findRunnableFunctionsFromSourceCode(document);
 
 			if (token.isCancellationRequested || foundFunctions.length === 0) {
 				return [];

@@ -1,6 +1,0 @@
-[Running] Function namedArrowFunction
-===== Function output =====
-true
-
-
-[Done] exited with code=0

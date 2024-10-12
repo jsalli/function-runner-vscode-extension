@@ -1,0 +1,6 @@
+out
+dist
+build
+publish
+node_modules
+tsconfig.tsbuildinfo

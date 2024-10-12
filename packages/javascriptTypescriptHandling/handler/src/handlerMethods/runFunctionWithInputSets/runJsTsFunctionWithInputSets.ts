@@ -15,12 +15,17 @@ export const runJsTsFunctionWithInputSets = async (
 		configurationService,
 	});
 
-	await processOutputToOutputChannel(
+	const functionOutputPrint = await processOutputToOutputChannel(
 		process,
 		runnableFunction.name,
 		returnSuccessForTest,
 	);
 
-	// return outputResult;
-	return 'moikka';
+	if (functionOutputPrint === undefined) {
+		throw new Error(
+			`Function ${runnableFunction.name} run didn't return output print`,
+		);
+	}
+
+	return functionOutputPrint;
 };

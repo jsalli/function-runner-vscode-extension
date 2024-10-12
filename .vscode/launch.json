@@ -45,7 +45,10 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
-			"args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension"],
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension",
+				"${workspaceFolder}/packages/vscode-extension/src/test/testProjectFixtures/TypescriptCommonjsNpm/projectFiles"
+			],
 			"cwd": "${workspaceFolder}/packages/vscode-extension/",
 			"debugWebviews": true,
 			"autoAttachChildProcesses": true,
@@ -123,7 +126,7 @@
 				"--disable-extensions",
 				"--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension",
 				"--extensionTestsPath=${workspaceFolder}/packages/vscode-extension/out/test/mochaRunOneWorkspaceTestFixture",
-				"${workspaceFolder}/packages/vscode-extension/tests/testProjectFixtures/commonjsBasicTypescriptProjectNpm/projectFiles"
+				"${workspaceFolder}/packages/vscode-extension/src/test/testProjectFixtures/TypescriptCommonjsNpm/projectFiles"
 			],
 			"outFiles": [
 				"${workspaceFolder}/packages/vscode-extension/out/test/**/*.js",
@@ -134,7 +137,7 @@
 				"order": 2
 			},
 			"internalConsoleOptions": "openOnSessionStart",
-			"env": {"TESTWORKSPACEFIXTURENAME":"commonjsBasicTypescriptProjectNpm"},
+			"env": {"TESTWORKSPACEFIXTURENAME":"TypescriptCommonjsNpm"},
 			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/resources/app/out/vs/**"],
 			"smartStep": true,
 			"sourceMaps": true,

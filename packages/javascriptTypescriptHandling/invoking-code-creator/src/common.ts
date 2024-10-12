@@ -11,6 +11,7 @@ import {
 	RunnableJsTsFunction,
 	createVariableStatement,
 	defaultExportFunctionName,
+	defaultExportFunctionNameToUseInCode,
 	isPromiseReturned,
 	outputIdentifierName,
 } from '@functionrunner/javascript-typescript-shared';
@@ -31,13 +32,13 @@ export function createFuncCallAndOutputAssignment(
 	functionCallNode: VariableStatement | ExpressionStatement;
 	outputIdentifier: Identifier;
 } {
+	const functionName =
+		runnableFunction.name === defaultExportFunctionName
+			? defaultExportFunctionNameToUseInCode
+			: runnableFunction.name;
 	let callExp: CallExpression | AwaitExpression;
 	callExp = factory.createCallExpression(
-		factory.createIdentifier(
-			runnableFunction.name !== undefined
-				? runnableFunction.name
-				: defaultExportFunctionName,
-		),
+		factory.createIdentifier(functionName),
 		undefined,
 		runnableFunction.args.map((arg) => factory.createIdentifier(arg.name)),
 	);

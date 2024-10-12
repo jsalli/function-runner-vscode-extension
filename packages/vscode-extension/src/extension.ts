@@ -10,15 +10,16 @@ import {
 } from '@functionrunner/shared';
 import { CodeLensController } from './codeLens/index';
 import type { Command } from './commands/index';
-import './commands/index';
 import { serializeError } from 'serialize-error';
-import '@functionrunner/javascript-typescript-handler';
-import '@functionrunner/python-handler';
 import {
 	RunnableFunctionCache,
 	vscodeUniqueExtensionIDInjectionToken,
 } from '@functionrunner/shared';
 import { extensionTempFolder, vscodeUniqueExtensionID } from './constants';
+// Import classes to register those to tsyringe
+import './commands/index';
+import '@functionrunner/javascript-typescript-handler';
+import '@functionrunner/python-handler';
 
 function registerVSCodeSubscriptions(context: ExtensionContext) {
 	const storageService = container.resolve(StorageService);
@@ -38,16 +39,6 @@ function registerDependenciesToDIContainer(context: ExtensionContext) {
 	container.register(RunnableFunctionCache, {
 		useClass: RunnableFunctionCache,
 	});
-	// container.register<JsTsHandler>(
-	// 	'LanguageHandler',
-	// 	{ useClass: JsTsHandler },
-	// 	{ lifecycle: Lifecycle.Singleton },
-	// );
-	// container.register<PythonHandler>(
-	// 	'LanguageHandler',
-	// 	{ useClass: PythonHandler },
-	// 	{ lifecycle: Lifecycle.Singleton },
-	// );
 
 	container.registerInstance(
 		vscodeUniqueExtensionIDInjectionToken,

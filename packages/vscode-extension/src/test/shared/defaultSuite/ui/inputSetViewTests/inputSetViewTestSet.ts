@@ -1,7 +1,6 @@
 import * as assert from 'assert';
 import { join, parse } from 'path';
 import { ensureActiveEditor } from '../../../../../utils/utils';
-import { getTestProjectRootPath } from '../../../../utils/fileUtils';
 import {
 	closeAllOpenTextDocuments,
 	openSourceFileAndInputView,
@@ -9,13 +8,14 @@ import {
 import { ensureJsTsInputSetViewCodeLenses } from './ensureJsTsInputSetViewCodeLenses';
 import { getExpectedContent } from './getExpectedContent';
 
-export interface InputSetViewCodeLensTest {
+export interface InputSetViewTest {
 	testWorkspaceFixtureName: string;
 	srcFileFolderPathRelToTestProjectRoot: string;
 	srcFileName: string;
 	functionName: string;
 	expectedContentFileName: string;
 }
+
 /**
  * Expects the source file to have one testable function and thus generates 9 code lenses to the ioView
  */
@@ -24,7 +24,7 @@ export const inputSetViewTestSet = {
 		testWorkspaceFixtureName,
 		srcFileName,
 		functionName,
-	}: InputSetViewCodeLensTest): string {
+	}: InputSetViewTest): string {
 		return `Testing opening input set view for ${testWorkspaceFixtureName} - ${srcFileName} - ${functionName}`;
 	},
 	callback({
@@ -33,18 +33,12 @@ export const inputSetViewTestSet = {
 		srcFileName,
 		functionName,
 		expectedContentFileName,
-	}: InputSetViewCodeLensTest): () => Promise<void> {
+	}: InputSetViewTest): () => Promise<void> {
 		return async () => {
-			const testProjectRootPath = getTestProjectRootPath(
+			const { fileAndFunctionIdentifier } = await openSourceFileAndInputView(
 				testWorkspaceFixtureName,
-			);
-			const sourceFilePath = join(
-				testProjectRootPath,
 				srcFileFolderPathRelToTestProjectRoot,
 				srcFileName,
-			);
-			const { fileAndFunctionIdentifier } = await openSourceFileAndInputView(
-				sourceFilePath,
 				functionName,
 			);
 

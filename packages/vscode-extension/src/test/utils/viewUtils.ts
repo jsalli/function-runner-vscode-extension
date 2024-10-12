@@ -4,15 +4,7 @@ import {
 	RunnableFunction,
 	normalizePath,
 } from '@functionrunner/shared';
-import {
-	Range,
-	TextDocument,
-	TextEdit,
-	ViewColumn,
-	window,
-	workspace,
-	WorkspaceEdit,
-} from 'vscode';
+import { commands, TextDocument, ViewColumn, window, workspace } from 'vscode';
 import { Commands, Command } from '../../commands/Command';
 import {
 	OpenInputSetViewArgs,
@@ -20,33 +12,46 @@ import {
 } from '../../commands/openInputSetView';
 import { FileAndFunctionIdentifier } from '@functionrunner/shared';
 import { sleepMilliSeconds } from './utils';
-import { createFile } from './fileUtils';
-import {
-	isJsTsTextDocument,
-	JsTsTextDocument,
-} from '@functionrunner/javascript-typescript-shared';
+import { getTestProjectRootPath } from './fileUtils';
 import { container } from 'tsyringe';
+import { join } from 'path';
 
 export async function openSourceFileAndInputView(
-	sourceFilePath: string,
+	testWorkspaceFixtureName: string,
+	srcFileFolderPathRelToTestProjectRoot: string,
+	srcFileName: string,
 	functionNameToOpen: string,
 ): Promise<{
 	fileAndFunctionIdentifier: FileAndFunctionIdentifier;
 	runnableFunction: RunnableFunction;
+	sourceFileDocument: TextDocument;
+	inputSetViewDocument: TextDocument;
 }> {
-	const document = await openDocument({ sourceFilePath });
+	const testProjectRootPath = getTestProjectRootPath(testWorkspaceFixtureName);
+	const sourceFilePath = join(
+		testProjectRootPath,
+		srcFileFolderPathRelToTestProjectRoot,
+		srcFileName,
+	);
+
+	const sourceFileDocument = await openDocument(sourceFilePath);
 	const runnableFunction = await findRunnableFunction(
-		document,
+		sourceFileDocument,
 		functionNameToOpen,
 	);
-	await openInputView(runnableFunction);
+	const inputSetViewDocument = await openInputView(runnableFunction);
 	const fileAndFunctionIdentifier: FileAndFunctionIdentifier = {
-		sourceFilePath: normalizePath(document.uri.fsPath),
+		sourceFilePath: normalizePath(sourceFileDocument.uri.fsPath),
 		functionName: functionNameToOpen,
-		languageId: document.languageId,
-		documentIsUntitled: document.isUntitled,
+		languageId: sourceFileDocument.languageId,
+		documentIsUntitled: sourceFileDocument.isUntitled,
 	};
-	return { fileAndFunctionIdentifier, runnableFunction };
+	return {
+		fileAndFunctionIdentifier,
+		runnableFunction,
+		sourceFileDocument,
+		inputSetViewDocument,
+	};
 }
 
 export async function findRunnableFunction(
@@ -66,7 +71,9 @@ export async function findRunnableFunction(
 	}
 
 	const foundFunctions =
-		await languageHandler.findRunnableFunctions(sourceFileDocument);
+		await languageHandler.findRunnableFunctionsFromSourceCode(
+			sourceFileDocument,
+		);
 
 	if (foundFunctions === undefined || foundFunctions.length === 0) {
 		throw new Error(
@@ -90,8 +97,7 @@ export async function findRunnableFunction(
 
 async function openInputView(
 	runnableFunction: RunnableFunction,
-	inputOutputViewContentOverride?: string,
-): Promise<void> {
+): Promise<TextDocument> {
 	const args: OpenInputSetViewArgs = {
 		runnableFunction,
 		showOptions: {
@@ -104,77 +110,27 @@ async function openInputView(
 		args,
 	);
 
-	if (inputOutputViewContentOverride) {
-		const activeEditor = window.activeTextEditor;
-		if (activeEditor == null) {
-			throw new Error('No active editor');
-		}
-		await overrideDocumentContent(
-			activeEditor.document,
-			inputOutputViewContentOverride,
-		);
+	const activeEditor = window.activeTextEditor;
+	if (activeEditor == null) {
+		throw new Error('No active editor');
 	}
+	return activeEditor.document;
 }
 
 export async function closeAllOpenTextDocuments(): Promise<void> {
-	// await commands.executeCommand('workbench.action.closeAllEditors');
+	await commands.executeCommand('workbench.action.closeAllEditors');
 }
 
-async function overrideDocumentContent(
-	document: TextDocument,
-	newContent: string,
-): Promise<void> {
-	const textEdits: TextEdit[] = [];
-	textEdits.push(TextEdit.replace(new Range(0, 0, 999, 999), newContent));
-	const workEdits = new WorkspaceEdit();
-	workEdits.set(document.uri, textEdits);
-	await workspace.applyEdit(workEdits);
-}
-
-export async function openDocument({
-	content,
-	sourceFilePath,
-}: {
-	content?: string;
-	sourceFilePath?: string;
-}): Promise<JsTsTextDocument> {
-	let document: TextDocument;
-	if (content) {
-		document = await workspace.openTextDocument({
-			// language: languageId,
-			content: content ? content : '',
-		});
-	} else if (sourceFilePath) {
-		document = await workspace.openTextDocument(sourceFilePath);
-	} else {
-		throw new Error(
-			'Neither "content" nor "sourceFilePath" provided to open TextDocument',
-		);
-	}
+export async function openDocument(
+	sourceFilePath: string,
+): Promise<TextDocument> {
+	const document = await workspace.openTextDocument(sourceFilePath);
 
 	await window.showTextDocument(document, { preview: false });
-	if (sourceFilePath) {
-		await document.save();
-	}
 	// This might fix a timing for some other problem giving "document.getText is not a function"
 	await sleepMilliSeconds(200);
 
-	if (!isJsTsTextDocument(document)) {
-		throw new Error('Created document is not of type JsTsTextDocument');
-	}
-
 	return document;
-}
-
-export async function createAndOpenDocumentFromContent(
-	filePathToCreate: string,
-	fileContent: string,
-): Promise<TextDocument> {
-	await createFile(filePathToCreate, fileContent);
-	const inputDocument = await openDocument({
-		sourceFilePath: filePathToCreate,
-	});
-	return inputDocument;
 }
 
 function findRunnableFunctionByName(

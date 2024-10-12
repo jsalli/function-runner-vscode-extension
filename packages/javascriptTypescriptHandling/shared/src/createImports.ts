@@ -14,6 +14,7 @@ import {
 } from './RunnableJsTsFunctionSubProperties';
 import { isToken } from './isFunctions';
 import { parse } from 'path';
+import { defaultExportFunctionNameToUseInCode } from './constants';
 
 export function createFunctionUnderTestImportNode(
 	runnableFunction: RunnableJsTsFunction,
@@ -21,7 +22,7 @@ export function createFunctionUnderTestImportNode(
 	let defaultImportName: string | undefined;
 	let namedImports: string[] | undefined;
 	if (isDefaultExport(runnableFunction.exportType)) {
-		defaultImportName = runnableFunction.name;
+		defaultImportName = defaultExportFunctionNameToUseInCode;
 	} else if (isNamedExport(runnableFunction.exportType)) {
 		namedImports = [runnableFunction.name];
 	} else {

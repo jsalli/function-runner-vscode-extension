@@ -7,6 +7,7 @@ import { JsTsDebugConfigurationProvider } from '../getDebugConfigurationProvider
 import { parse } from 'path';
 import { DebuggerSettings } from '../getDebugConfigurationProvider/DebuggerSettings';
 import { ConfigurationService } from '@functionrunner/shared';
+import { processOutputToOutputChannel } from '../runFunctionWithInputSets/processOutputToOutputChannel';
 
 export const debugJsTsFunctionWithInputSets = async (
 	runnableFunction: RunnableJsTsFunction,
@@ -25,12 +26,18 @@ export const debugJsTsFunctionWithInputSets = async (
 
 	const debuggerSettings = container.resolve(DebuggerSettings);
 
-	await createJsTsFuncExecutionInExtProcess({
+	const process = await createJsTsFuncExecutionInExtProcess({
 		runnableFunction,
 		inputViewContent,
 		configurationService,
 		debuggerSettings,
 	});
+
+	const functionOutputPrintPromise = processOutputToOutputChannel(
+		process,
+		runnableFunction.name,
+		returnSuccessForTest,
+	);
 
 	await new Promise<void>((res, rej): void => {
 		function debuggerSuccessCallBack(debugFinishedSuccessful: boolean): void {
@@ -71,5 +78,12 @@ export const debugJsTsFunctionWithInputSets = async (
 		res();
 	});
 
-	return 'moikka';
+	const functionOutputPrint = await functionOutputPrintPromise;
+	if (functionOutputPrint === undefined) {
+		throw new Error(
+			`Function ${runnableFunction.name} run didn't return output print`,
+		);
+	}
+
+	return functionOutputPrint;
 };

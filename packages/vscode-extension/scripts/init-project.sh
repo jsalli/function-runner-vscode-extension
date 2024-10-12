@@ -13,13 +13,12 @@ echo "=== This script will install the node packages to the the test project fix
 echo
 
 # $1 = testProjectFixtureName
-# $2 = install command
 function cd_and_install() {
     echo "===="
     echo "==== Installing project '$1' ===="
     echo "===="
     cd src/test/testProjectFixtures/$1/projectFiles
-    $2
+    ./initializeProject.sh
     echo "===="
     echo "==== Installing Done ===="
     echo "===="
@@ -45,12 +44,8 @@ if [[ ( -z "$1" ) || ( "$1" -eq 1 ) ]]; then
     npm install -g yarn
 fi
 
-# cd_and_install commonjsBasicJavascriptProjectNpm 'npm install'
-cd_and_install commonjsBasicTypescriptProjectNpm 'npm install'
-cd_and_install commonjsMonoRepoTypescriptProjectRushJs 'rush update'
-cd_and_install esModuleBasicJavascriptProjectPnpm 'pnpm install'
-cd_and_install esModuleBasicTypescriptProjectPnpm 'pnpm install'
-cd_and_install esModuleBasicTypescriptProjectYarn1 'yarn set version classic && yarn install'
-# For below Yarn init Yarn version > 2 needs a yarn.lock file to exist. Otherwise it will give an error:
-# Usage Error: Cannot use the --install flag from within a project subdirectory
-# cd_and_install esModuleBasicTypescriptProjectYarn3 'touch yarn.lock && yarn set version berry && yarn install && yarn dlx @yarnpkg/sdks vscode'
+cd_and_install TypescriptCommonjsNpm
+cd_and_install TypescriptCommonjsMonoRepoRushJs
+cd_and_install JavascriptEsModuleNpm
+cd_and_install TypescriptEsModulePnpm
+cd_and_install TypescriptEsModuleYarn4 

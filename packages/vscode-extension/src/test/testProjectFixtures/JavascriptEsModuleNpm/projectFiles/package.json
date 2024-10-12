@@ -1,0 +1,13 @@
+{
+	"name": "esmodule-javascript-project-pnpm",
+	"description": "This repo shows an example of a simple Javascript project",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "src/myFile.js",
+	"types": "src/myFile.js",
+
+	"license": "MIT",
+	"scripts": {
+		"start": "node --no-warnings --experimental-specifier-resolution=node ./src/main.js"
+	}
+}

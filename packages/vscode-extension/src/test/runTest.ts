@@ -43,11 +43,7 @@ async function main(testWorkspaceFixtureName: string, vsCodeVersion: string) {
 	}
 }
 
-// process.argv[2] -> testWorkspaceFixtureName
-// process.argv[3] -> vsCodeVersion
-
-const defaultTestWorkspaceFixtureName =
-	'commonjsMonoRepoTypescriptProjectRushJs';
+const defaultTestWorkspaceFixtureName = 'TypescriptCommonjsNpm';
 const defaultVsCodeVersion = '1.82.0';
 const testWorkspaceFixtureName =
 	process.argv[2] ?? defaultTestWorkspaceFixtureName;

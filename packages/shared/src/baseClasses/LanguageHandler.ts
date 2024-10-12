@@ -11,7 +11,7 @@ export abstract class LanguageHandler<T = string> {
 
 	public abstract isInterestedInThisLanguage(languageId: string): boolean;
 
-	public abstract findRunnableFunctions(
+	public abstract findRunnableFunctionsFromSourceCode(
 		document: TextDocument,
 	): Promise<(RunnableFunction<T> | NotSupportedFunction)[]>;
 

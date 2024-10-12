@@ -15,7 +15,7 @@ import {
 } from '@functionrunner/javascript-typescript-shared';
 import { DebugConfigurationProvider } from 'vscode';
 import { getJsTsDebugConfigurationProvider } from './handlerMethods/getDebugConfigurationProvider/getJsTsDebugConfigurationProvider';
-import { findRunnableJsTsFunctions } from './handlerMethods/findRunnableFunctions/findRunnableJsTsFunctions';
+import { findRunnableJsTsFunctionsFromSourceCode } from './handlerMethods/findRunnableJsTsFunctionsFromSourceCode/findRunnableJsTsFunctionsFromSourceCode';
 import { createJsTsInputViewContent } from './handlerMethods/createInputViewContent/createJsTsInputViewContent';
 import { findCodeLensPositionsFromJsTsInputSetView } from './handlerMethods/findCodeLensPositionsFromInputSetView/findCodeLensPositionsFromJsTsInputSetView';
 import { getRunnableJsTsFunctionByFileId } from './handlerMethods/getRunnableFunctionByFileId/getRunnableJsTsFunctionByFileId';
@@ -41,10 +41,10 @@ export class Handler
 		);
 	}
 
-	public findRunnableFunctions(
+	public findRunnableFunctionsFromSourceCode(
 		document: JsTsTextDocument,
 	): Promise<(RunnableJsTsFunction | NotSupportedFunction)[]> {
-		return Promise.resolve(findRunnableJsTsFunctions(document));
+		return Promise.resolve(findRunnableJsTsFunctionsFromSourceCode(document));
 	}
 
 	public createInputViewContent(

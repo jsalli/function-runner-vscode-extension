@@ -1,5 +1,5 @@
 {
-	"name": "typescript-esm-pnpm-project",
+	"name": "typescript-esm-yarn4-project",
 	"description": "This repo shows an example of a simple Typescript project",
 	"version": "1.0.0",
 	"type": "module",
@@ -9,7 +9,9 @@
 	},
 	"devDependencies": {
 		"@types/node": "22.7.5",
+		"jest": "29.7.0",
 		"ts-node": "10.9.2",
 		"typescript": "5.6.3"
-	}
+	},
+	"packageManager": "yarn@3.8.5"
 }

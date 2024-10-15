@@ -90,3 +90,6 @@ packages/vscode-extension/src/test/testProjectFixtures/**/projectFiles/pnpm-lock
 
 # Jenkins remoting folder
 remoting/
+
+# Function runner code
+**/.functionrunner

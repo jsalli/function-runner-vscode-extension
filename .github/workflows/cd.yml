@@ -1,0 +1,53 @@
+on:
+  push:
+    branches:
+      - main
+  release:
+    types:
+    - created
+
+env:
+  TESTING_IN_CLOUD_PIPELINE: true
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        node-version: [v20.17.0]
+        # node-version: [v18.20.4, v20.17.0, v22.9.0]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: "Install PNPM, Rush and Yarn globally"
+      run: npm install -g pnpm @microsoft/rush yarn
+
+    - name: "Rush update"
+      run: rush update
+      
+    - name: "Run VSCode end-2-end tests"
+      working-directory: ./packages/vscode-extension
+      run: xvfb-run -a pnpm test-e2e-multiple-setups
+      if: runner.os == 'Linux'
+
+    - run: pnpm test-e2e-multiple-setups
+      if: runner.os != 'Linux'
+
+  # publish:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #     - name: Install Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: v20.17.0
+  #     - run: npm install

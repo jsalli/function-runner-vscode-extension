@@ -13,7 +13,7 @@ echo "=== This script will install the node packages to the the test project fix
 echo
 
 # $1 = testProjectFixtureName
-function cd_and_install() {
+cd_and_install() {
     echo "===="
     echo "==== Installing project '$1' ===="
     echo "===="
@@ -27,22 +27,29 @@ function cd_and_install() {
 }
 
 
-if [[ ( -z "$1" ) || ( "$1" -eq 1 ) ]]; then
-    echo "===="
-    echo "==== Installing PNPM globally ===="
-    echo "===="
-    npm install -g pnpm
+# if [[ ( -z "$1" ) || ( "$1" -eq 1 ) ]]; then
+    if ! pnpm help > /dev/null 2>&1; then
+        echo "===="
+        echo "==== Installing PNPM globally ===="
+        echo "===="
+        npm install -g pnpm
+    fi
 
-    echo "===="
-    echo "==== Installing RUSH JS globally ===="
-    echo "===="
-    npm install -g @microsoft/rush
+    if ! rush -h > /dev/null 2>&1; then
+        echo "===="
+        echo "==== Installing RUSH JS globally ===="
+        echo "===="
+        npm install -g @microsoft/rush
+    fi
 
-    echo "===="
-    echo "==== Installing Yarn globally ===="
-    echo "===="
-    npm install -g yarn
-fi
+    if ! yarn -h > /dev/null 2>&1; then
+        echo "===="
+        echo "==== Installing Yarn globally ===="
+        echo "===="
+        npm install -g yarn
+    fi
+# fi
+
 
 cd_and_install TypescriptCommonjsNpm
 cd_and_install TypescriptCommonjsMonoRepoRushJs

@@ -1,2 +1,4 @@
 packages:
   - packages/**
+  - '!**/test/**'
+  - '!buildTools/ts-node-stripper/ts-node-installation'

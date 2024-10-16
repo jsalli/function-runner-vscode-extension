@@ -27,6 +27,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.11.0
+
       - name: Install Yarn globally
         run: npm install -g yarn
 
@@ -44,12 +49,12 @@ jobs:
           export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
           dbus-daemon --session --address=$DBUS_SESSION_BUS_ADDRESS --nofork --nopidfile --syslog-only &
           mkdir ~/.vscode && echo '{ "disable-hardware-acceleration": true }' > ~/.vscode/argv.json
-          xvfb-run -a rushx test-e2e-multiple-setups
+          xvfb-run -a pnpm test-e2e-multiple-setups
 
       - name: Run VSCode end-2-end tests
         if: runner.os != 'Linux'
         working-directory: ./packages/vscode-extension
-        run: rushx test-e2e-multiple-setups
+        run: pnpm test-e2e-multiple-setups
 
   publish:
     name: Publish new version to VSCode Marketplace and Make a Github release
@@ -66,6 +71,11 @@ jobs:
         with:
           node-version: v20.17.0
 
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.11.0
+
       - name: Rush Install
         run: node common/scripts/install-run-rush.js install
   
@@ -77,11 +87,11 @@ jobs:
 
       - name: Package Extension
         working-directory: ./packages/vscode-extension
-        run: rushx package-extension-prod
+        run: pnpm package-extension-prod
 
       - name: Publish to VSCode Marketplace
         working-directory: ./packages/vscode-extension
-        run: rushx vsce publish --no-dependencies --packagePath ./publish/${{ env.PACKAGE_NAME }}.vsix -p ${{ secrets.VSCE_PAT }}
+        run: pnpm vsce publish --no-dependencies --packagePath ./publish/${{ env.PACKAGE_NAME }}.vsix -p ${{ secrets.VSCE_PAT }}
 
       - name: Generate Changelog
         id: generate_changelog

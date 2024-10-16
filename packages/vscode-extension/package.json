@@ -305,8 +305,8 @@
 		"build": "rushx clean && rushx bundle-extension-dev",
 		"build-tests": "rimraf ./out/* && webpack -c webpack.config.test.ts --env useSwcBuild",
 		"build-types": "tsc -p tsconfig.build.types.json",
-		"test-e2e": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/test/runTest.js",
-		"test-e2e-multiple-setups": "pnpm bundle-dependencies && pnpm bundle-extension-dev && pnpm build-tests && node ./out/test/runTestForMultipleSetups.js",
+		"test-e2e": "rushx bundle-dependencies && rushx bundle-extension-dev && rushx build-tests && node ./out/test/runTest.js",
+		"test-e2e-multiple-setups": "rushx bundle-dependencies && rushx bundle-extension-dev && rushx build-tests && node ./out/test/runTestForMultipleSetups.js",
 		"test-unit": "jest",
 		"bundle-extension-dev": "webpack --mode development --env useSwcBuild",
 		"bundle-extension-prod": "webpack --mode production --env useSwcBuild",
@@ -315,8 +315,8 @@
 		"lint": "eslint",
 		"up-dependencies": "pnpm up --latest \"\\!@types/vscode\"",
 		"bundle-dependencies": "rush bundle-stripped-down-ts-node",
-		"package-extension-dev": "pnpm clean && pnpm bundle-dependencies && pnpm bundle-extension-dev && vsce package --no-dependencies --out publish/",
-		"package-extension-prod": "pnpm clean && pnpm bundle-dependencies && pnpm bundle-extension-prod && vsce package --no-dependencies --out publish/",
+		"package-extension-dev": "rushx clean && rushx bundle-dependencies && rushx bundle-extension-dev && vsce package --no-dependencies --out publish/",
+		"package-extension-prod": "rushx clean && rushx bundle-dependencies && rushx bundle-extension-prod && vsce package --no-dependencies --out publish/",
 		"publish-extension": "vsce publish --no-dependencies --packagePath"
 	},
 	"dependencies": {

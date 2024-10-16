@@ -11,7 +11,7 @@
 	"scripts": {
 		"clean": "rimraf ./dist/* tsconfig.tsbuildinfo package.tgz *.log .swc/*",
 		"compile": "swc src -d dist",
-		"build": "rushx compile && rushx build-types",
+		"build": "rushx clean && rushx compile && rushx build-types",
 		"build-types": "tsc -p tsconfig.build.types.json",
 		"test": "echo 'no test'",
 		"up-dependencies": "pnpm up --latest"

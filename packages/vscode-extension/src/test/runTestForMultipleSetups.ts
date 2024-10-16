@@ -2,6 +2,7 @@
 import { spawn, SpawnOptions, spawnSync, StdioOptions } from 'child_process';
 import { type as platformType } from 'os';
 import pLimit from 'p-limit';
+import { exit } from 'process';
 
 const testingInCloudPipeline = process.env.TESTING_IN_CLOUD_PIPELINE === 'true';
 
@@ -326,4 +327,5 @@ runTestSuitesWithVersions(testSetups)
 	=== Errors running E2E tests
 	\n==================================================================\n`);
 		console.error(error);
+		exit(1);
 	});

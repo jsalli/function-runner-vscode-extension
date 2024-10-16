@@ -33,6 +33,7 @@ async function main(testWorkspaceFixtureName: string, vsCodeVersion: string) {
 				`${homedir()}/workspace/temp`,
 				testWorkspaceAbsPath,
 			],
+			timeout: 30000,
 		});
 	} catch (err) {
 		console.error('Failed to run tests');

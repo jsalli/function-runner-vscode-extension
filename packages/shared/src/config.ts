@@ -37,7 +37,6 @@ export interface Config {
 
 export interface General {
 	sourceFolder: string;
-	printFunctionExecutionCodeToInputView: boolean;
 }
 
 export interface Logging {

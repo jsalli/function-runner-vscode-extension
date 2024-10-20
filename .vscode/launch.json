@@ -142,7 +142,7 @@
 			"smartStep": true,
 			"sourceMaps": true,
 			"trace": true,
-			"preLaunchTask": "buildTests",
+			"preLaunchTask": "buildExtensionAndTests",
 			"windows": {
 				"sourceMapPathOverrides": {
 					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",

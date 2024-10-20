@@ -1,14 +1,14 @@
 {
 	"name": "function-runner-vscode-extension",
 	"displayName": "Function Runner",
-	"description": "Function Runner let's you run individual functions from your IDE",
+	"description": "Function Runner let's you run functions you have written in your IDE",
 	"version": "1.0.4",
 	"type": "commonjs",
 	"engines": {
 		"vscode": "^1.82.0"
 	},
 	"icon": "images/functionrunner-icon.png",
-	"publisher": "functionrunner",
+	"publisher": "function-runner",
 	"pricing": "Free",
 	"author": {
 		"name": "Juha Sälli",
@@ -60,13 +60,6 @@
 						"markdownDescription": "Specifies folder where source files are with relation to project root folder. If source is at root folder set empty string as value like \"\"",
 						"scope": "window",
 						"order": 1
-					},
-					"functionrunner.general.printFunctionExecutionCodeToInputView": {
-						"type": "boolean",
-						"default": false,
-						"markdownDescription": "Specify if code executing user's function is printed to the input view",
-						"scope": "window",
-						"order": 2
 					}
 				}
 			},

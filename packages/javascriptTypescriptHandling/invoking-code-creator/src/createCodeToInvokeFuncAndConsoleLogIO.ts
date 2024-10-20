@@ -8,11 +8,9 @@
 // 	colorTextInject,
 // } from '@functionrunner/shared';
 import {
+	createEmptyLineNode,
 	createFunctionUnderTestImportNode,
-	createVariableStatement,
-	outputIdentifierName,
 	RunnableJsTsFunction,
-	RunnableJsTsFunctionArg,
 } from '@functionrunner/javascript-typescript-shared';
 import {
 	createPrinter,
@@ -20,7 +18,6 @@ import {
 	ExpressionStatement,
 	factory,
 	FunctionDeclaration,
-	Identifier,
 	ListFormat,
 	NewLineKind,
 	Node,
@@ -35,8 +32,40 @@ import {
 import { createFuncCallAndOutputAssignment } from './common';
 import { wrapInTryCatch } from './wrapInTryCatch';
 import { createPropertyAccessCallExp } from './createPropertyAccessCallExp';
+import { createUserSetupSection } from './createUserSetupSection';
 
-const mainFunctionName = '___main';
+const mainFunctionName = 'main';
+
+function createNodesInsideTry(
+	runnableFunction: RunnableJsTsFunction,
+): Statement[] {
+	const userSetupSection = createUserSetupSection();
+
+	const { functionCallNode, outputIdentifier } =
+		createFuncCallAndOutputAssignment(runnableFunction, 'toNewVar');
+	const outputComment = factory.createExpressionStatement(
+		createPropertyAccessCallExp('console', 'log', [
+			// factory.createStringLiteral(
+			// 	colorBgBlue + colorFgBlack + colorTextInject + colorReset,
+			// ),
+			factory.createStringLiteral('===== Function output ====='),
+		]),
+	);
+	const outputConsoleLog = factory.createExpressionStatement(
+		createPropertyAccessCallExp('console', 'log', [outputIdentifier]),
+	);
+	const newLineConsoleLog = factory.createExpressionStatement(
+		createPropertyAccessCallExp('console', 'log', []),
+	);
+
+	return [
+		...userSetupSection,
+		functionCallNode,
+		outputComment,
+		outputConsoleLog,
+		newLineConsoleLog,
+	];
+}
 
 export function createCodeToInvokeFuncAndConsoleLogIONodes(
 	runnableFunction: RunnableJsTsFunction,
@@ -48,55 +77,41 @@ export function createCodeToInvokeFuncAndConsoleLogIONodes(
 
 	const nodesInsideMainFunction: Statement[] = [];
 
-	// Input variable declarations
-	// 	const inputVarDecs = runCase.caseInputs.map(
-	// 		(useCaseInput) => useCaseInput.inputVarDec,
-	// 	);
-	// 	subNodes.push(...inputVarDecs);
-	const outputLetVar = factory.createIdentifier(outputIdentifierName);
-	const emptyOutputVarStmt = createVariableStatement(
-		outputLetVar,
-		factory.createStringLiteral(''),
-		undefined,
-		false,
-	);
-	nodesInsideMainFunction.push(emptyOutputVarStmt);
-	const { functionCallNode, outputIdentifier } =
-		createFuncCallAndOutputAssignment(runnableFunction, 'toExistingVar');
+	const nodesInsideTry = createNodesInsideTry(runnableFunction);
 	const catchErrorName = 'error';
-	const catchErrorNodes = createCatchErrorConsoleLogMessage(
-		catchErrorName,
-		outputIdentifier,
-	);
+	const catchErrorNodes = createCatchErrorConsoleLogMessage(catchErrorName);
 	const tryCatch = wrapInTryCatch(
-		functionCallNode,
+		nodesInsideTry,
 		catchErrorName,
 		catchErrorNodes,
 	);
 	// Function call and output variable declaration
 	nodesInsideMainFunction.push(tryCatch);
-	// Post call nodes
-	const postCallNodes = createFunctionRunPostCall(runnableFunction.args);
-	nodesInsideMainFunction.push(...postCallNodes);
 
 	const { mainFuncDeclaration, mainFuncCall } = createMainFunctionAndCall(
 		nodesInsideMainFunction,
 	);
-	mainNodes.push(mainFuncDeclaration, mainFuncCall);
+	mainNodes.push(mainFuncDeclaration, createEmptyLineNode(), mainFuncCall);
 	return mainNodes;
 }
 
 export function createCodeToInvokeFuncAndConsoleLogIO(
 	runnableFunction: RunnableJsTsFunction,
-	// useTerminalColors: boolean = false,
 ): string {
 	const mainNodes =
 		createCodeToInvokeFuncAndConsoleLogIONodes(runnableFunction);
-	const tsSourceFile = createSourceFile('', '', ScriptTarget.Latest);
+	const tsSourceFile = createSourceFile(
+		'codeToInvokeFuncAndConsoleLogIO.ts',
+		'',
+		ScriptTarget.Latest,
+	);
+
 	const printer = createPrinter({
 		newLine: NewLineKind.LineFeed,
 		neverAsciiEscape: true, // Keep Scandinavian characters as is, don't turn them into utf-8 codes
+		preserveSourceNewlines: true,
 	});
+
 	const tsCode = printer.printList(
 		ListFormat.MultiLine,
 		factory.createNodeArray(mainNodes),
@@ -108,8 +123,8 @@ export function createCodeToInvokeFuncAndConsoleLogIO(
 
 /**
  * @example
- * async function ___main() {...};
- * ___main();
+ * async function main() {...};
+ * main();
  *
  * @param nodes
  * @returns
@@ -143,7 +158,6 @@ function createMainFunctionAndCall(nodes: Statement[]): {
 
 function createCatchErrorConsoleLogMessage(
 	catchErrorName: string,
-	outputId: Identifier,
 ): Statement[] {
 	const stringTemplate = factory.createTemplateExpression(
 		factory.createTemplateHead(
@@ -162,81 +176,9 @@ function createCatchErrorConsoleLogMessage(
 		],
 	);
 
-	const varStatement = factory.createExpressionStatement(
-		factory.createBinaryExpression(
-			outputId,
-			SyntaxKind.EqualsToken,
-			stringTemplate,
-		),
-	);
-
-	return [varStatement];
-}
-
-function createFunctionRunPostCall(
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	args: RunnableJsTsFunctionArg[],
-	// useTerminalColors: boolean,
-): Statement[] {
-	const nodes: Statement[] = [];
-
-	// const inputSetDescriptionText = 'Input set';
-
-	// const colorsSetupForCaseDescription = factory.createStringLiteral(
-	// 	colorBgCyan + colorFgBlack + colorTextInject + colorReset,
-	// );
-	// const caseDescriptionConsoleLog = [
-	// 	factory.createStringLiteral(`===== ${caseDescription} =====`),
-	// ];
-	// if (useTerminalColors) {
-	// 	caseDescriptionConsoleLog.unshift(colorsSetupForCaseDescription);
-	// }
-	// const inputSetDescriptionNode = factory.createExpressionStatement(
-	// 	createPropertyAccessCallExp('console', 'log', [
-	// 		factory.createStringLiteral(`===== ${inputSetDescriptionText} =====`),
-	// 	]),
-	// );
-	// nodes.push(inputSetDescriptionNode);
-
-	// if (args.length !== 0) {
-	// 	const inputsComment = factory.createExpressionStatement(
-	// 		createPropertyAccessCallExp('console', 'log', [
-	// 			// factory.createStringLiteral(
-	// 			// 	colorBgGreen + colorFgBlack + colorTextInject + colorReset,
-	// 			// ),
-	// 			factory.createStringLiteral('Function inputs:'),
-	// 		]),
-	// 	);
-	// 	const inputsConsoleLogs = args.map((arg) =>
-	// 		factory.createExpressionStatement(
-	// 			createPropertyAccessCallExp('console', 'log', [
-	// 				// factory.createStringLiteral(
-	// 				// 	colorBgYellow + colorFgBlack + colorTextInject + colorReset,
-	// 				// ),
-	// 				factory.createStringLiteral(`${arg.name}: `),
-	// 				`${arg.name}${ioViewIdentifierPostFix}${inputSetIdentifier}`,
-	// 			]),
-	// 		),
-	// 	);
-	// 	nodes.push(inputsComment, ...inputsConsoleLogs);
-	// }
-
 	const outputComment = factory.createExpressionStatement(
-		createPropertyAccessCallExp('console', 'log', [
-			// factory.createStringLiteral(
-			// 	colorBgBlue + colorFgBlack + colorTextInject + colorReset,
-			// ),
-			factory.createStringLiteral('===== Function output ====='),
-		]),
-	);
-	const outputConsoleLog = factory.createExpressionStatement(
-		createPropertyAccessCallExp('console', 'log', [outputIdentifierName]),
-	);
-	const newLineConsoleLog = factory.createExpressionStatement(
-		createPropertyAccessCallExp('console', 'log', []),
+		createPropertyAccessCallExp('console', 'log', [stringTemplate]),
 	);
 
-	nodes.push(outputComment, outputConsoleLog, newLineConsoleLog);
-
-	return nodes;
+	return [outputComment];
 }

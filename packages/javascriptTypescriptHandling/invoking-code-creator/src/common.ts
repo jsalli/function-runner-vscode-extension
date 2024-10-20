@@ -44,7 +44,7 @@ export function createFuncCallAndOutputAssignment(
 	);
 
 	const returnsProm = isPromiseReturned(runnableFunction);
-	if (returnsProm === true || returnsProm === null) {
+	if (returnsProm === true) {
 		callExp = factory.createAwaitExpression(callExp);
 	}
 

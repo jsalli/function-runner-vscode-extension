@@ -1,5 +1,7 @@
 // esModuleExportNamedArrowFunction
-export const namedArrowFunction = (myArg) => {
+export const namedArrowFunction = async (myArg) => {
+	const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+	await sleep(10);
 	return myArg.length > 0;
 };
 

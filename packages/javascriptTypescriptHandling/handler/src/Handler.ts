@@ -3,7 +3,6 @@ import {
 	LanguageHandler,
 	NotSupportedFunction,
 	FileAndFunctionIdentifier,
-	ConfigurationService,
 } from '@functionrunner/shared';
 import {
 	javascriptLanguageId,
@@ -27,7 +26,7 @@ import { container, injectable, Lifecycle } from 'tsyringe';
 export class Handler
 	implements LanguageHandler<JavascriptLanguageId | TypescriptLanguageId>
 {
-	constructor(private configurationService: ConfigurationService) {}
+	constructor() {}
 
 	public languageIds: string[] = [javascriptLanguageId, typescriptLanguageId];
 
@@ -50,9 +49,7 @@ export class Handler
 	public createInputViewContent(
 		runnableFunction: RunnableJsTsFunction,
 	): Promise<string> {
-		return Promise.resolve(
-			createJsTsInputViewContent(runnableFunction, this.configurationService),
-		);
+		return Promise.resolve(createJsTsInputViewContent(runnableFunction));
 	}
 
 	public findCodeLensPositionsFromInputSetView(
@@ -75,7 +72,6 @@ export class Handler
 		return runJsTsFunctionWithInputSets(
 			runnableFunction,
 			inputViewContent,
-			this.configurationService,
 			returnSuccessForTest,
 		);
 	}
@@ -88,7 +84,6 @@ export class Handler
 		return debugJsTsFunctionWithInputSets(
 			runnableFunction,
 			inputViewContent,
-			this.configurationService,
 			returnSuccessForTest,
 		);
 	}

@@ -11,7 +11,7 @@ export default [
   ...tseslint.config(
     // File ignore settings for all the following ESLint configs
     {
-      ignores: commonIgnorePatterns,
+      ignores: [...commonIgnorePatterns, '**/src/test/testProjectFixtures/**/testExpectsAndFixtures/**'],
     },
     {
       languageOptions: {

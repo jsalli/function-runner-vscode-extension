@@ -1,3 +1,4 @@
+export * from './addComments';
 export * from './codeProcessing';
 export * from './constants';
 export * from './createImports';

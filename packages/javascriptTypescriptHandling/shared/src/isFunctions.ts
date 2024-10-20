@@ -19,7 +19,10 @@ import {
 	TypeNode,
 	VariableStatement,
 } from 'typescript';
-import { RunnableJsTsFunction } from './RunnableJsTsFunction';
+import {
+	isRunnableJsTsFunction,
+	RunnableJsTsFunction,
+} from './RunnableJsTsFunction';
 import { TextDocument } from 'vscode';
 import { JsTsTextDocument } from './JsTsTextDocument';
 import { javascriptLanguageId, typescriptLanguageId } from './constants';
@@ -41,15 +44,15 @@ export function isPromiseReturned(
 		| FunctionDeclaration
 		| ArrowFunction
 		| RunnableJsTsFunction,
-): boolean | null {
-	if (fDecNodeOrRunnFunc instanceof RunnableJsTsFunction) {
+): boolean {
+	if (isRunnableJsTsFunction(fDecNodeOrRunnFunc)) {
 		if (fDecNodeOrRunnFunc.async) {
 			return true;
 		}
 
 		const returnType = fDecNodeOrRunnFunc.returnValue?.typeNode;
 		if (returnType === undefined) {
-			return null;
+			return false;
 		}
 
 		const returnsPromise =
@@ -67,7 +70,7 @@ export function isPromiseReturned(
 	) {
 		return true;
 	} else if (returnType === null) {
-		return null;
+		return false;
 	}
 
 	return false;

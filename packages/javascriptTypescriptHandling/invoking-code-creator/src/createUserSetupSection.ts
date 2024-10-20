@@ -1,12 +1,13 @@
 import { inputViewUserSetupSectionComment } from '@functionrunner/shared';
 import {
+	createEmptyNode,
+	createEmptyLineNode,
 	addMultiLineComment,
 	addSingleLineComment,
-} from '../common/addComments';
-import { createEmptyNode, createEmptyLineNode } from './helpers';
-import { Node } from 'typescript';
+} from '@functionrunner/javascript-typescript-shared';
+import { Statement } from 'typescript';
 
-export function createUserSetupSection(): Node[] {
+export function createUserSetupSection(): Statement[] {
 	const userSetupSectionComment = inputViewUserSetupSectionComment();
 
 	const emptyLine = createEmptyLineNode();
@@ -33,7 +34,6 @@ export function createUserSetupSection(): Node[] {
 	);
 
 	return [
-		emptyLine,
 		userSetupSectionHeaderCommentNode,
 		userSetupExample1CommentedOutNode,
 		userSetupExample2CommentedOutNode,

@@ -32,3 +32,16 @@ export class RunnableJsTsFunctionArg {
 		public type: TypeNodeSpecifier | undefined,
 	) {}
 }
+
+export function isRunnableJsTsFunction(
+	maybeRunnableJsTsFunctionObj: unknown,
+): maybeRunnableJsTsFunctionObj is RunnableJsTsFunction {
+	return (
+		typeof maybeRunnableJsTsFunctionObj === 'object' &&
+		maybeRunnableJsTsFunctionObj !== null &&
+		maybeRunnableJsTsFunctionObj.constructor.name === 'RunnableJsTsFunction' &&
+		'languageId' in maybeRunnableJsTsFunctionObj &&
+		(maybeRunnableJsTsFunctionObj.languageId === 'javascript' ||
+			maybeRunnableJsTsFunctionObj.languageId === 'typescript')
+	);
+}

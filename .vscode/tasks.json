@@ -47,6 +47,11 @@
 			"options": {
 				"cwd": "packages/vscode-extension"
 			}
+		},
+		{
+			"label": "buildExtensionAndTests",
+			"dependsOn": ["buildTests", "buildVscodeExtension"],
+			"dependsOrder": "parallel"
 		}
 	]
 }

@@ -67,6 +67,8 @@ export function createFunctionCall(
 		return callExp;
 	}
 
-	const expStat = factory.createExpressionStatement(callExp);
+	const expStat = factory.createExpressionStatement(
+		factory.createVoidExpression(callExp),
+	);
 	return expStat;
 }

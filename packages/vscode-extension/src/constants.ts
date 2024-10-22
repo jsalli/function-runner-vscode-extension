@@ -1,4 +1,4 @@
-export const publisherName = 'functionrunner'; // Defined in package.json 'publisher'-field
+export const publisherName = 'function-runner'; // Defined in package.json 'publisher'-field
 export const extensionName = 'function-runner-vscode-extension'; // Defined in package.json 'name'-field
 export const extensionDisplayName = 'Function Runner'; // Defined in package.json 'displayName'-field
 export const vscodeUniqueExtensionID = `${publisherName}.${extensionName}`;

@@ -16,7 +16,7 @@ import {
 
 const registerDependencies = async () => {
 	await extensions
-		.getExtension('functionrunner.function-runner-vscode-extension')
+		.getExtension('function-runner.function-runner-vscode-extension')
 		?.activate();
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const extensionContext = (global as any).testExtensionContext;

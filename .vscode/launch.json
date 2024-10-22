@@ -16,7 +16,7 @@
 			"autoAttachChildProcesses": true,
 			"rendererDebugOptions": {
 				"sourceMaps": true,
-				"urlFilter": "*tfunctionrunner.function-runner-vscode-extension*",
+				"urlFilter": "*function-runner.function-runner-vscode-extension*",
 				"webRoot": "${workspaceFolder}/packages/vscode-extension/src/webviews/apps"
 			},
 			"outFiles": ["${workspaceFolder}/packages/vscode-extension/dist/**/*.js"],
@@ -54,7 +54,7 @@
 			"autoAttachChildProcesses": true,
 			"rendererDebugOptions": {
 				"sourceMaps": true,
-				"urlFilter": "*functionrunner.function-runner-vscode-extension*",
+				"urlFilter": "*function-runner.function-runner-vscode-extension*",
 				"webRoot": "${workspaceFolder}/packages/vscode-extension/src/webviews/apps"
 			},
 			"outFiles": [

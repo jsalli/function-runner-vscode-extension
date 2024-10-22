@@ -15,7 +15,7 @@
 			"debugWebviews": true,
 			"rendererDebugOptions": {
 				"sourceMaps": true,
-				"urlFilter": "*functionrunner.function-runner-vscode-extension*",
+				"urlFilter": "*function-runner.function-runner-vscode-extension*",
 				"webRoot": "${workspaceFolder}/src/webviews/apps"
 			},
 			"outFiles": ["${workspaceFolder}/dist/**/*.js"],
@@ -34,7 +34,7 @@
 			"debugWebviews": true,
 			"rendererDebugOptions": {
 				"sourceMaps": true,
-				"urlFilter": "*functionrunner.function-runner-vscode-extension*",
+				"urlFilter": "*function-runner.function-runner-vscode-extension*",
 				"webRoot": "${workspaceFolder}/src/webviews/apps"
 			},
 			"outFiles": ["${workspaceFolder}/dist/**/*.js"],

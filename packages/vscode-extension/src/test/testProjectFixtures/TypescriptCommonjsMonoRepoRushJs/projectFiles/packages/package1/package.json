@@ -14,11 +14,8 @@
 	"scripts": {
 		"compile": "tsc"
 	},
-	"dependencies": {
-	},
 	"devDependencies": {
 		"@types/node": "22.7.5",
-		"prettier": "3.3.3",
 		"typescript": "5.6.3",
 		"ts-node": "10.9.2"
 	}

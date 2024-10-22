@@ -1,12 +1,12 @@
-import { RunnableJsTsFunction } from '@functionrunner/javascript-typescript-shared';
-import { createJsTsFuncExecutionInExtProcess } from '../runFunctionWithInputSets/createJsTsFuncExecutionInExtProcess';
-import { getDebugConfig } from './getDebugConfig';
 import { debug, DebugSessionOptions, Uri, workspace } from 'vscode';
 import { container } from 'tsyringe';
-import { JsTsDebugConfigurationProvider } from '../getDebugConfigurationProvider/JsTsDebugConfigurationProvider';
 import { parse } from 'path';
+import { RunnableJsTsFunction } from '@functionrunner/javascript-typescript-shared';
+import { getDebugConfig } from './getDebugConfig';
+import { JsTsDebugConfigurationProvider } from '../getDebugConfigurationProvider/JsTsDebugConfigurationProvider';
 import { DebuggerSettings } from '../getDebugConfigurationProvider/DebuggerSettings';
-import { processOutputToOutputChannel } from '../runFunctionWithInputSets/processOutputToOutputChannel';
+import { processOutputToOutputChannel } from '../common/processOutputToOutputChannel';
+import { createJsTsFuncExecutionInExtProcess } from '../common/createJsTsFuncExecutionInExtProcess';
 
 export const debugJsTsFunctionWithInputSets = async (
 	runnableFunction: RunnableJsTsFunction,

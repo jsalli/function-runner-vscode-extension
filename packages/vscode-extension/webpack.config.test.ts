@@ -10,8 +10,6 @@ type BuildOptions = {
 };
 type EnvObject = { [key: string]: boolean };
 
-// const verdorChunkName = 'verdor';
-
 function parseProjectNameFromTestPath(pathToTest: string) {
 		const matchResults = pathToTest.match(
 		new RegExp('testProjectFixtures/(.*)/suite'),
@@ -56,13 +54,6 @@ function getExtensionConfig(
 			runTestForMultipleSetups: './src/test/runTestForMultipleSetups.ts',
 			runTest: './src/test/runTest.ts',
 			mochaRunOneWorkspaceTestFixture: './src/test/mochaRunOneWorkspaceTestFixture.ts',
-			// ...glob
-			// 	.sync('./src/test/testProjectFixtures/**/suite/index.ts')
-			// 	.reduce(function (obj, e) {
-			// 		const projectName = parseProjectNameFromTestPath(e);
-			// 		obj[`suite/${projectName}/index`] = e;
-			// 		return obj;
-			// 	}, {}),
 			...glob
 				.sync('./src/test/testProjectFixtures/**/suite/**/*.test.ts')
 				.reduce(function (obj: { [key: string]: string }, e: string) {

@@ -1,8 +1,8 @@
 {
 	"name": "function-runner-vscode-extension",
 	"displayName": "Function Runner",
-	"description": "Function Runner let's you run functions you have written in your IDE",
-	"version": "1.0.4",
+	"description": "Function Runner let's you run and debug functions you have written in your VSCode IDE",
+	"version": "1.0.5",
 	"type": "commonjs",
 	"engines": {
 		"vscode": "^1.82.0"
@@ -12,15 +12,15 @@
 	"pricing": "Free",
 	"author": {
 		"name": "Juha Sälli",
-		"email": "juha@xxx.io"
+		"email": "juha.salli@gmail.com"
 	},
-	"homepage": "https://functionrunner.io/",
+	"homepage": "https://github.com/jsalli/function-runner-vscode-extension",
 	"bugs": {
-		"url": "https://github.com/functionrunner-io/vscode-extension/issues"
+		"url": "https://github.com/jsalli/function-runner-vscode-extension/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/functionrunner-io/vscode-extension.git"
+		"url": "https://github.com/jsalli/function-runner-vscode-extension.git"
 	},
 	"preview": true,
 	"categories": [
@@ -370,6 +370,5 @@
 		"webpack-bundle-analyzer": "4.10.2",
 		"webpack-cli": "5.1.4",
 		"p-limit": "3.1.0"
-	},
-	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+	}
 }

@@ -1,6 +1,6 @@
 import { RunnableJsTsFunction } from '@functionrunner/javascript-typescript-shared';
-import { processOutputToOutputChannel } from './processOutputToOutputChannel';
-import { createJsTsFuncExecutionInExtProcess } from './createJsTsFuncExecutionInExtProcess';
+import { processOutputToOutputChannel } from '../common/processOutputToOutputChannel';
+import { createJsTsFuncExecutionInExtProcess } from '../common/createJsTsFuncExecutionInExtProcess';
 
 export const runJsTsFunctionWithInputSets = async (
 	runnableFunction: RunnableJsTsFunction,

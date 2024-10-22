@@ -1,145 +1,38 @@
 # Functio Runner VSCode extension
 
-Function Runner helps you run and test functions you have written.
+Function Runner helps you run and test functions you have written. The extension supports currently Javascript and Typescript but support to other languages can be added.
 
-## Running a function with inputs
+## Running and Debugging a function with inputs
 
-Testent can also execute your function with the given inputs for you to test what the function returns or throws.
+You can execute functions you have written with a couple of clicks.
+
+1. Click the `Run or Debug Function` codelens to open an input set view
+    - Here you can give inputs to the function and edit the code executing it as you see fit
+1. Click the `Run this` codelens to run the function
+    - You see the output of the function execution in the opened output terminal
+1. Click the `Debug this` codelens to start a debugging session.
+    - Function output is shown in the opened debug console
 
 <p align="center">
-  <img src="./images/docs/testent-execute-function-preview.gif" alt="Preview of Testent running function with inputs" />
+  <picture>
+      <!-- <source srcset="https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vscode-extension/images/docs/function-runner-usage-example.webp" type="image/webp"> -->
+      <!-- <source srcset="https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vscode-extension/images/docs/function-runner-usage-example.gif" type="image/gif"> -->
+      <img src="./images/docs/function-runner-usage-example.gif" alt="Function Runner usage example">
+  </picture>
 </p>
 
-<br/><br/>
+### Note for Yarn users
+
+You might need to add the following line to the `settings.json`-file in the `.vscode`-folder. This will override the default value as there is some issue with Yarn loading the ts-node ESM loader with the default value.
+
+```json
+  "functionrunner.typescriptRunOptions.envVarsWhenESModule": {
+    "NODE_OPTIONS": "--no-warnings --experimental-specifier-resolution=node --loader {{tsNodeInstallationPath}}/esm/transpile-only.mjs --input-type module",
+    "TS_NODE_TRANSPILE_ONLY": "true",
+    "TS_NODE_PROJECT": "{{tsConfigJsonFileAbsPath}}",
+    "TS_NODE_CWD": "{{sourceFileDirAbsPath}}"
+  }
+```
 
 ## Settings
-
-You can change some settings by editing `settings.json`-file in `.vscode`-folder or from menu `File->Preferences->Settings->Extensions->Testent`
-
-### General
-
-- `testent.general.sourceFolder`
-  - Specifies folder where source files are with relation to project root folder. If source is at root folder set empty string as value
-  - Default `src`
-
-### Logging
-
-- `testent.logging.outputLevel`
-  - Specifies how much (if any) output will be sent to the GitLens output channel
-  - Options: `silent`, `errors`, `verbose`, `debug`
-  - Default `errors`
-
-### Testent Code Lens
-
-- `testent.codeLens.enabled`
-  - Specifies whether to provide any code lens.
-  - Default `true`
-
-### Terminal Options
-
-- `testent.terminalOptions.windowsTerminalType`
-
-  - Specify the Windows terminal to use
-  - Options: `powerShell`, `bashKind`, `cmd`
-  - Default `powerShell`
-
-- `testent.terminalOptions.windowsTerminalExecutablePath`
-
-  - Specify absolutepath to the terminal executable
-  - Default `C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`
-
-- `testent.terminalOptions.linuxTerminalType`
-
-  - Specify terminal to use in Linux
-  - Options: `bash`, `sh`,
-  - Default `bash`
-
-- `testent.terminalOptions.linuxTerminalExecutablePath`
-
-  - Specify absolutepath to the terminal executable or empty string if your default shell is supported
-  - Default `""`
-
-- `testent.terminalOptions.macTerminalType`
-
-  - Specify terminal to use in Mac
-  - Options: `zsh`, `bash`,
-  - Default `zsh`
-
-- `testent.terminalOptions.macTerminalExecutablePath`
-  - Specify absolutepath to the terminal executable or empty string if your default shell is supported
-  - Default `""`
-
-### Javascript Run Options
-
-- `testent.javascriptRunOptions.commonPreExecutable`
-
-  - Specifies things to add to the terminal execution command before the `testent.runOptions.executable`
-  - Default `""`
-
-- `testent.javascriptRunOptions.envVarsWhenESModule`
-
-  - Specifies environmental variables for when running ES module. Available variables are `sourceFileDirAbsPath`, `tsConfigJsonFileAbsPath`, `tsNodeInstallationPath`. Surround vars with `{{` and `}}`
-  - Default
-    ```json
-    {
-    	"NODE_OPTIONS": "--no-warnings --experimental-specifier-resolution=node --input-type module"
-    }
-    ```
-
-- `testent.javascriptRunOptions.envVarsWhenCommonJS`
-
-  - Specifies environmental variables for when running CommonJS module. Available variables are `sourceFileDirAbsPath` and `tsConfigJsonFileAbsPath`, `tsNodeInstallationPath`. Surround vars with `{{` and `}}`
-  - Default
-
-  ```json
-  {
-  	"NODE_OPTIONS": "--no-warnings --experimental-specifier-resolution=node"
-  }
-  ```
-
-- `testent.javascriptRunOptions.socketPort`
-  - Specifies port for socket communication between extension and user's instrumented code running in an child process.
-  - Default `7123`
-
-### Typescript Run Options
-
-- `testent.typescriptRunOptions.commonPreExecutable`
-
-  - Specifies things to add to the terminal execution command before the `testent.runOptions.executable`
-  - Default `""`
-
-- `testent.typescriptRunOptions.envVarsWhenESModule`
-
-  - Specifies environmental variables for when running ES module. Available variables are `sourceFileDirAbsPath`, `tsConfigJsonFileAbsPath`, `tsNodeInstallationPath`. Surround vars with `{{` and `}}`
-  - Default
-    ```json
-    {
-    	"NODE_OPTIONS": "--no-warnings --experimental-specifier-resolution=node --loader {{tsNodeInstallationPath}}/ts-node/esm/transpile-only.mjs --input-type module",
-    	"TS_NODE_TRANSPILE_ONLY": "true",
-    	"TS_NODE_PROJECT": "{{tsConfigJsonFileAbsPath}}",
-    	"TS_NODE_CWD": "{{sourceFileDirAbsPath}}"
-    }
-    ```
-
-- `testent.typescriptRunOptions.envVarsWhenCommonJS`
-
-  - Specifies environmental variables for when running CommonJS module. Available variables are `sourceFileDirAbsPath` and `tsConfigJsonFileAbsPath`, `tsNodeInstallationPath`. Surround vars with `{{` and `}}`
-  - Default
-
-  ```json
-  {
-  	"NODE_OPTIONS": "--no-warnings --experimental-specifier-resolution=node -r {{tsNodeInstallationPath}}/ts-node/register/index.js",
-  	"TS_NODE_TRANSPILE_ONLY": "true",
-  	"TS_NODE_PROJECT": "{{tsConfigJsonFileAbsPath}}",
-  	"TS_NODE_CWD": "{{sourceFileDirAbsPath}}"
-  }
-  ```
-
-- `testent.typescriptRunOptions.tsconfigRelPath`
-
-  - Specify relative path to tsconfig-file in relation to project's root path and the name of the file
-  - Default `./tsconfig.json`
-
-- `testent.typescriptRunOptions.socketPort`
-  - Specifies port for socket communication between extension and user's instrumented code running in an child process.
-  - Default `7123`
+There are allkinds of settings to customize the function execution. See the available settings from the extension's `package.json` file's `configuration`-section [here](https://github.com/jsalli/function-runner-vscode-extension/blob/main/packages/vscode-extension/package.json)

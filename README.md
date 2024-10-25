@@ -62,3 +62,6 @@ pnpm package-extension-prod
 git tag v1.0.0
 git push origin v1.0.0
 ```
+
+# Marketplace link
+You can find the marketplace from [here](https://marketplace.visualstudio.com/items?itemName=function-runner.function-runner-vscode-extension)

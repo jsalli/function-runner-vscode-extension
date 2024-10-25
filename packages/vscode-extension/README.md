@@ -12,12 +12,12 @@ You can execute functions you have written with a couple of clicks.
     - You see the output of the function execution in the opened output terminal
 1. Click the `Debug this` codelens to start a debugging session.
     - Function output is shown in the opened debug console
-
+https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vscode-extension/images/docs/function-runner-usage-example.gif
 <p align="center">
   <picture>
-      <source srcset="https://raw.githubusercontent.com/jsalli/function-runner-vscode-extension/6d64004c4e65db79ab86c5d4e68ca55150accb9b/packages/vscode-extension/images/docs/function-runner-usage-example.webp" type="image/webp">
-      <source srcset="https://raw.githubusercontent.com/jsalli/function-runner-vscode-extension/6d64004c4e65db79ab86c5d4e68ca55150accb9b/packages/vscode-extension/images/docs/function-runner-usage-example.gif">
-      <img src="./images/docs/function-runner-usage-example.gif" alt="Function Runner usage example">
+      <source srcset="https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vscode-extension/images/docs/function-runner-usage-example.webp" type="image/webp">
+      <source srcset="https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vscode-extension/images/docs/function-runner-usage-example.gif">
+      <img src="./packages/vscode-extension/images/docs/function-runner-usage-example.gif" alt="Function Runner usage example">
   </picture>
 </p>
 

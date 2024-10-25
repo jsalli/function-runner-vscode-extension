@@ -15,8 +15,8 @@ You can execute functions you have written with a couple of clicks.
 
 <p align="center">
   <picture>
-      <!-- <source srcset="https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vscode-extension/images/docs/function-runner-usage-example.webp" type="image/webp"> -->
-      <!-- <source srcset="https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vscode-extension/images/docs/function-runner-usage-example.gif" type="image/gif"> -->
+      <source srcset="https://raw.githubusercontent.com/jsalli/function-runner-vscode-extension/6d64004c4e65db79ab86c5d4e68ca55150accb9b/packages/vscode-extension/images/docs/function-runner-usage-example.webp" type="image/webp">
+      <source srcset="https://raw.githubusercontent.com/jsalli/function-runner-vscode-extension/6d64004c4e65db79ab86c5d4e68ca55150accb9b/packages/vscode-extension/images/docs/function-runner-usage-example.gif">
       <img src="./images/docs/function-runner-usage-example.gif" alt="Function Runner usage example">
   </picture>
 </p>

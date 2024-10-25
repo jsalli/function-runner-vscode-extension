@@ -11,6 +11,9 @@
 
 - Tests use nvm to switch between node versions. So you might been to install nvm too
 
+## Windows remarks
+This repo has been tested on Windows by using Git Bash as the terminal. PowerShell has not been tested.
+
 # Debug
 
 ```bash
@@ -26,11 +29,20 @@ pnpm bundle-dependencies-dev
 ```bash
 . ./packages/vscode-extension/init-test-fixtures.sh
 ```
+## Linux and MacOS
 - Run tests
 
 ```bash
 cd packages/vscode-extension
 pnpm test-e2e-multiple-setups
+```
+
+## Windows
+- Run tests
+  - `test-e2e-multiple-setups` script uses NVM to switch between node versions. This does not work on Windows so use the `TESTING_IN_CLOUD_PIPELINE` env var to make the tests use only the installed version of node
+```bash
+cd packages/vscode-extension
+TESTING_IN_CLOUD_PIPELINE=true pnpm test-e2e-multiple-setups
 ```
 
 # Packaging the Extension

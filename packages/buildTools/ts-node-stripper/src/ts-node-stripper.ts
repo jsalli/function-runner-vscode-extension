@@ -1,5 +1,4 @@
 import { join } from 'path';
-// import { copySync, existsSync, promises } from 'fs-extra';
 import { rimraf } from 'rimraf';
 import pkg from 'fs-extra';
 const { copySync, existsSync, promises } = pkg;
@@ -30,14 +29,14 @@ async function main() {
 	await rimraf(join(outputFolder, 'node_modules', 'typescript'));
 
 	// Remove unused files
-	await rimraf(join(outputFolder, '**/*.d.ts'));
-	await rimraf(join(outputFolder, '**/*.js.map'));
-	await rimraf(join(outputFolder, '**/README.md'));
-	await rimraf(join(outputFolder, '**/readme.md'));
-	await rimraf(join(outputFolder, '**/CHANGELOG.md'));
-	await rimraf(join(outputFolder, '**/*.ts'));
-	await rimraf(join(outputFolder, '**/.package-lock.json'));
-	await rimraf(join(outputFolder, '**/package-lock.json'));
+	await rimraf(join(outputFolder, '**/*.d.ts'), { glob: true });
+	await rimraf(join(outputFolder, '**/*.js.map'), { glob: true });
+	await rimraf(join(outputFolder, '**/README.md'), { glob: true });
+	await rimraf(join(outputFolder, '**/readme.md'), { glob: true });
+	await rimraf(join(outputFolder, '**/CHANGELOG.md'), { glob: true });
+	await rimraf(join(outputFolder, '**/*.ts'), { glob: true });
+	await rimraf(join(outputFolder, '**/.package-lock.json'), { glob: true });
+	await rimraf(join(outputFolder, '**/package-lock.json'), { glob: true });
 }
 
 void main();

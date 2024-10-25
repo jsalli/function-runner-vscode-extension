@@ -12,7 +12,7 @@ type EnvObject = { [key: string]: boolean };
 
 function parseProjectNameFromTestPath(pathToTest: string) {
 		const matchResults = pathToTest.match(
-		new RegExp('testProjectFixtures/(.*)/suite'),
+		/testProjectFixtures[\/\\](.*)[\/\\]suite/,
 	);
 	if (matchResults == null) {
 		throw new Error(`Could not parse projectName from string: "${pathToTest}"`);

@@ -32,8 +32,7 @@ const linuxOS = 'Linux';
 const windowsOS = 'Windows_NT';
 const macOS = 'Darwin';
 
-const windowsShellPath =
-	'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe';
+const windowsShellPath = 'C:\\Program Files\\Git\\bin\\bash.exe';
 const linuxShellPath = true;
 
 const stdio: StdioOptions = ['pipe', 'pipe', 'pipe'];
@@ -143,7 +142,7 @@ function getNvmNodeInstallAndUseCommand(nodeVersion: string): string {
 			command = `${nvmInitilizingCommandLinux} && nvm install ${nodeVersion} && nvm use ${nodeVersion}`;
 			break;
 		case windowsOS:
-			command = `nvm install ${nodeVersion}; nvm use ${nodeVersion};`;
+			command = `nvm install ${nodeVersion} && nvm use ${nodeVersion}`;
 			break;
 		default:
 			throw new Error('Unsupported operating system');

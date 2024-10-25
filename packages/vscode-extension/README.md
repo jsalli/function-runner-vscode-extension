@@ -12,7 +12,7 @@ You can execute functions you have written with a couple of clicks.
     - You see the output of the function execution in the opened output terminal
 1. Click the `Debug this` codelens to start a debugging session.
     - Function output is shown in the opened debug console
-https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vscode-extension/images/docs/function-runner-usage-example.gif
+
 <p align="center">
   <picture>
       <source srcset="https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vscode-extension/images/docs/function-runner-usage-example.webp" type="image/webp">
@@ -20,6 +20,15 @@ https://github.com/jsalli/function-runner-vscode-extension/raw/HEAD/packages/vsc
       <img src="./packages/vscode-extension/images/docs/function-runner-usage-example.gif" alt="Function Runner usage example">
   </picture>
 </p>
+
+### Note for Javascript
+
+In Javascript only code using ES Modules is supported.
+
+
+### Note for Typescript
+
+In Typescript compiling to both Commonjs and ES Modules is supported but your code has to be written using `export`/ `import`.
 
 ### Note for Yarn users
 

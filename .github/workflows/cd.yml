@@ -90,6 +90,7 @@ jobs:
         run: node -e "if ('refs/tags/v' + '${{ env.PACKAGE_VERSION }}' !== '${{ github.ref }}') { console.log('::error' + 'Version Mismatch. refs/tags/v' + '${{ env.PACKAGE_VERSION }}', '${{ github.ref }}'); throw Error('Version Mismatch')} "
 
       - name: Generate Changelog
+        id: generate_changelog
         uses: mindsers/changelog-reader-action@v2
         with:
             version: ${{ env.PACKAGE_VERSION }}

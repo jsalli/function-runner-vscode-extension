@@ -2,7 +2,7 @@
 	"name": "function-runner-vscode-extension",
 	"displayName": "Function Runner",
 	"description": "Function Runner let's you run and debug functions you have written in your VSCode IDE",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"type": "commonjs",
 	"engines": {
 		"vscode": "^1.82.0"

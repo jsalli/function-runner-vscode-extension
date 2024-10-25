@@ -6,41 +6,6 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Run Extension without build",
-			"type": "extensionHost",
-			"request": "launch",
-			"runtimeExecutable": "${execPath}",
-			"args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension"],
-			"cwd": "${workspaceFolder}/packages/vscode-extension",
-			"debugWebviews": true,
-			"autoAttachChildProcesses": true,
-			"rendererDebugOptions": {
-				"sourceMaps": true,
-				"urlFilter": "*function-runner.function-runner-vscode-extension*",
-				"webRoot": "${workspaceFolder}/packages/vscode-extension/src/webviews/apps"
-			},
-			"outFiles": ["${workspaceFolder}/packages/vscode-extension/dist/**/*.js"],
-			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/resources/app/out/vs/**"],
-			"smartStep": true,
-			"sourceMaps": true,
-			"trace": true,
-			"windows": {
-				"sourceMapPathOverrides": {
-					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",
-				}
-			},
-			"linux": {
-				"sourceMapPathOverrides": {
-					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
-				}
-			},
-			"osx": {
-				"sourceMapPathOverrides": {
-					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
-				}
-			}
-		},
-		{
 			"name": "Watch & Launch Function Runner",
 			"type": "extensionHost",
 			"request": "launch",
@@ -60,7 +25,7 @@
 			"outFiles": [
 				"${workspaceFolder}/packages/vscode-extension/dist/**/*.js",
 			],
-			"preLaunchTask": "watchBuildVscodeExtension",
+			"preLaunchTask": "watchBuildVscodeExtensionAndBundleDependencies",
 			"presentation": {
 				"group": "1_watch",
 				"order": 1
@@ -117,7 +82,7 @@
 			}
 		},
 		{
-			"name": "Run VSCode Extension's Tests",
+			"name": "Run VSCode Extension's Tests for one test project fixture",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
@@ -143,42 +108,6 @@
 			"sourceMaps": true,
 			"trace": true,
 			"preLaunchTask": "buildExtensionAndTests",
-			"windows": {
-				"sourceMapPathOverrides": {
-					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",
-				}
-			},
-			"linux": {
-				"sourceMapPathOverrides": {
-					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
-				}
-			},
-			"osx": {
-				"sourceMapPathOverrides": {
-					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}/packages/vscode-extension/*",
-				}
-			}
-		},
-		{
-			"name": "Launch test runner",
-			"type": "node",
-			"request": "launch",
-			"args": ["${workspaceFolder}/packages/vscode-extension/out/test/runTest.js"],
-			"runtimeArgs": ["--no-warnings", "--experimental-specifier-resolution=node", "--loader", "ts-node/esm"],
-			"cwd": "${workspaceFolder}/packages/vscode-extension/",
-			"internalConsoleOptions": "openOnSessionStart",
-			"outFiles": [
-				"${workspaceFolder}/packages/vscode-extension/out/test/**/*.js",
-				"${workspaceFolder}/packages/vscode-extension/dist/**/*.js"
-			],
-			"presentation": {
-				"group": "2_run_tests",
-				"order": 2
-			},
-			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/resources/app/out/vs/**"],
-			"smartStep": true,
-			"sourceMaps": true,
-			"preLaunchTask": "buildTests",
 			"windows": {
 				"sourceMapPathOverrides": {
 					"webpack://function-runner-vscode-extension/*": "${workspaceFolder}\\packages\\vscode-extension\\*",

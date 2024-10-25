@@ -28,6 +28,15 @@
 			}
 		},
 		{
+			"label": "bundleDependencies",
+			"type": "shell",
+			"command": "pnpm run bundle-dependencies",
+			"isBackground": false,
+			"options": {
+				"cwd": "packages/vscode-extension"
+			}
+		},
+		{
 			"label": "watchBuildVscodeExtension",
 			"type": "npm",
 			"script": "watch",
@@ -38,6 +47,11 @@
 			"options": {
 				"cwd": "packages/vscode-extension"
 			}
+		},
+		{
+			"label": "watchBuildVscodeExtensionAndBundleDependencies",
+			"dependsOn": ["bundleDependencies", "watchBuildVscodeExtension"],
+			"dependsOrder": "parallel"
 		},
 		{
 			"label": "buildTests",

@@ -89,23 +89,17 @@ jobs:
       - name: Verify GIT tag version against extension's version field in package.json
         run: node -e "if ('refs/tags/v' + '${{ env.PACKAGE_VERSION }}' !== '${{ github.ref }}') { console.log('::error' + 'Version Mismatch. refs/tags/v' + '${{ env.PACKAGE_VERSION }}', '${{ github.ref }}'); throw Error('Version Mismatch')} "
 
-      - name: Package Extension
-        working-directory: ./packages/vscode-extension
-        run: pnpm package-extension-prod
-
-      - name: Publish to VSCode Marketplace
-        working-directory: ./packages/vscode-extension
-        run: pnpm vsce publish --no-dependencies --packagePath ./publish/${{ env.PACKAGE_NAME }}.vsix -p ${{ secrets.VSCE_PAT }}
-
       - name: Generate Changelog
-        id: generate_changelog
         uses: mindsers/changelog-reader-action@v2
         with:
             version: ${{ env.PACKAGE_VERSION }}
             path: ./packages/vscode-extension/CHANGELOG.md
 
+      - name: Package Extension
+        working-directory: ./packages/vscode-extension
+        run: pnpm package-extension-prod
+
       - name: Create GitHub release
-        id: create_release
         uses: softprops/action-gh-release@v2
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -116,3 +110,7 @@ jobs:
             draft: false
             prerelease: false
             files: ./packages/vscode-extension/publish/${{ env.PACKAGE_NAME }}.vsix
+
+      - name: Publish to VSCode Marketplace
+        working-directory: ./packages/vscode-extension
+        run: pnpm vsce publish --no-dependencies --packagePath ./publish/${{ env.PACKAGE_NAME }}.vsix -p ${{ secrets.VSCE_PAT }}
